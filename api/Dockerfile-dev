@@ -1,0 +1,11 @@
+FROM node:alpine
+
+WORKDIR /usr/src/api
+
+COPY package*.json ./
+
+RUN npm install --save
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]

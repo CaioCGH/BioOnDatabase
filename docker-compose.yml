@@ -1,0 +1,38 @@
+  
+version: '3.5'
+services:
+  db_mongo:
+    image: mongo
+    container_name: "mongo_ct"
+    environment:
+      MONGO_INITDB_DATABASE: bioondatabase
+      MONGO_INITDB_ROOT_USERNAME: bioondatabase
+      MONGO_INITDB_ROOT_PASSWORD: bioondatabase123
+    volumes:
+      - ./data/mongo:/usr/data/mongo
+    ports:
+      - 27017:27017
+
+  bio-api:
+    env_file:
+      - ./api/.env
+    build:
+      context: ./api
+      dockerfile: Dockerfile-dev
+    ports:
+      - "3000:3000"
+    container_name: bio-api
+    volumes:
+       - ./api:/usr/src/api
+    links:
+      - db_mongo
+
+  bio-ui:
+    build:
+      context: ./app
+      dockerfile: Dockerfile-dev
+    ports:
+      - "8080:8080"
+    container_name: bio-ui
+    volumes:
+       - ./app:/usr/src/app
