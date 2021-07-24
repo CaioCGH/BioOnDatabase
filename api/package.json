@@ -23,7 +23,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.3",
     "netlify-lambda": "^2.0.7",
-    "node-json-xlsx": "^0.2.2"
+    "node-json-xlsx": "^0.2.2",
+    "papaparse": "^5.3.1"
   },
   "devDependencies": {
     "del": "^5.1.0",

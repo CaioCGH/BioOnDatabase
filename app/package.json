@@ -16,6 +16,7 @@
     "exceljs": "^4.2.1",
     "jquery": "^3.6.0",
     "nodejs": "*",
+    "papaparse": "^5.3.1",
     "popper.js": "^1.16.1",
     "vee-validate": "^3.4.11",
     "vform": "^2.1.0",

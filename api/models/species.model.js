@@ -5,19 +5,20 @@ const Species = mongoose.model(
   new mongoose.Schema({
     scientificName: String,
     commonName: String,
-    taxonomy: {
-        type: Map,
-        of: String
-    },
-    biology:{
-        type: Map,
-        of: String
-    },
-    concernStatus:{
-        type: Map,
-        of: String
-    }
+    taxonomy: Object,
+    biology: Object,
+    concernStatus: Object,
   })
 );
 
-module.exports = Species;
+const taxonomyNode = new mongoose.Schema({
+  name: String,
+  levelName: String,
+});
+taxonomyNode.add({
+  children: [taxonomyNode],
+});
+
+const TaxonomyNode = mongoose.model("TaxonomyNode", taxonomyNode);
+
+module.exports = { Species, TaxonomyNode };
