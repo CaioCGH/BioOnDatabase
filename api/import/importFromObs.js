@@ -9,7 +9,7 @@ const Species = db.species;
 const csvFilePath = 'observadores.csv'
 
 const dbConfig = require("../config/db.config");
-const { TaxonomyNode } = require('../models/species.model');
+const { Title, Affiliation } = require('../models/locality.model');
 const connectionString = `mongodb://${dbConfig.USERNAME}:${dbConfig.PASSWORD}@${dbConfig.HOST}:${dbConfig.PORT}}`;
 
 console.log("connecting to:");
@@ -44,49 +44,61 @@ const readCSV = async (filePath) => {
 const initial = async () => {
   let parsedData = await readCSV(csvFilePath);
   // seedTaxonomyTree(parsedData);
+  // seedTiles(parsedData);
+  // console.log(parsedData);
+  seedAffiliation(parsedData);
 }
 
-function seedTaxonomyTree(parsedData){
-  const TAXONOMY_LEVELS = ['Filo', 'Subfilo', 'Classe', 'Subclasse', 'Infraclasse', 'Ordem', 'Subordem', 'Família', 'Subfamília', 'Tribo/SubTribo', 'Gênero', 'Espécie', 'Subespécie'];
-
-    var root = {
-    name: 'Animalia',
-    levelName: 'Reino',
-    children: [],
-  }
-
-  for(let i = 0; i < parsedData.length; i++){
-    var parent = root;
-    for(var j = 0; j < TAXONOMY_LEVELS.length; j++){
-       const taxonomyNode = {
-        name: t(parsedData[i][TAXONOMY_LEVELS[j]]),
-        levelName: TAXONOMY_LEVELS[j],
-        children: [],
-      }
-      var previousExistingNode = checkDuplicateAndPush(parent.children, taxonomyNode);
-      if(previousExistingNode){
-        parent = previousExistingNode;
-      }else{
-        parent = taxonomyNode;
-      }
-      
+function seedAffiliation(parsedData){ 
+    var affiliations = {};
+    for(let i = 0; i < parsedData.length; i++){
+        const affiliation = new Affiliation({
+            name: t(parsedData[i]['Vínculo']),
+        });
+        if(affiliations[affiliation.name] == undefined){
+          affiliations[affiliation.name] = affiliation;
+        }
     }
-  }
-  console.log(util.inspect(root, false, null, true /* enable colors */));
-
-  const rootAsTaxonomyNode = new TaxonomyNode({
-    name: 'Animalia',
-    levelName: 'Reino',
-    children: root.children,
-  })
-  rootAsTaxonomyNode.save({checkKeys: false}, err => {
+    const sorted = sortObject(affiliations);
+    var entries = Object.entries(sorted);
+    for(var i = 0; i < entries.length; i++){
+        save(entries[i][1]);
+    }
+}
+function seedTiles(parsedData){ 
+    var titles = {};
+    for(let i = 0; i < parsedData.length; i++){
+        const title = new Title({
+            name: t(parsedData[i][' titulação']),
+            abbreviation: parsedData[i][' titulação']
+        });
+        if(titles[title.name] == undefined){
+          titles[title.name] = title;
+        }
+    }
+    const sorted = sortObject(titles);
+    var entries = Object.entries(sorted);
+    for(var i = 0; i < entries.length; i++){
+        save(entries[i][1]);
+    }
+}
+function save(obj){
+    obj.save({checkKeys: false}, err => {//checkeysfalse para keys com ponto (.)
     if (err) {
         console.log("erro:", err);
         return;
     }
-
-    console.log("TaxonomyTable cadastrada!: ");
+    console.log("Obj cadastrado: " + obj.name);
     });
+}
+function sortObject(unordered){
+  return Object.keys(unordered).sort().reduce(
+    (obj, key) => { 
+      obj[key] = unordered[key]; 
+      return obj;
+    }, 
+    {}
+  );
 }
 
 function seedSpecies(parsedData){
