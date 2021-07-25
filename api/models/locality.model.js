@@ -35,7 +35,7 @@ const Observation = mongoose.model("Observation", observation);
 
 const district = new mongoose.Schema({
   name: String,
-  abbreviation: String,
+  acronym: String
 });
 
 const District = mongoose.model("District", district);
@@ -44,16 +44,14 @@ const District = mongoose.model("District", district);
 const Locality = mongoose.model(
   "Locality",
   new mongoose.Schema({
+    type: String,
     sheetId: Number,
     sheetName: String,
     completeName: String,
-    taxonomy: Map,
-    biology: Map,
-    concernStatus: Map,
-    UTMX: Number,
-    UTMY: Number,
-    District: district,
+    UTMX: String,
+    UTMY: String,
     Address: String,
+    District: district,
     RegisteredObservations: [observation],
   })
 );
