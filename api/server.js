@@ -78,8 +78,10 @@ app.get("/", function (req, res) {
 })
 
 // routes
-require('./routes/auth.routes')(app);
+require('./routes/auth.routes')(app); 
 require('./routes/user.routes')(app);
+
+require('./routes/bioOnline.routes')(app);
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`Server listening on the port::${process.env.PORT} or 3000`);

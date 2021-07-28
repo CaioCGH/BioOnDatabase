@@ -66,6 +66,7 @@ export default {
     feedCompleteOptions(){
        getBioOnlineColumns().then(
                 (value) => {
+                  console.log(value);
                       this.completeOptions = value;
                     })
     },
