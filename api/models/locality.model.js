@@ -15,20 +15,20 @@ const affiliation = new mongoose.Schema({
 const Affiliation = mongoose.model("Affiliation", affiliation);
 
 const observer = new mongoose.Schema({
-  name: String,
-  title: title,
-  anacronym: String,
-  affiliation: affiliation,
+  'nome': String,
+  'sigla': String,
+  'título': String,
+  'vínculo': String,
 });
-const Oberserver = mongoose.model("Oberserver", observer);
+const Observer = mongoose.model("Observer", observer);
 
 const observation = new mongoose.Schema({
-  species: {
-    scientificName: String,
-    commonName: String,
-  },
-  Date: Date,
-  Observer: [observer],
+  'nome científico': String,
+  'nome comum': String,
+  'localidade': String,
+  'data': String,
+  'registro original': String,
+  'observadores': [String]
 });
 const Observation = mongoose.model("Observation", observation);
 
@@ -44,16 +44,16 @@ const District = mongoose.model("District", district);
 const Locality = mongoose.model(
   "Locality",
   new mongoose.Schema({
-    type: String,
-    sheetId: Number,
-    sheetName: String,
-    completeName: String,
-    UTMX: String,
-    UTMY: String,
-    Address: String,
-    District: district,
-    RegisteredObservations: [observation],
+    'tipo': String,
+    'sheetId': Number,
+    'nome planilha': String,
+    'nome completo': String,
+    'UTMX': String,
+    'UTMY': String,
+    'endereço': String,
+    'distrito': String,
+    'Observações registradas': [observation],
   })
 );
 
-module.exports = { Locality, Observation, Oberserver, Title, District, Affiliation };
+module.exports = { Locality, Observation, Observer, Title, District, Affiliation, observation };

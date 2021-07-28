@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
+const { observation } = require('../models/locality.model');
 
 const Species = mongoose.model(
   "Species",
   new mongoose.Schema({
-    scientificName: String,
-    commonName: String,
-    taxonomy: Object,
-    biology: Object,
-    concernStatus: Object,
+    'Nome científico': String,
+    'Nome comum': String,
+    'Taxonomia': Object,
+    'Biologia': Object,
+    'Estado de conservação': Object,
+    'Observações registradas': [observation]
   })
 );
 

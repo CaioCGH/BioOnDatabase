@@ -1,49 +1,24 @@
+const LOCALITIES_COLUMN_START = 44;
+const {connect, drop, closeConnection, readCSV, save, sortObject, t} = require('./importUtils');
 const fs = require('fs');
 const util = require('util');
 
-const Papa = require('papaparse');
 
-const db = require("../models");
-const Species = db.species;
-
+const { Species, TaxonomyNode } = require('../models/species.model');
+const { Locality, Observation, Title, Affiliation, Observer } = require('../models/locality.model');
 const csvFilePath = 'planilha_geral.csv'
 
-const dbConfig = require("../config/db.config");
-const { TaxonomyNode } = require('../models/species.model');
-const connectionString = `mongodb://${dbConfig.USERNAME}:${dbConfig.PASSWORD}@${dbConfig.HOST}:${dbConfig.PORT}}`;
-
-console.log("connecting to:");
-console.log(connectionString);
-
-db.mongoose
-  .connect(connectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }) 
-  .then(() => {
-    console.log("Successfully connect to MongoDB.");
-    initial().then(()=>{
-        console.log("end?");
-    });
-})
-
-const readCSV = async (filePath) => {
-  const csvFile = fs.readFileSync(filePath)
-  const csvData = csvFile.toString()  
-  return new Promise(resolve => {
-    Papa.parse(csvData, {
-      header: true,
-      complete: results => {
-        console.log('Complete', results.data.length, 'records.'); 
-        resolve(results.data);
-      }
-    });
+connect().then(() => {
+  console.log("Successfully connect to MongoDB.");
+  startImport().then(() =>{
+    console.log('Started importing.');
   });
-};
+});
 
-const initial = async () => {
+const startImport = async () => {
   let parsedData = await readCSV(csvFilePath);
-  seedTaxonomyTree(parsedData);
+  // seedTaxonomyTree(parsedData);
+  seedSpecies(parsedData);
 }
 
 function seedTaxonomyTree(parsedData){
@@ -89,85 +64,125 @@ function seedTaxonomyTree(parsedData){
     });
 }
 
-function seedSpecies(parsedData){
-    for(let i = 0; i < parsedData.length; i++){
+async function  seedSpecies(parsedData){
+  drop('species');
+  for(let i = 0; i < parsedData.length; i++){
     const species = new Species({
-        scientificName:  t(parsedData[i]['Gênero'] + " " + parsedData[i]['Espécie'] + " " + parsedData[i]['Subespécie']),
-        commonName: t(parsedData[i]['Gênero']),
-        taxonomy: {
-            Reino: t(parsedData[i]['Reino']),
-            Filo: t(parsedData[i]['Filo']),
-            Subfilo: t(parsedData[i]['Subfilo']),
-            Classe: t(parsedData[i]['Classe']),
-            Subclasse: t(parsedData[i]['Subclasse']),
-            Infraclasse: t(parsedData[i]['Infraclasse']),
-            Ordem: t(parsedData[i]['Ordem']),
-            Subordem: t(parsedData[i]['Subordem']),
-            'Família': t(parsedData[i]['Família']),
-            'Subfamília': t(parsedData[i]['Subfamília']),
-            'Tribo/SubTribo': t(parsedData[i]['Tribo/SubTribo']),
-            'Gênero': t(parsedData[i]['Gênero']),
-            'Espécie': t(parsedData[i]['Espécie']),
-            'Subespécie': t(parsedData[i]['Subespécie']),
-            Autor: t(parsedData[i]['Autor']),
-            'Nome Comum': t(parsedData[i]['Nome Comum']),
-            'Nome em Inglês': t(parsedData[i]['Nome em Inglês']),
-            'Observações': t(parsedData[i]['Observações']),
+      'Nome científico':  t(parsedData[i]['Gênero'] + " " + parsedData[i]['Espécie'] + " " + parsedData[i]['Subespécie']),
+      'Nome comum': t(parsedData[i]['Nome Comum']),
+      'Taxonomia': {
+          'Reino': t(parsedData[i]['Reino']),
+          'Filo': t(parsedData[i]['Filo']),
+          'Subfilo': t(parsedData[i]['Subfilo']),
+          'Classe': t(parsedData[i]['Classe']),
+          'Subclasse': t(parsedData[i]['Subclasse']),
+          'Infraclasse': t(parsedData[i]['Infraclasse']),
+          'Ordem': t(parsedData[i]['Ordem']),
+          'Subordem': t(parsedData[i]['Subordem']),
+          'Família': t(parsedData[i]['Família']),
+          'Subfamília': t(parsedData[i]['Subfamília']),
+          'Tribo/SubTribo': t(parsedData[i]['Tribo/SubTribo']),
+          'Gênero': t(parsedData[i]['Gênero']),
+          'Espécie': t(parsedData[i]['Espécie']),
+          'Subespécie': t(parsedData[i]['Subespécie']),
+          'Autor': t(parsedData[i]['Autor']),
+          'Nome Comum': t(parsedData[i]['Nome Comum']),
+          'Nome em Inglês': t(parsedData[i]['Nome em Inglês']),
+          'Observações': t(parsedData[i]['Observações']),
+      },
+      'Biologia':{
+          'Natureza':t(parsedData[i]['Natureza']),
+          'Natureza (Revisão Invertebrados)':t(parsedData[i]['Natureza (Revisão Invertebrados)']),
+          'Endemismo Mata Atlântica':t(parsedData[i]['Endemismo Mata Atlântica']),
+          'Endemismo Brasil':t(parsedData[i]['Endemismo Brasil']),
+          'Habitat (Aves: Stotz, ver legenda)':t(parsedData[i]['Habitat (Aves: Stotz, ver legenda)']),
+          'Sensibilidade  (Aves: Stotz)':t(parsedData[i]['Sensibilidade  (Aves: Stotz)']),
+          'Ocorrência no bioma (AVES - MOREIRA-LIMA, 2013)':t(parsedData[i]['Ocorrência no bioma (AVES - MOREIRA-LIMA, 2013)']),
+          'Permanência Federal (CBRO - Aves)':t(parsedData[i]['Permanência Federal (CBRO - Aves)']),
+          'Aves Migratórias (SOMENZARI et al\. 2018)':t(parsedData[i]['Aves Migratórias (SOMENZARI et al. 2018)']),
+          'Abundância relativa (Anfíbios, Aves)':t(parsedData[i]['Abundância relativa (Anfíbios, Aves)']),
+          'Alimentação':t(parsedData[i]['Alimentação']),
+          'Guilda Alimentar':t(parsedData[i]['Guilda Alimentar']),
+          'Habitat':t(parsedData[i]['Habitat']),
+          'Locomoção':t(parsedData[i]['Locomoção']),
+      },
+      'Estado de conservação': {
+          'Decreto Estadual 60.133/2014': t(parsedData[i]['Decreto Estadual 60.133/2014']),
+          'Decreto Estadual 63.853/2018': t(parsedData[i]['Decreto Estadual 63.853/2018']),
+          'MMA/2014': t(parsedData[i]['MMA/2014']),
+          'MMA/2018': t(parsedData[i]['MMA/2018']),
+          'IUCN/2014': t(parsedData[i]['IUCN/2014']),
+          'IUCN/2019.1e2': t(parsedData[i]['IUCN/2019.1e2']),
+          'IUCN/2020': t(parsedData[i]['IUCN/2020']),
+          'IUCN/2020 (versão 2020-3) ': t(parsedData[i]['IUCN/2020 (versão 2020-3) ']),
+          'IUCN/2021 (versão 2021-1) ': t(parsedData[i]['IUCN/2021 (versão 2021-1) ']),
+          'CITES/2014': t(parsedData[i]['CITES/2014']),
+          'CITES/2019': t(parsedData[i]['CITES/2019']),
+          'CITES/2021 ': t(parsedData[i]['CITES/2021 '])
         },
-        biology:{
-            'Natureza':t(parsedData[i]['Natureza']),
-            'Natureza (Revisão Invertebrados)':t(parsedData[i]['Natureza (Revisão Invertebrados)']),
-            'Endemismo Mata Atlântica':t(parsedData[i]['Endemismo Mata Atlântica']),
-            'Endemismo Brasil':t(parsedData[i]['Endemismo Brasil']),
-            'Habitat (Aves: Stotz, ver legenda)':t(parsedData[i]['Habitat (Aves: Stotz, ver legenda)']),
-            'Sensibilidade  (Aves: Stotz)':t(parsedData[i]['Sensibilidade  (Aves: Stotz)']),
-            'Ocorrência no bioma (AVES - MOREIRA-LIMA, 2013)':t(parsedData[i]['Ocorrência no bioma (AVES - MOREIRA-LIMA, 2013)']),
-            'Permanência Federal (CBRO - Aves)':t(parsedData[i]['Permanência Federal (CBRO - Aves)']),
-            'Aves Migratórias (SOMENZARI et al\. 2018)':t(parsedData[i]['Aves Migratórias (SOMENZARI et al. 2018)']),
-            'Abundância relativa (Anfíbios, Aves)':t(parsedData[i]['Abundância relativa (Anfíbios, Aves)']),
-            'Alimentação':t(parsedData[i]['Alimentação']),
-            'Guilda Alimentar':t(parsedData[i]['Guilda Alimentar']),
-            'Habitat':t(parsedData[i]['Habitat']),
-            'Locomoção':t(parsedData[i]['Locomoção']),
-        },
-        concernStatus: {
-            'Decreto Estadual 60.133/2014': t(parsedData[i]['Decreto Estadual 60.133/2014']),
-            'Decreto Estadual 63.853/2018': t(parsedData[i]['Decreto Estadual 63.853/2018']),
-            'MMA/2014': t(parsedData[i]['MMA/2014']),
-            'MMA/2018': t(parsedData[i]['MMA/2018']),
-            'IUCN/2014': t(parsedData[i]['IUCN/2014']),
-            'IUCN/2019.1e2': t(parsedData[i]['IUCN/2019.1e2']),
-            'IUCN/2020': t(parsedData[i]['IUCN/2020']),
-            'IUCN/2020 (versão 2020-3) ': t(parsedData[i]['IUCN/2020 (versão 2020-3) ']),
-            'IUCN/2021 (versão 2021-1) ': t(parsedData[i]['IUCN/2021 (versão 2021-1) ']),
-            'CITES/2014': t(parsedData[i]['CITES/2014']),
-            'CITES/2019': t(parsedData[i]['CITES/2019']),
-            'CITES/2021 ': t(parsedData[i]['CITES/2021 '])
+        'Observações registradas': []
+    });
+
+    var entries = Object.entries(parsedData[i]);
+    for(let j = LOCALITIES_COLUMN_START; j < entries.length; j++){
+      if(entries[j][1] != ''){
+        const localityHeader = t(entries[j][0]);
+        const locality = await findLocality(localityHeader);
+        const observation = new Observation({
+          'nome científico': species['Nome científico'],
+          'nome comum': species['Nome comum'],
+          'localidade': locality ? locality['nome completo'] : localityHeader,
+          'registro original': entries[j][1]
+        });
+        const observationDetails = await observationMaker(entries[j][1]);
+        if(observationDetails){
+          observation['data'] = observationDetails.date;
+          observation['observadores'] = observationDetails.observers;
         }
-    });
-}
-
-    species.save({checkKeys: false}, err => {
-    if (err) {
-        console.log("erro:", err);
-        return;
+        species['Observações registradas'].push(observation);
+        if(locality){
+          locality['Observações registradas'].push(observation);
+          save(locality);
+        }
+      }
     }
-
-    console.log("Species cadastrada: " + species.scientificName);
-    });
-}
-function t(string){
-    return string.trim().replace(/\s+/g, " ");
+    save(species);
+    process.stdout.write(Math.trunc(i/parsedData.length*100) + "% completed\r");
+  }
 }
 
-function checkDuplicateAndPush(array, element){
-  let filtered = array.filter(value => {
-    return value.name+value.levelName == element.name + element.levelName;
-  });
-  if(filtered.length === 0){
-    array.push(element);
-    return false;
-  }else{
-    return filtered[0];
+async function findLocality(headerName){
+  let locality;
+  locality = await Locality.findOne( {'nome planilha': headerName }).exec();
+  if(locality){
+    return locality;
+  }
+  locality = await Locality.findOne( {'nome planilha': t(headerName.replace(/ *\([^)]*\) */g, "")) }).exec();
+  if(locality){
+    return locality;
+  }
+}
+
+async function observationMaker(string){
+  const trimmed = t(string);
+  const arr = trimmed.split(' ');
+  if(arr.length == 2){
+    if(!isNaN(arr[0][0])){
+      const trimmedObserversAcronyms = arr[1].replace(/[()]/g, '');
+      const  arrOfObserversAcronyms = trimmedObserversAcronyms.split('/');
+      const observers = [];
+      for(let i = 0; i < arrOfObserversAcronyms.length; i++){
+        const observer = await Observer.findOne({ sigla: arrOfObserversAcronyms[i] });
+        if(observer){
+          observers.push(observer['título'] + " " + observer['nome']);
+        }else{
+          observers.push(arrOfObserversAcronyms[i]);
+        }
+      }
+      return {
+        date: arr[0],
+        observers: observers
+      }
+    }
   }
 }

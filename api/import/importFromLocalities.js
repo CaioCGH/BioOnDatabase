@@ -1,46 +1,18 @@
 const fs = require('fs');
-const util = require('util');
+const {connect, drop, closeConnection, readCSV, save, sortObject, t} = require('./importUtils');
 
-const Papa = require('papaparse');
-
-const db = require("../models");
-const { District } = require('../models/locality.model');
-const { Locality } = require('../models/locality.model');
+const { Locality, District } = require('../models/locality.model');
 
 const csvFilePath = 'localities.csv'
-const dbConfig = require("../config/db.config");
-const connectionString = `mongodb://${dbConfig.USERNAME}:${dbConfig.PASSWORD}@${dbConfig.HOST}:${dbConfig.PORT}}`;
 
-console.log("connecting to:");
-console.log(connectionString);
-
-db.mongoose
-  .connect(connectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }) 
-  .then(() => {
-    console.log("Successfully connect to MongoDB.");
-    initial().then(()=>{
-        console.log("end?");
-    });
-})
-
-const readCSV = async (filePath) => {
-  const csvFile = fs.readFileSync(filePath)
-  const csvData = csvFile.toString()  
-  return new Promise(resolve => {
-    Papa.parse(csvData, {
-      header: true,
-      complete: results => {
-        console.log('Complete', results.data.length, 'records.'); 
-        resolve(results.data);
-      }
-    });
+connect().then(() => {
+  console.log("Successfully connect to MongoDB.");
+  startImport().then(() =>{
+    console.log('Started importing.');
   });
-};
+});
 
-const initial = async () => {
+const startImport = async () => {
   let parsedData = await readCSV(csvFilePath);
   // seedDistricts(parsedData);
   seedLocalities(parsedData);
@@ -48,19 +20,18 @@ const initial = async () => {
 
 
 function seedLocalities(parsedData){
+  drop('localities');
     for(let i = 0; i < parsedData.length; i++){
         const locality = new Locality({
-          type: parsedData[i]['Tipoz'],
-          sheetId: parsedData[i]['ID'],
-          sheetName: parsedData[i]['Nome_Planilha'],
-          completeName: parsedData[i]['Nome Completo'],
-          UTMX: parsedData[i]['UTM X'],
-          UTMY: parsedData[i]['UTM Y'],
-          Address: parsedData[i]['Endereço'],
-            district: {
-            name: parsedData[i]['Distrito'],
-            acronym: parsedData[i]['Distrito (Sigla)']
-            }
+          'tipo': t(parsedData[i]['Tipoz']),
+          'sheetId': t(parsedData[i]['ID']),
+          'nome planilha': t(parsedData[i]['Nome_Planilha']),
+          'nome completo': parsedData[i]['Nome Completo'] ? t(parsedData[i]['Nome Completo']) : t(parsedData[i]['Nome_Planilha']),
+          'UTMX': t(parsedData[i]['UTM X']),
+          'UTMY': t(parsedData[i]['UTM Y']),
+          'endereço': t(parsedData[i]['Endereço']),
+          'distrito': t(parsedData[i]['Distrito']),
+          'Observações registradas': []
         });
         save(locality);
     }
@@ -81,37 +52,4 @@ function seedDistricts(parsedData){
     for(var i = 0; i < entries.length; i++){
         save(entries[i][1]);
     }
-}
-function save(obj){
-    obj.save({checkKeys: false}, err => {
-    if (err) {
-        console.log("erro:", err);
-        return;
-    }
-    console.log("Obj cadastrado: " + obj.name);
-    });
-}
-function sortObject(unordered){
-  return Object.keys(unordered).sort().reduce(
-    (obj, key) => { 
-      obj[key] = unordered[key]; 
-      return obj;
-    }, 
-    {}
-  );
-}
-function t(string){
-    return string.trim().replace(/\s+/g, " ");
-}
-
-function checkDuplicateAndPush(array, element){
-  let filtered = array.filter(value => {
-    return value.name+value.levelName == element.name + element.levelName;
-  });
-  if(filtered.length === 0){
-    array.push(element);
-    return false;
-  }else{
-    return filtered[0];
-  }
 }
