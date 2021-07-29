@@ -68,8 +68,8 @@ async function  seedSpecies(parsedData){
   drop('species');
   for(let i = 0; i < parsedData.length; i++){
     const species = new Species({
-      'Nome científico':  t(parsedData[i]['Gênero'] + " " + parsedData[i]['Espécie'] + " " + parsedData[i]['Subespécie']),
-      'Nome comum': t(parsedData[i]['Nome Comum']),
+      'Nome Científico':  t(parsedData[i]['Gênero'] + " " + parsedData[i]['Espécie'] + " " + parsedData[i]['Subespécie']),
+      'Nome Comum': t(parsedData[i]['Nome Comum']),
       'Taxonomia': {
           'Reino': t(parsedData[i]['Reino']),
           'Filo': t(parsedData[i]['Filo']),
@@ -106,7 +106,7 @@ async function  seedSpecies(parsedData){
           'Habitat':t(parsedData[i]['Habitat']),
           'Locomoção':t(parsedData[i]['Locomoção']),
       },
-      'Estado de conservação': {
+      'Estado de Conservação': {
           'Decreto Estadual 60.133/2014': t(parsedData[i]['Decreto Estadual 60.133/2014']),
           'Decreto Estadual 63.853/2018': t(parsedData[i]['Decreto Estadual 63.853/2018']),
           'MMA/2014': t(parsedData[i]['MMA/2014']),
@@ -129,25 +129,25 @@ async function  seedSpecies(parsedData){
         const localityHeader = t(entries[j][0]);
         const locality = await findLocality(localityHeader);
         const observation = new Observation({
-          'nome científico': species['Nome científico'],
-          'nome comum': species['Nome comum'],
-          'localidade': locality ? locality['nome completo'] : localityHeader,
-          'registro original': entries[j][1]
+          'Nome Científico': species['Nome Científico'],
+          'Nome Comum': species['Nome Comum'],
+          'Localidade': locality ? locality['nome completo'] : localityHeader,
+          'Registro Original': entries[j][1]
         });
         const observationDetails = await observationMaker(entries[j][1]);
         if(observationDetails){
-          observation['data'] = observationDetails.date;
-          observation['observadores'] = observationDetails.observers;
+          observation['Data'] = observationDetails.date;
+          observation['Observadores'] = observationDetails.observers;
         }
-        species['Observações registradas'].push(observation);
+        species['Observações Registradas'].push(observation);
         if(locality){
-          locality['Observações registradas'].push(observation);
+          locality['Observações Registradas'].push(observation);
           save(locality);
         }
       }
     }
     save(species);
-    process.stdout.write(Math.trunc(i/parsedData.length*100) + "% completed\r");
+    process.stdout.write(Math.trunc(i/parsedData.length*1000)/10 + "% completed\r");
   }
 }
 

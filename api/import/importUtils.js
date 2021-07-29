@@ -20,9 +20,14 @@ module.exports.connect = () =>{
 module.exports.drop = (collectionName) => {
   db.mongoose.connection.db.dropCollection(collectionName, function(err, result) {
     if(err){
-      console.log("erro ao dropar collection:", err);
+      if(err.code === 26){
+      console.log('namespace %s not found',collectionName);
+      }else{
+        console.log("erro ao dropar collection:", err);
+      }
+    }else{
+      console.log("drop result:", result);
     }
-    console.log("drop result:", result);
   });
 }
 

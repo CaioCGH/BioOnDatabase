@@ -4,12 +4,12 @@ const { observation } = require('../models/locality.model');
 const Species = mongoose.model(
   "Species",
   new mongoose.Schema({
-    'Nome científico': String,
-    'Nome comum': String,
+    'Nome Científico': String,
+    'Nome Comum': String,
     'Taxonomia': Object,
     'Biologia': Object,
-    'Estado de conservação': Object,
-    'Observações registradas': [observation]
+    'Estado de Conservação': Object,
+    'Observações Registradas': [observation]
   })
 );
 

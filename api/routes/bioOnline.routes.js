@@ -14,6 +14,7 @@ module.exports = function(app) {
   app.get("/api/bio-online-columns", controller.bioOnlineColumns);
   app.get("/api/get-genera-species-commonnames", controller.generaSpeciesCommonNames);
   app.get("/api/get-bio-online-localities", controller.localities);
+  app.get("/api/bio-online-search-species-in-localities", controller.speciesInLocalities);
 
 //   app.get(
 //     "/api/test/mod",

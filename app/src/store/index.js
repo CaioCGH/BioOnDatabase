@@ -7,12 +7,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-      selectedArrayToCards: ['Nome Científico', 'Nome Comum', 'Observações registradas'],
+      selectedArrayToCards: ['Nome Científico', 'Nome Comum', 'Observações Registradas'],
       selectedArrayToTable: ['Nome Científico', 'Nome Comum'],
       animalRows: [],
       mixedAnimalRows: [],
       displayType: 'display_cards',
-      localitiesWrapper: [{chosenLocality: ''}],
+      localitiesWrapper: [{chosenLocality: 'Linear Parelheiros'}],
       conservationStatusDict:{
         "CR": "(Critically Endangered): Criticamente em Perigo",
         "EN": "(Endangered): Em Perigo",

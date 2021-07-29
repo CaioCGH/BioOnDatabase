@@ -5,14 +5,15 @@ const { sortObjectByKeys, sortAndRemoveDuplicates} = require("../utils");
 
 module.exports = {
     bioOnlineColumns:  async function(req, res){
-        const anySpecies = await Species.findOne({'Nome científico':"Anodontites sp."}).exec();
+        const anySpecies = (await Species.findOne({'Nome Científico':"Anodontites sp."}).exec()).toJSON();
+        console.log(Object.keys(anySpecies));
         console.log(Object.keys(anySpecies['Taxonomia']));
         const returnedElementsObject = {
             "Básico": { selected: true, innerOptions: ['Nome Científico', 'Nome Comum']},
             "Taxonomia": { selected: false, innerOptions: Object.keys(anySpecies['Taxonomia'])},
             "Biologia": { selected: false, innerOptions: Object.keys(anySpecies['Biologia'])},
-            "Estado de conservação": { selected: false, innerOptions: Object.keys(anySpecies['Estado de conservação'])},
-            "Observações registradas": { selected: false, innerOptions: ['Observações registradas']}
+            "Estado de Conservação": { selected: false, innerOptions: Object.keys(anySpecies['Estado de Conservação'])},
+            "Observações Registradas": { selected: false, innerOptions: ['Observações Registradas']}
           }
             res.json(returnedElementsObject);
     },
@@ -28,13 +29,31 @@ module.exports = {
     },
     localities:  async function(req, res){
         const localities = await Locality.find().exec();
-        res.json(localities.map(locality => locality['nome completo']));
+        res.json(localities.map(locality => locality['nome completo']).sort());
     },
+    speciesInLocalities: async function(req, res){
+        var localitiesNames = [];
+        if(Array.isArray(req.query.localities)){
+            localitiesNames = req.query.localities;
+        }else{
+            localitiesNames.push(req.query.localities);
+        }
+        const speciesList = [];
+        for(let i = 0; i < localitiesNames.length; i++){
+            const locality = (await Locality.find({'nome completo': localitiesNames[i]}).exec())[0];
+            const observations = locality['Observações Registradas'];
+            for(let j = 0; j < observations.length; j++){
+                const species = await Species.findOne({'Nome Científico': observations[j]['Nome Científico']}).select('-__v -_id').exec();
+                speciesList.push(species);
+            }
+        }
+        res.json(sortAndRemoveDuplicates(speciesList));
+    }
 }
 
 function findAllGeneraToMap(node){
     if(node.levelName == 'Gênero'){
-        dict  = {}
+        let dict  = {}
         dict[node['name']] = node; 
         return dict;
     }

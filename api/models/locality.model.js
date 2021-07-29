@@ -23,12 +23,12 @@ const observer = new mongoose.Schema({
 const Observer = mongoose.model("Observer", observer);
 
 const observation = new mongoose.Schema({
-  'nome científico': String,
-  'nome comum': String,
-  'localidade': String,
-  'data': String,
-  'registro original': String,
-  'observadores': [String]
+  'Nome Científico': String,
+  'Nome Comum': String,
+  'Localidade': String,
+  'Data': String,
+  'Registro Original': String,
+  'Observadores': [String]
 });
 const Observation = mongoose.model("Observation", observation);
 
@@ -52,7 +52,7 @@ const Locality = mongoose.model(
     'UTMY': String,
     'endereço': String,
     'distrito': String,
-    'Observações registradas': [observation],
+    'Observações Registradas': [observation],
   })
 );
 
