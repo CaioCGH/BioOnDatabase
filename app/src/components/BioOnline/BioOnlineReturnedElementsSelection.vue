@@ -11,7 +11,7 @@
             <b-tab title="Básico" active>
               <b-form-checkbox-group
                 :value="selectedArrayToCards"
-                :options="completeOptions['Básico']"
+                :options="returnedElementsObject['Básico'].innerOptions"
                 :aria-describedby="ariaDescribedby"
                 :checked="selectedArrayToCards"
                 @change="update(selectedArrayToCards, $event)"
@@ -19,15 +19,15 @@
               </b-tab>
 
             <b-tab v-b-tooltip.hover title="Completo">
-              <b-card v-for="category in Object.keys(allSelected)" :key="category.id">
+              <b-card v-for="category in Object.keys(returnedElementsObject)" :key="category.id">
                 <b-form-checkbox
                 size="lg"
-                v-model="allSelected[category]"
-                @change="toggleAll(allSelected[category],category)"
+                v-model="returnedElementsObject[category].selected"
+                @change="toggleAll(returnedElementsObject[category].selected,category)"
                 >{{ category }}</b-form-checkbox>
             <b-form-checkbox-group
                 :value="selectedArrayToCards"
-                :options="completeOptions[category]"
+                :options="returnedElementsObject[category].innerOptions"
                 :aria-describedby="ariaDescribedby"
                 :checked="selectedArrayToCards"
                 @change="update(selectedArrayToCards, $event)"
@@ -51,30 +51,30 @@ export default {
     return{
       selectedTab: null,
       loadingColumns: true,
-      
-        completeOptions: [],
-        allSelected:{
-          "Básico": false,
-          "Taxonomia": false,
-          "Biologia": false,
-          "Categorias de Ameaça": false,
-          "Observações registradas": false,
-        }
+      // returnedElementsObject: {}
+      returnedElementsObject:  {
+            "Básico": { selected: false}, 
+            "Taxonomia": { selected: false},
+            "Biologia": { selected: false}, 
+            "Estado de conservação": { selected: false},
+            "Observações registradas": { selected: false},
+      }
     }
   },
   methods:{
     feedCompleteOptions(){
        getBioOnlineColumns().then(
                 (value) => {
+                  console.log("value");
                   console.log(value);
-                      this.completeOptions = value;
+                      this.returnedElementsObject = value;
                     })
     },
     toggleAll(checked, category ){
-      this.$store.state.selectedArrayToCards = this.$store.state.selectedArrayToCards.filter(n => !this.completeOptions[category].includes(n))
+      this.$store.state.selectedArrayToCards = this.$store.state.selectedArrayToCards.filter(n => !this.returnedElementsObject[category].innerOptions.includes(n))
       if(!checked){
-        for(var i = 0; i < this.completeOptions[category].length; i++){
-          this.$store.state.selectedArrayToCards.push(this.completeOptions[category][i]);
+        for(var i = 0; i < this.returnedElementsObject[category].innerOptions.length; i++){
+          this.$store.state.selectedArrayToCards.push(this.returnedElementsObject[category].innerOptions[i]);
         }
       }
       this.update("?", this.$store.state.selectedArrayToCards);

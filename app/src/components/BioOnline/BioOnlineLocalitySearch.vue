@@ -122,8 +122,7 @@ chosenLocalities.push(this.localitiesWrapper[i].chosenLocality);
     },
     feedBioOnlineLocalities() {
       getBioOnlineLocalities().then((value) => {
-        console.log(value);
-        this.localities.push(...value.localities);
+        this.localities.push(...value);
       });
     },
     clearForms() {
