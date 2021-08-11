@@ -100,32 +100,28 @@ export default {
     },
     feedGeneraSpeciesCommonNameDropdown() {
       getGeneraSpeciesCommonName().then((value) => {
-        console.log(value);
-        this.generaSpeciesDict = value.generaSpeciesDict;
-
-        const genera = Object.keys(value.generaSpeciesDict);
-        for (let i = 0; i < genera.length; i++) {
-          this.genera.push({ text: genera[i], value: genera[i] });
+        const generaMap = value.genera;
+        this.generaSpeciesDict = generaMap;
+        const generaKeys = Object.keys(generaMap);
+        for (let i = 0; i < generaKeys.length; i++) {
+          this.genera.push({ text: generaKeys[i], value: generaKeys[i]  });
         }
         for (let i = 0; i < value.commonNames.length; i++) {
-          this.commonNames.push({
-            text: value.commonNames[i],
-            value: value.commonNames[i],
-          });
+          this.commonNames.push({ text: value.commonNames[i], value: value.commonNames[i] });
         }
 
         this.loadingSelectables = false;
       });
     },
     update() {
-      this.speciesList = this.generaSpeciesDict[this.chosenGenus];
+      this.speciesList = this.generaSpeciesDict[this.chosenGenus].children.map(node => node.name);
       this.chosenSpecies = this.speciesList[0];
     },
     clearForms() {
       this.chosenGenus = "";
       this.chosenSpecies = "";
       this.chosenCommonName = "";
-      this.speciesList = [{ value: "", text: "Espécie" }];
+      this.speciesList =  [{ value: "", text: "Espécie" }];
       this.$store.state.animalRows = [];
     },
   },
