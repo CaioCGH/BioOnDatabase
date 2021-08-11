@@ -15,6 +15,8 @@ module.exports = function(app) {
   app.get("/api/get-genera-species-commonnames", controller.generaSpeciesCommonNames);
   app.get("/api/get-bio-online-localities", controller.localities);
   app.get("/api/bio-online-search-species-in-localities", controller.speciesInLocalities);
+  app.get("/api/search-animal", controller.searchAnimal);
+  app.post("/api/download-from-localities", controller.downloadFromLocalities);
 
 //   app.get(
 //     "/api/test/mod",

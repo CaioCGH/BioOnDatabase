@@ -1,7 +1,8 @@
 const db = require("../models");
 const {Species, TaxonomyNode}  = require("../models/species.model");
-const {Locality}  = require("../models/locality.model");
+const { Locality }  = require("../models/locality.model");
 const { sortObjectByKeys, sortAndRemoveDuplicates} = require("../utils");
+const { makeSheet } = require("../makers/DownloadSheetMaker");
 
 module.exports = {
     bioOnlineColumns:  async function(req, res){
@@ -23,7 +24,7 @@ module.exports = {
         const sortedGenera = sortObjectByKeys(allGenera);
 
         const allSpecies = await Species.find().exec();
-        const allCommonNames = allSpecies.map(species => species['Nome comum']);
+        const allCommonNames = allSpecies.map(species => species['Nome Comum']);
         const sortedCommonNames = sortAndRemoveDuplicates(allCommonNames);
         res.json({genera: sortedGenera, commonNames: sortedCommonNames});
     },
@@ -32,23 +33,69 @@ module.exports = {
         res.json(localities.map(locality => locality['nome completo']).sort());
     },
     speciesInLocalities: async function(req, res){
-        var localitiesNames = [];
-        if(Array.isArray(req.query.localities)){
-            localitiesNames = req.query.localities;
-        }else{
-            localitiesNames.push(req.query.localities);
+        console.log(req.query.localities);
+        var speciesList = await speciesFromLocalities(req.query.localities);
+        res.json(speciesList);
+    },
+    searchAnimal: async function(req, res){
+        const genus = req.query.genus;
+        const species = req.query.species;
+        const commonName = req.query.commonName;
+
+        var animal;
+        animal = await Species.find({"Taxonomia.Gênero" : genus, "Taxonomia.Espécie" : species}).exec();
+        if(animal && animal.length > 0 ){
+            res.json(addLocalitiesToAnimals(animal)); return;
         }
-        const speciesList = [];
-        for(let i = 0; i < localitiesNames.length; i++){
-            const locality = (await Locality.find({'nome completo': localitiesNames[i]}).exec())[0];
-            const observations = locality['Observações Registradas'];
-            for(let j = 0; j < observations.length; j++){
-                const species = await Species.findOne({'Nome Científico': observations[j]['Nome Científico']}).select('-__v -_id').exec();
-                speciesList.push(species);
-            }
+        animal = await Species.find({"Taxonomia.Gênero" : genus}).exec();
+        if(animal && animal.length > 0){
+            res.json(addLocalitiesToAnimals(animal)); return;
         }
-        res.json(sortAndRemoveDuplicates(speciesList));
+        animal = await Species.find({"Nome Comum" : commonName}).exec();
+        if(animal && animal.length > 0){
+            res.json(addLocalitiesToAnimals(animal)); return;
+        }
+        return [];
+    },
+    downloadFromLocalities: async function(req, res){
+        console.log("req.query", req.body);
+        var speciesList = await speciesFromLocalities(req.body.searchCriteria.localities);
+        makeSheet(res, req.body.searchCriteria.selectedArray, speciesList);
     }
+}
+
+async function speciesFromLocalities(localities){
+    console.log(localities);
+    var localitiesNames = [];
+    if(Array.isArray(localities)){
+        localitiesNames = localities;
+    }else{
+        localitiesNames.push(localities);
+    }
+    console.log("localitiesNames", localitiesNames);
+    const speciesMap = {};
+    for(let i = 0; i < localitiesNames.length; i++){
+        const locality = (await Locality.find({'nome completo': localitiesNames[i]}).exec())[0];
+        const observations = locality['Observações Registradas'];
+        for(let j = 0; j < observations.length; j++){
+            const species = await Species.findOne({'Nome Científico': observations[j]['Nome Científico']}).select('-__v -_id').exec();
+            speciesMap[species['Nome Científico']] = species;
+        }
+    }
+    return Object.entries(speciesMap).map(entry => entry[1]);
+}
+
+function addLocalitiesToAnimals(animals){
+    const localizedAnimals = [];
+    for(let i = 0; i < animals.length; i++){
+        const animal =  animals[i].toJSON();
+        for(let j = 0; j < animal['Observações Registradas'].length; j++){
+            const observation = animal['Observações Registradas'][j];
+            animal[observation['Localidade']] = observation['Registro Original'];
+        }
+        localizedAnimals.push(animal);
+    }
+    return localizedAnimals;
 }
 
 function findAllGeneraToMap(node){

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- {{ animalInfoAsRows }} -->
     <b-card class="mb-2">
       <b-table
         thead-class="d-none"
@@ -32,6 +31,7 @@
               striped hover
               :items="row.item.innerObject"
               :fields="['column1', 'column2', 'actions']"
+              :tbody-tr-class="innerRowClass"
             >
               <template #cell(actions)="row">
                 <b-button  v-show="isDictionary(row)" @click="row.toggleDetails">Detalhes</b-button>
@@ -112,7 +112,6 @@ export default {
           });
         }
       }
-      console.log(this.animalInfoAsRows);
     },
     outerRowClass(item) {
       if (this.$store.state.selectedArrayToCards.includes(item.key)) {
@@ -124,6 +123,13 @@ export default {
         if (this.$store.state.selectedArrayToCards.includes(innerKeys[i])) {
           return "";
         }
+      }
+      return "d-none";
+    },
+    innerRowClass(item) {
+      if (this.$store.state.selectedArrayToCards.includes(item.column1) ||
+        this.$props.animalInfo['Observações Registradas'].map(or => or['Localidade']).includes(item.column1)){
+        return "";
       }
       return "d-none";
     },

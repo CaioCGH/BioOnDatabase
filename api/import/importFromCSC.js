@@ -120,7 +120,7 @@ async function  seedSpecies(parsedData){
           'CITES/2019': t(parsedData[i]['CITES/2019']),
           'CITES/2021 ': t(parsedData[i]['CITES/2021 '])
         },
-        'Observações registradas': []
+        'Observações Registradas': []
     });
 
     var entries = Object.entries(parsedData[i]);

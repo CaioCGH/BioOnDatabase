@@ -8,7 +8,7 @@
         <b-tab title="Busca local" ><BioOnlineLocalitySearch /></b-tab>
     </b-tabs>
     <AnimalRows />
-    <BioOnlineTableRows  />
+    <BioOnlineTableRows  :rows="animalRows" :key="Date.now()"/>
   </div>
 </template>
 
@@ -46,6 +46,13 @@ export default {
   },
   methods:{
     
+  },
+  computed: {
+    animalRows: {
+      get() {
+        return this.$store.state.animalRows;
+      }
+    }
   }
 }
 </script>

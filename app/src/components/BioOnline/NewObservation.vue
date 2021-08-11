@@ -10,25 +10,7 @@
         @change="update"
       ></b-form-select>
     </form>
-    <div class="mb-4 mt-2">
-      <b-button
-        @click="localitiesWrapper.push({ chosenLocality: '' })"
-        variant="success"
-        class="mr-2"
-      >
-        <span>Adicionar mais um local</span>
-      </b-button>
-      <b-button
-        @click="
-          localitiesWrapper.pop();
-          update();
-        "
-        variant="danger"
-        class="mr-2"
-      >
-        <span v-show="!loading">Remover local</span>
-      </b-button>
-    </div>
+    
     <div class="mb-4 mt-2">
       <b-button
         @click="bioOnlineSearchAnimalsInLocalities()"

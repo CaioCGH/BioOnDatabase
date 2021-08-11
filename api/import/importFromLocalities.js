@@ -31,7 +31,7 @@ function seedLocalities(parsedData){
           'UTMY': t(parsedData[i]['UTM Y']),
           'endereço': t(parsedData[i]['Endereço']),
           'distrito': t(parsedData[i]['Distrito']),
-          'Observações registradas': []
+          'Observações Registradas': []
         });
         save(locality);
     }

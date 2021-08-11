@@ -1,9 +1,8 @@
 <template>
-  <div><!-- por agum motivo está abrindo o modal duas vezes, a primeira sem props --> 
+  <div>
     <b-modal id="modalId">
       <b-container fluid>
         Selecione o formato do arquivo para baixar:
-        <!-- {{this}} -->
         <div>
           <b-form-select
             v-model="selectedFormat"
@@ -56,11 +55,11 @@ export default {
   methods: {
     download() {
       this.loading = true;
-
-      downloadFromLocalities({
+      const payload = {
         localities: this.$store.state.localitiesWrapper.map(e => e.chosenLocality),
-        selectedArray: this.$store.state.selectedArrayToTable}
-      ).then((value) => {
+        selectedArray: this.$store.state.selectedArrayToTable};
+      console.log("payload", payload);
+      downloadFromLocalities(payload     ).then((value) => {
         value;
       });
       this.loading = false;

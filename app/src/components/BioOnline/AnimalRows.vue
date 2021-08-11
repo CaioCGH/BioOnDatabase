@@ -1,6 +1,6 @@
 <template>
   <div v-if="displayType === 'display_cards'">
-    <div class="container" v-if="this.$store.state.animalRows.length > 0">
+    <div class="container" v-if="animalRows.length > 0">
       <h2 v-if="animalRows.length === 1">{{ animalRows.length }} resultado</h2>
       <h2 v-else>{{ animalRows.length }} resultados</h2>
       <div v-for="animalRow in animalRows" :key="animalRow.id">

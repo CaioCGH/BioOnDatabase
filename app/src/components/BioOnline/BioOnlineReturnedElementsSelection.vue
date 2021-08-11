@@ -56,8 +56,8 @@ export default {
             "Básico": { selected: false}, 
             "Taxonomia": { selected: false},
             "Biologia": { selected: false}, 
-            "Estado de conservação": { selected: false},
-            "Observações registradas": { selected: false},
+            "Estado de Conservação": { selected: false},
+            "Observações Registradas": { selected: false},
       }
     }
   },
@@ -80,8 +80,8 @@ export default {
     update(item, event){
       this.$store.state.selectedArrayToCards = event;
       let selectionToCards = this.$store.state.selectedArrayToCards;
-      let selectionToTable = selectionToCards.filter(e => e != "Observações registradas");
-      if(selectionToCards.includes("Observações registradas")){
+      let selectionToTable = selectionToCards.filter(e => e != "Observações Registradas");
+      if(selectionToCards.includes("Observações Registradas")){
         selectionToTable.push(...this.$store.state.localitiesWrapper.map(w => w.chosenLocality));
       }
       this.$store.commit("updateSelectedArrayToTable", selectionToTable);
