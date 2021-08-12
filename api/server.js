@@ -19,9 +19,10 @@ const db = require("./models");
 const dbConfig = require("./config/db.config")
 const Role = db.role;
 var connectionString = "";
-if(process.env.NODE_ENV === 'development'){
-  // connectionString = `mongodb://${dbConfig.USERNAME}:${dbConfig.PASSWORD}@${dbConfig.HOST}:${dbConfig.PORT}`;
-  connectionString = `mongodb+srv://${dbConfig.CLOUD_USERNAME}:${dbConfig.CLOUD_PASSWORD}@${dbConfig.CLOUD_CLUSTERADDR}/${dbConfig.CLOUD_DB}?retryWrites=true&w=majority`;
+console.log('NODE_ENV', process.env.NODE_ENV);
+if(process.env.NODE_ENV == 'development'){
+  connectionString = `mongodb://${dbConfig.USERNAME}:${dbConfig.PASSWORD}@${dbConfig.HOST}:${dbConfig.PORT}`;
+  // connectionString = `mongodb+srv://${dbConfig.CLOUD_USERNAME}:${dbConfig.CLOUD_PASSWORD}@${dbConfig.CLOUD_CLUSTERADDR}/${dbConfig.CLOUD_DB}?retryWrites=true&w=majority`;
 }else{
   connectionString = `mongodb+srv://${dbConfig.CLOUD_USERNAME}:${dbConfig.CLOUD_PASSWORD}@${dbConfig.CLOUD_CLUSTERADDR}/${dbConfig.CLOUD_DB}?retryWrites=true&w=majority`;
 }

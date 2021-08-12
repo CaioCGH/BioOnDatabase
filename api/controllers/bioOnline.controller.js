@@ -7,14 +7,14 @@ const { makeSheet } = require("../makers/DownloadSheetMaker");
 module.exports = {
     bioOnlineColumns:  async function(req, res){
         const anySpecies = (await Species.findOne({'Nome Científico':"Anodontites sp."}).exec()).toJSON();
-        console.log(Object.keys(anySpecies));
-        console.log(Object.keys(anySpecies['Taxonomia']));
         const returnedElementsObject = {
             "Básico": { selected: true, innerOptions: ['Nome Científico', 'Nome Comum']},
             "Taxonomia": { selected: false, innerOptions: Object.keys(anySpecies['Taxonomia'])},
             "Biologia": { selected: false, innerOptions: Object.keys(anySpecies['Biologia'])},
             "Estado de Conservação": { selected: false, innerOptions: Object.keys(anySpecies['Estado de Conservação'])},
-            "Observações Registradas": { selected: false, innerOptions: ['Observações Registradas']}
+            "Resumo das Observações": { selected: false, innerOptions: Object.keys(anySpecies['Resumo das Observações'])},
+            "Observações Registradas": { selected: false, innerOptions: ['Observações Registradas']},
+            "Observações Extras": { selected: false, innerOptions: Object.keys(anySpecies['Observações Extras'])}
           }
             res.json(returnedElementsObject);
     },

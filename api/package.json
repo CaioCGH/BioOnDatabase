@@ -9,9 +9,8 @@
   },
   "scripts": {
     "build": "webpack",
-    "dev2": "NODE_ENV=development nodemon ./server.js localhost 3000",
-    "dev": "NODE_ENV=production nodemon ./server.js localhost 3000",
-    "start": "NODE_ENV=production node ./server.js localhost 3000"
+    "dev": "nodemon ./server.js localhost 3000",
+    "start": "node ./server.js localhost 3000"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
