@@ -1,36 +1,36 @@
 [[redirects]]
   from = "/api/bio-online-columns"
-  to = "http://anmal-search.herokuapp.com/api/bio-online-columns"
+  to = "https://bioondatabase.herokuapp.com//api/bio-online-columns"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/search-animal"
-  to = "http://anmal-search.herokuapp.com/api/search-animal"
+  to = "https://bioondatabase.herokuapp.com//api/search-animal"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/get-bio-online-localities"
-  to = "http://anmal-search.herokuapp.com/api/get-bio-online-localities"
+  to = "https://bioondatabase.herokuapp.com//api/get-bio-online-localities"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/get-genera-species-commonnames"
-  to = "http://anmal-search.herokuapp.com/api/get-genera-species-commonnames"
+  to = "https://bioondatabase.herokuapp.com//api/get-genera-species-commonnames"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/bio-online-search-species-in-localities"
-  to = "http://anmal-search.herokuapp.com/api/bio-online-search-species-in-localities"
+  to = "https://bioondatabase.herokuapp.com//api/bio-online-search-species-in-localities"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/download-from-localities"
-  to = "http://anmal-search.herokuapp.com/api/download-from-localities"
+  to = "https://bioondatabase.herokuapp.com//api/download-from-localities"
   status = 200
   force = true
 
@@ -39,26 +39,26 @@
 
 [[redirects]]
   from = "/api/wikiaves-search"
-  to = "http://anmal-search.herokuapp.com/api/wikiaves-search"
+  to = "https://bioondatabase.herokuapp.com//api/wikiaves-search"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/wikiaves-search-wid"
-  to = "http://anmal-search.herokuapp.com/api/wikiaves-search-wid"
+  to = "https://bioondatabase.herokuapp.com//api/wikiaves-search-wid"
   status = 200
   force = true
 
 
 [[redirects]]
   from = "/api/ebird-search"
-  to = "http://anmal-search.herokuapp.com/api/ebird-search"
+  to = "https://bioondatabase.herokuapp.com//api/ebird-search"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/inaturalist-search"
-  to = "http://anmal-search.herokuapp.com/api/inaturalist-search"
+  to = "https://bioondatabase.herokuapp.com//api/inaturalist-search"
   status = 200
   force = true
 

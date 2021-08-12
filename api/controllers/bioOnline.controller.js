@@ -30,7 +30,7 @@ module.exports = {
     },
     localities:  async function(req, res){
         const localities = await Locality.find().exec();
-        res.json(localities.map(locality => locality['nome completo']).sort());
+        res.json(localities.map(locality => locality['Nome Completo']).sort());
     },
     speciesInLocalities: async function(req, res){
         console.log(req.query.localities);
@@ -75,8 +75,9 @@ async function speciesFromLocalities(localities){
     console.log("localitiesNames", localitiesNames);
     const speciesMap = {};
     for(let i = 0; i < localitiesNames.length; i++){
-        const locality = (await Locality.find({'nome completo': localitiesNames[i]}).exec())[0];
+        const locality = (await Locality.find({'Nome Completo': localitiesNames[i]}).exec())[0];
         const observations = locality['Observações Registradas'];
+        console.log(observations);
         for(let j = 0; j < observations.length; j++){
             const species = await Species.findOne({'Nome Científico': observations[j]['Nome Científico']}).select('-__v -_id').exec();
             speciesMap[species['Nome Científico']] = species;

@@ -1,5 +1,6 @@
 *.csv
-
+api/config/db.config.js
+db.config.js
 # Logs
 logs
 *.log

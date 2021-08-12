@@ -22,17 +22,7 @@ const startImport = async () => {
 function seedLocalities(parsedData){
   drop('localities');
     for(let i = 0; i < parsedData.length; i++){
-        const locality = new Locality({
-          'tipo': t(parsedData[i]['Tipoz']),
-          'sheetId': t(parsedData[i]['ID']),
-          'nome planilha': t(parsedData[i]['Nome_Planilha']),
-          'nome completo': parsedData[i]['Nome Completo'] ? t(parsedData[i]['Nome Completo']) : t(parsedData[i]['Nome_Planilha']),
-          'UTMX': t(parsedData[i]['UTM X']),
-          'UTMY': t(parsedData[i]['UTM Y']),
-          'endereço': t(parsedData[i]['Endereço']),
-          'distrito': t(parsedData[i]['Distrito']),
-          'Observações Registradas': []
-        });
+        const locality = new Locality(parsedData[i]);
         save(locality);
     }
 }

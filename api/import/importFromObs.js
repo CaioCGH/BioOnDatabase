@@ -1,4 +1,4 @@
-const {connect, closeConnection, readCSV, save, sortObject, t} = require('./importUtils');
+const {connect, drop, closeConnection, readCSV, save, sortObject, t} = require('./importUtils');
 const Papa = require('papaparse');
 const db = require("../models");
 const csvFilePath = 'observadores.csv'
@@ -18,13 +18,15 @@ const startImport = async () => {
   // seedTaxonomyTree(parsedData);
   // seedTiles(parsedData);
   // console.log(parsedData);
-  // seedAffiliation(parsedData);
+  seedAffiliation(parsedData);
   seedObserver(parsedData);
 }
 
 function seedAffiliation(parsedData){ 
+  drop('affiliations');
     var affiliations = {};
     for(let i = 0; i < parsedData.length; i++){
+      console.log("parsedData[i]['Vínculo']", parsedData[i]['Vínculo']);
         const affiliation = new Affiliation({
             name: t(parsedData[i]['Vínculo']),
         });
@@ -39,12 +41,13 @@ function seedAffiliation(parsedData){
     }
 }
 function seedObserver(parsedData){ 
+  drop('observers');
     var observers = {};
     for(let i = 0; i < parsedData.length; i++){
         const observer = new Observer({
           'nome': t(parsedData[i]['Nome']),
           'sigla': t(parsedData[i]['Sigla']),
-          'título': t(parsedData[i][' titulação']),
+          'título': t(parsedData[i]['titulação']),
           'vínculo': t(parsedData[i]['Vínculo'])
         });
         if(observers[observer.nome] == undefined){

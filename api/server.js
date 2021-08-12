@@ -18,10 +18,17 @@ app.use(cors(corsOptions));
 const db = require("./models");
 const dbConfig = require("./config/db.config")
 const Role = db.role;
-const connectionString = `mongodb://${dbConfig.USERNAME}:${dbConfig.PASSWORD}@${dbConfig.HOST}:${dbConfig.PORT}}`;
+var connectionString = "";
+if(process.env.NODE_ENV === 'development'){
+  // connectionString = `mongodb://${dbConfig.USERNAME}:${dbConfig.PASSWORD}@${dbConfig.HOST}:${dbConfig.PORT}`;
+  connectionString = `mongodb+srv://${dbConfig.CLOUD_USERNAME}:${dbConfig.CLOUD_PASSWORD}@${dbConfig.CLOUD_CLUSTERADDR}/${dbConfig.CLOUD_DB}?retryWrites=true&w=majority`;
+}else{
+  connectionString = `mongodb+srv://${dbConfig.CLOUD_USERNAME}:${dbConfig.CLOUD_PASSWORD}@${dbConfig.CLOUD_CLUSTERADDR}/${dbConfig.CLOUD_DB}?retryWrites=true&w=majority`;
+}
 
 console.log("connecting to:");
 console.log(connectionString);
+
 
 db.mongoose
   .connect(connectionString, {

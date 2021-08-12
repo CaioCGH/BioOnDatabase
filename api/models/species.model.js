@@ -9,7 +9,9 @@ const Species = mongoose.model(
     'Taxonomia': Object,
     'Biologia': Object,
     'Estado de Conservação': Object,
-    'Observações Registradas': [observation]
+    'Resumo das Observações': Object,
+    'Observações Registradas': [observation],
+    'Observações Extras': Object,
   })
 );
 
