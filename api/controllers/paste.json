@@ -1,0 +1,166 @@
+{
+  "_id": "6114d96191c9e7004590d1c1",
+  "Nome Científico": "Anodontites sp.",
+  "Nome Comum": "aruá",
+  "Taxonomia": {
+    "Reino": "Animalia",
+    "Filo": "Mollusca",
+    "Subfilo": "",
+    "Classe": "Bivalvia",
+    "Subclasse": "",
+    "Infraclasse": "",
+    "Ordem": "Unionoida",
+    "Subordem": "",
+    "Família": "Mycetopodidae",
+    "Subfamília": "",
+    "Tribo/SubTribo": "",
+    "Gênero": "Anodontites",
+    "Espécie": "sp.",
+    "Subespécie": "",
+    "Autor": "Bruguière, 1792",
+    "Nome Comum": "aruá",
+    "Nome em Inglês": "Apple Snail",
+    "Observações": ""
+  },
+  "Biologia": {
+    "Natureza": "NA",
+    "Endemismo Mata Atlântica": "NA",
+    "Endemismo Brasil": "NA",
+    "Comportamento Migratório": "NA",
+    "Habitat": "NA",
+    "Sensibilidade": "NA",
+    "Abundância Relativa": "NA",
+    "Alimentação": "NA",
+    "Guilda Alimentar": "NA",
+    "Ocorrência no Bioma MA": "NA",
+    "Habitat (detalhado)": "NA",
+    "Locomoção": "NA"
+  },
+  "Estado de Conservação": {
+    "Estado de SP (2014)": "NA",
+    "Estado de SP (2018)": "NA",
+    "Brasil (2014)": "NA",
+    "Brasil (2018)": "NA",
+    "IUCN (2014)": "NA",
+    "IUCN (2019-1,2)": "NA",
+    "IUCN (2020)": "NA",
+    "IUCN (2020-3)": "NA",
+    "IUCN (2021-1)": "NA",
+    "CITES (2014)": "NA",
+    "CITES (2019)": "NA",
+    "CITES (2021)": "NA"
+  },
+  "Observações Registradas": [
+    {
+      "Observadores": ["SVMA", "DFS"],
+      "_id": "6114d96191c9e7004590d181",
+      "Nome Científico": "Anodontites sp.",
+      "Nome Comum": "aruá",
+      "Localidade": "Parque Municipal Aclimação",
+      "Registro Original": "09/2009 (SVMA/DFS)",
+      "Data": "09/2009"
+    },
+    {
+      "Observadores": ["SVMA", "DFS"],
+      "_id": "6114d96191c9e7004590d187",
+      "Nome Científico": "Anodontites sp.",
+      "Nome Comum": "aruá",
+      "Localidade": "Parque Municipal Barragem do Guarapiranga",
+      "Registro Original": "09/2009 (SVMA/DFS)",
+      "Data": "09/2009"
+    },
+    {
+      "Observadores": ["SVMA", "DFS"],
+      "_id": "6114d96191c9e7004590d18d",
+      "Nome Científico": "Anodontites sp.",
+      "Nome Comum": "aruá",
+      "Localidade": "Parque Municipal do Carmo - Olavo Egydio Setubal",
+      "Registro Original": "09/2009 (SVMA/DFS)",
+      "Data": "09/2009"
+    },
+    {
+      "Observadores": ["SVMA", "DFS"],
+      "_id": "6114d96191c9e7004590d193",
+      "Nome Científico": "Anodontites sp.",
+      "Nome Comum": "aruá",
+      "Localidade": "Parque Municipal Guarapiranga",
+      "Registro Original": "09/2009 (SVMA/DFS)",
+      "Data": "09/2009"
+    },
+    {
+      "Observadores": ["SVMA", "DFS"],
+      "_id": "6114d96191c9e7004590d199",
+      "Nome Científico": "Anodontites sp.",
+      "Nome Comum": "aruá",
+      "Localidade": "Parque Municipal Linear Castelo",
+      "Registro Original": "09/2009 (SVMA/DFS)",
+      "Data": "09/2009"
+    },
+    {
+      "Observadores": ["SVMA", "DFS"],
+      "_id": "6114d96191c9e7004590d19f",
+      "Nome Científico": "Anodontites sp.",
+      "Nome Comum": "aruá",
+      "Localidade": "Parque Municipal Linear Nove de Julho",
+      "Registro Original": "09/2009 (SVMA/DFS)",
+      "Data": "09/2009"
+    },
+    {
+      "Observadores": ["SVMA", "DFS"],
+      "_id": "6114d96191c9e7004590d1a5",
+      "Nome Científico": "Anodontites sp.",
+      "Nome Comum": "aruá",
+      "Localidade": "Parque Municipal Linear Ribeirão Caulim",
+      "Registro Original": "09/2009 (SVMA/DFS)",
+      "Data": "09/2009"
+    },
+    {
+      "Observadores": ["SVMA", "DFS"],
+      "_id": "6114d96191c9e7004590d1ab",
+      "Nome Científico": "Anodontites sp.",
+      "Nome Comum": "aruá",
+      "Localidade": "Parque Municipal Linear São José",
+      "Registro Original": "09/2009 (SVMA/DFS)",
+      "Data": "09/2009"
+    },
+    {
+      "Observadores": ["SVMA", "DFS"],
+      "_id": "6114d96191c9e7004590d1b1",
+      "Nome Científico": "Anodontites sp.",
+      "Nome Comum": "aruá",
+      "Localidade": "Parque Municipal Shangrilá",
+      "Registro Original": "09/2009 (SVMA/DFS)",
+      "Data": "09/2009"
+    },
+    {
+      "Observadores": ["SVMA", "DFS"],
+      "_id": "6114d96191c9e7004590d1b7",
+      "Nome Científico": "Anodontites sp.",
+      "Nome Comum": "aruá",
+      "Localidade": "Parque Natural Municipal Bororé",
+      "Registro Original": "09/2009 (SVMA/DFS)",
+      "Data": "09/2009"
+    },
+    {
+      "Observadores": ["SVMA", "DFS"],
+      "_id": "6114d96191c9e7004590d1bd",
+      "Nome Científico": "Anodontites sp.",
+      "Nome Comum": "aruá",
+      "Localidade": "Fazenda Castanheiras",
+      "Registro Original": "09/2009 (SVMA/DFS)",
+      "Data": "09/2009"
+    }
+  ],
+  "Resumo das Observações": {
+    "Inventário da Fauna Silvestre": "S",
+    "Município de São Paulo": "N"
+  },
+  "Observações Extras": {
+    "Distrito/Bairro": "",
+    "Data/Observadores": "",
+    "Endereço": "",
+    "Observação": "",
+    "Lista Município SP": ""
+  },
+  "__v": 0
+}

@@ -16,11 +16,13 @@ module.exports = {
     },
     updateSpecies: async function(req, res){
         const filter = { "_id" : req.body.id};
+
         const update = req.body.model;
-        let result = await Species.findOneAndUpdate({filter, update,
+        let result = await Species.findOneAndUpdate(filter, update,{
             new: true,
             upsert: true}).exec();
-        res.json(result.lastErrorObject.updatedExisting);
+
+        res.json(result);
     },
     deleteSpecies: async function(req, res){
         console.log('on delete!', req.body);

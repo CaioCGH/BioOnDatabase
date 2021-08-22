@@ -9,7 +9,6 @@
             <tr>
               <th>Nome Cinetífico</th>
               <th>Nome Comum</th>
-              <th>_id</th>
               <th>&nbsp;</th>
             </tr>
           </thead>
@@ -17,7 +16,6 @@
             <tr v-for="species in speciesList" :key="species.id">
               <td>{{ species['Nome Científico'] }}</td>
               <td>{{ species['Nome Comum'] }}</td>
-              <td>{{ species['_id'] }}</td>
               <td class="text-right">
                 <b-button
                   v-b-modal="'modal-new-species'"
@@ -38,7 +36,6 @@
 <script>
 import {
   getAllSpecies,
-  // getSpecies,
   updateSpecies,
   createSpecies,
   deleteSpecies
