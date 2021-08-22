@@ -4,7 +4,7 @@
             <div >
                 <div class="w-25">
                     <b-form-select v-model="chosenGenus" :options="genera"  @change="update"></b-form-select>
-                    <b-form-select v-model="chosenSpecies" :options="speciesList" @change="update"></b-form-select>
+                    <b-form-select v-model="chosenSpecies" :options="speciesList"></b-form-select>
                     Ou
                     <b-form-select v-model="chosenCommonName" :options="commonNames"></b-form-select>
                 </div>

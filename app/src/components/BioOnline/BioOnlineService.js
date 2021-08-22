@@ -88,3 +88,59 @@ export async function downloadFromLocalities(payload) {
   document.body.appendChild(link);
   link.click();
 }
+
+//------------------------------------------------------------
+export async function getAllSpecies() {
+  const url = `/api/all-species`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  return await response.json();
+}
+
+export async function getSpecies(payload) {
+  let queryString = querystring.stringify(payload);
+  const url = `/api/species-by-scientific-name?${queryString}`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  return await response.json();
+}
+
+export async function createSpecies(model) {
+  const url = `/api/create-species`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify( {model}),
+  });
+  return await response.json();
+}
+
+export async function updateSpecies(id, model) {
+  const url = `/api/update-species`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({id, model}),
+  });
+  return await response.json();
+}
+
+export async function deleteSpecies(id) {
+  const url = `/api/delete-species`;
+  console.log(url);
+  console.log(id);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify( {'id': id}),
+  });
+  return await response.json();
+}
