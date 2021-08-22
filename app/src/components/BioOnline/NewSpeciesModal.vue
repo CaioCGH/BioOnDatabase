@@ -28,8 +28,7 @@
 <script>
 import {
   updateSpecies,
-  createSpecies,
-  deleteSpecies
+  createSpecies
 } from "./BioOnlineService";
 import OkModal from "../Geral/OkModal.vue"
 
@@ -63,16 +62,6 @@ export default {
         this.saveMessage = "Espécie salva com sucesso"
       }
       this.refreshModel( this.model);
-    },
-    async deleteSpecies (_id) {
-      if (confirm('Are you sure you want to delete this post?')) {
-        // if we are editing a post we deleted, remove it from the form
-        if (this.model._id === _id) {
-          this.model = {}
-        }
-        await deleteSpecies(_id);
-        await this.refreshSpecies();
-      }
     },
     refreshModel(newModel){
       this.model = newModel;

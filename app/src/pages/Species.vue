@@ -18,11 +18,15 @@
               <td>{{ species['Nome Comum'] }}</td>
               <td class="text-right">
                 <b-button
+                  class="m-2"
                   v-b-modal="'modal-new-species'"
                   @click.prevent="populateSpeciesToEdit(species)"
                   >Editar</b-button>
                 <!-- <a href="#" @click.prevent="populateSpeciesToEdit(species)">Editar</a> -->
-                <a href="#" @click.prevent="deleteSpecies(species.id)">Deletar</a>
+                <b-button  class="m-2"
+                variant="danger"
+                @click.prevent="deleteSpecies(species._id)">
+                Deletar</b-button>
               </td>
             </tr>
           </tbody>
@@ -76,7 +80,7 @@ export default {
       await this.refreshSpecies()
     },
     async deleteSpecies (id) {
-      if (confirm('Are you sure you want to delete this post?')) {
+      if (confirm('Tem certeza que deseja deletar esta espécie?')) {
         // if we are editing a post we deleted, remove it from the form
         if (this.model.id === id) {
           this.model = {}
