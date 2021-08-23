@@ -1,13 +1,19 @@
 <template>
   <div class="container-fluid mt-4">
     <h1 class="h1">Gerenciador de espécies</h1>
+    <b-button
+                  variant="success"
+                  class="m-2"
+                  v-b-modal="'modal-new-species'"
+                  @click.prevent="populateEmptyModel()"
+                  >Criar nova espécie</b-button>
     <b-alert :show="loading" variant="info">Loading...</b-alert>
     <b-row>
       <b-col>
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>Nome Cinetífico</th>
+              <th>Nome Científico</th>
               <th>Nome Comum</th>
               <th>&nbsp;</th>
             </tr>
@@ -22,7 +28,6 @@
                   v-b-modal="'modal-new-species'"
                   @click.prevent="populateSpeciesToEdit(species)"
                   >Editar</b-button>
-                <!-- <a href="#" @click.prevent="populateSpeciesToEdit(species)">Editar</a> -->
                 <b-button  class="m-2"
                 variant="danger"
                 @click.prevent="deleteSpecies(species._id)">
@@ -40,8 +45,6 @@
 <script>
 import {
   getAllSpecies,
-  updateSpecies,
-  createSpecies,
   deleteSpecies
 } from "../components/BioOnline/BioOnlineService";
 
@@ -70,14 +73,32 @@ export default {
     async populateSpeciesToEdit (species) {
       this.model = Object.assign({}, species)
     },
-    async saveSpecies () {
-      if (this.model.id) {
-        await updateSpecies(this.model.id, this.model)
-      } else {
-        await createSpecies(this.model)
+    async populateEmptyModel () {
+      var species = this.speciesList[0];
+      var outerKeys = Object.keys(species);
+      var emptyModel = {}
+      for(let i = 0; i < outerKeys.length; i++){
+        var outerKey = outerKeys[i];
+        console.log(outerKey);
+        if(['_id', '__v', 'Observações Registradas'].includes(outerKey)){
+          console.log("continuing")
+          continue;
+        }
+        if(typeof species[outerKey] === 'object'){
+          var innerKeys = Object.keys(species[outerKey]);
+          for(let j = 0; j < innerKeys.length; j++){
+            var innerKey = innerKeys[j];
+            if(emptyModel[outerKey] == undefined){
+              emptyModel[outerKey] = {};
+            }
+            emptyModel[outerKey][innerKey] = '';
+          }
+        }else{
+          emptyModel[outerKey] = '';
+        }
       }
-      this.model = {} // reset form
-      await this.refreshSpecies()
+      console.log(emptyModel);
+      this.model = Object.assign({}, emptyModel)
     },
     async deleteSpecies (id) {
       if (confirm('Tem certeza que deseja deletar esta espécie?')) {

@@ -38,6 +38,7 @@ module.exports = {
         res.json(speciesList);
     },
     searchAnimal: async function(req, res){
+        console.log("find", req.query)
         const genus = req.query.genus;
         const species = req.query.species;
         const commonName = req.query.commonName;

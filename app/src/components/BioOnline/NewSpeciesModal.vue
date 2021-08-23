@@ -52,7 +52,7 @@ export default {
       if (this.model._id) {
         newModel = await updateSpecies(this.model._id, this.model)
       } else {
-        newModel = await createSpecies(this.model)
+        newModel = await createSpecies(this.model);
       }
       if(newModel == this.model){
         this.saveMessage = "Nenhuma propriedade foi alterada"

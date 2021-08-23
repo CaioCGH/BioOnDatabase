@@ -1,4 +1,5 @@
 const {Species, TaxonomyNode}  = require("../models/species.model");
+const {save}  = require("../import/importUtils");
 
 module.exports = {
     getAllSpecies:  async function(req, res){
@@ -10,7 +11,8 @@ module.exports = {
         res.json(animal);
     },
     createSpecies:  async function(req, res){
-        var species = new Species(res.body.model);
+        console.log(req.body.model);
+        var species = new Species(req.body.model);
         save(species);
         res.json(species);
     },
