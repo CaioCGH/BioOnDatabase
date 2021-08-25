@@ -13,6 +13,7 @@ module.exports = {
     createSpecies:  async function(req, res){
         console.log(req.body.model);
         var species = new Species(req.body.model);
+        species['Observações Registradas'] = [];
         save(species);
         res.json(species);
     },

@@ -120,7 +120,7 @@ export default {
         commonName: this.chosenCommonName.trim(),
       };
       downLoadList(payload).then((value) => {
-        (value);
+        value;
         this.result = true;
         this.loading = false;
       });

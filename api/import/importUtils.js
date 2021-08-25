@@ -3,6 +3,10 @@ const db = require("../models");
 const Papa = require("papaparse");
 const dbConfig = require("../config/db.config");
 
+module.exports.generateId = () => {
+  return db.mongoose.Types.ObjectId();
+}
+
 module.exports.connect = () => {
   // const connectionString = `mongodb+srv://${dbConfig.CLOUD_USERNAME}:${dbConfig.CLOUD_PASSWORD}@${dbConfig.CLOUD_CLUSTERADDR}/${dbConfig.CLOUD_DB}?retryWrites=true&w=majority`;
 
@@ -52,11 +56,10 @@ module.exports.readCSV = async (filePath) => {
 };
 
 module.exports.save = (obj) => {
-  obj.save({ checkKeys: false }, (err) => {
+  return obj.save({ checkKeys: false }, (err) => {
     //checkeysfalse para keys com ponto (.)
     if (err) {
       console.log("erro:", err);
-      return;
     }
     // console.log("Obj cadastrado: " + obj);
   });

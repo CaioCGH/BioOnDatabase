@@ -144,3 +144,71 @@ export async function deleteSpecies(id) {
   });
   return await response.json();
 }
+//----------------------------------------------------------
+
+export async function getObservationsOfSpecies(payload) {
+  let queryString = querystring.stringify(payload);
+  const url = `/api/observations-by-species-id?${queryString}`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  return await response.json();
+}
+
+export async function getObservationsOfLocality(payload) {
+  let queryString = querystring.stringify(payload);
+  const url = `/api/observations-by-locality-id?${queryString}`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  return await response.json();
+}
+
+export async function createObservation(model) {
+  const url = `/api/create-observation`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify( {model}),
+  });
+  return await response.json();
+}
+
+export async function updateObservation(id, model) {
+  const url = `/api/update-observation`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({id, model}),
+  });
+  return await response.json();
+}
+
+export async function deleteObservation(model) {
+  const url = `/api/delete-observation`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify( {'model': model}),
+  });
+  return await response.json();
+}
+
+//-------------------OBSERVERS-----------------
+
+export async function findAllObservers() {
+  const url = `/api/find-all-observers`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  });
+  return await response.json();
+}

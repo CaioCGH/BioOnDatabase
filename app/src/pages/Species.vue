@@ -25,6 +25,11 @@
               <td class="text-right">
                 <b-button
                   class="m-2"
+                  v-b-modal="'modal-observations'"
+                  @click.prevent="populatePropsToObservations(species)"
+                  >Observações</b-button>
+                <b-button
+                  class="m-2"
                   v-b-modal="'modal-new-species'"
                   @click.prevent="populateSpeciesToEdit(species)"
                   >Editar</b-button>
@@ -38,6 +43,7 @@
         </table>
       </b-col>
     </b-row>
+    <ObservationsModal :species_id="species_id" :observations="observations"/>
     <NewSpeciesModal :model="model"/>
   </div>
 </template>
@@ -49,16 +55,19 @@ import {
 } from "../components/BioOnline/BioOnlineService";
 
 import NewSpeciesModal  from "../components/BioOnline/NewSpeciesModal.vue";
+import ObservationsModal  from "../components/BioOnline/ObservationsModal.vue";
 
 export default {
   components:{
-    NewSpeciesModal
+    NewSpeciesModal, ObservationsModal
   },
   data () {
     return {
       loading: false,
       speciesList: [],
-      model: {}
+      observations: [],
+      model: {},
+      species_id: ''
     }
   },
   async created () {
@@ -72,6 +81,10 @@ export default {
     },
     async populateSpeciesToEdit (species) {
       this.model = Object.assign({}, species)
+    },
+    async populatePropsToObservations (species) {
+      this.species_id = species._id;
+      this.observations = species['Observações Registradas'];
     },
     async populateEmptyModel () {
       var species = this.speciesList[0];

@@ -2,6 +2,8 @@ const { authJwt } = require("../middlewares");
 const bioOnlineController = require("../controllers/bioOnline.controller");
 const externalController = require("../controllers/external.controller");
 const speciesController = require("../controllers/species.controller");
+const observationController = require("../controllers/observation.controller");
+const observerController = require("../controllers/observer.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -30,4 +32,12 @@ module.exports = function(app) {
   app.post("/api/create-species", speciesController.createSpecies);
   app.post("/api/update-species", speciesController.updateSpecies);
   app.post("/api/delete-species", speciesController.deleteSpecies);
+
+
+  app.get("/api/observations-by-species-id", observationController.getObservationsBySpeciesId);
+  app.post("/api/create-observation", observationController.createObservation);
+  app.post("/api/update-observation", observationController.updateObservation);
+  app.post("/api/delete-observation", observationController.deleteObservation);
+
+  app.get("/api/find-all-observers", observerController.findAllObservers);
 }

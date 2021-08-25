@@ -1,10 +1,10 @@
 <template>
   <div>
     <b-modal id="modal-new-species">
-      <b-card :title="(model['Nome Científico'] ? 'Editar Espécie ' + model['Nome Científico'] : 'Editar espécie')">
+      <b-card :title="(model['Nome Científico'] ? 'Editar Espécie ' + model['Nome Científico'] : 'Criar espécie')">
           <form @submit.prevent="saveSpecies(model._id)" @submit="$parent.refreshSpecies()">
             <div v-for="(value, key) in model" :key="key.id">
-            <b-form-group v-if="!['_id', '__v', 'Observações Registradas', 'Observações Extras'].includes(key)">
+            <b-form-group v-if="!['_id', '__v', 'Observações Registradas'].includes(key)">
               <h5 >{{key}}</h5>
               <b-form-input v-if="!isObject(model[key])"  type="text" v-model="model[key]"></b-form-input>
               <div v-else>

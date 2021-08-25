@@ -1,5 +1,5 @@
 const LOCALITIES_COLUMN_START = 44;
-const {connect, drop, closeConnection, readCSV, save, sortObject, t, checkDuplicateAndPush} = require('./importUtils');
+const {generateId, connect, drop, closeConnection, readCSV, save, sortObject, t, checkDuplicateAndPush} = require('./importUtils');
 const fs = require('fs');
 const util = require('util');
 
@@ -109,6 +109,7 @@ async function  seedSpecies(parsedData){
         const localityHeader = key;
         const locality = await findLocality(key);
         const observation = new Observation({
+          '_id': generateId(),
           'Nome Científico':  t(t(speciesRow['Gênero']) + " " + t(speciesRow['Espécie']) + " " + t(speciesRow['Subespécie'])),
           'Nome Comum': t(speciesRow['Nome Comum']),
           'Localidade': locality ? locality['Nome Completo'] : t(key),

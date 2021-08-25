@@ -62,3 +62,62 @@
   status = 200
   force = true
 
+
+
+#---------------SPECIES-------------------------------------------------
+[[redirects]]
+  from = "/api/all-species"
+  to = "https://bioondatabase.herokuapp.com/api/all-species"
+  status = 200
+  force = true
+[[redirects]]
+  from = "/api/species-by-scientific-name"
+  to = "https://bioondatabase.herokuapp.com/api/species-by-scientific-name"
+  status = 200
+  force = true
+[[redirects]]
+  from = "/api//api/create-species"
+  to = "https://bioondatabase.herokuapp.com/api/create-species"
+  status = 200
+  force = true
+[[redirects]]
+  from = "/api/update-species"
+  to = "https://bioondatabase.herokuapp.com/api/update-species"
+  status = 200
+  force = true
+[[redirects]]
+  from = "/api/delete-species"
+  to = "https://bioondatabase.herokuapp.com/api/delete-species"
+  status = 200
+  force = true
+
+
+#---------------OBSERVATIONS-------------------------------------------------
+[[redirects]]
+  from = "/api/observations-by-species-id"
+  to = "https://bioondatabase.herokuapp.com/api/observations-by-species-id"
+  status = 200
+  force = true
+[[redirects]]
+  from = "/api/create-observation"
+  to = "https://bioondatabase.herokuapp.com/api/create-observation"
+  status = 200
+  force = true
+[[redirects]]
+  from = "/api/update-observation"
+  to = "https://bioondatabase.herokuapp.com/api/update-observation"
+  status = 200
+  force = true
+[[redirects]]
+  from = "/api/delete-observation"
+  to = "https://bioondatabase.herokuapp.com/api/delete-observation"
+  status = 200
+  force = true
+
+#------------------------OBSERVERS
+[[redirects]]
+  from = "/api/find-all-observers"
+  to = "https://bioondatabase.herokuapp.com/api/find-all-observers"
+  status = 200
+  force = true
+
