@@ -62,6 +62,12 @@
   status = 200
   force = true
 
+[[redirects]]
+  from = "/api/taxonomy-tree"
+  to = "https://bioondatabase.herokuapp.com/api/taxonomy-tree"
+  status = 200
+  force = true
+
 
 
 #---------------SPECIES-------------------------------------------------

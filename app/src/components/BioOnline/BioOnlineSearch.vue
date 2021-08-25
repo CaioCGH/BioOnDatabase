@@ -4,8 +4,9 @@
     <BioOnlineReturnedElementsSelection />
     <ResultFormatSelector />
     <b-tabs   content-class="mt-4">
-        <b-tab title="Busca espécie" active><BioOnlineSpeciesSearch/><SelectDataFormat /></b-tab>
+        <b-tab title="Busca espécie" ><BioOnlineSpeciesSearch/><SelectDataFormat /></b-tab>
         <b-tab title="Busca local" ><BioOnlineLocalitySearch /></b-tab>
+        <b-tab title="Árvore Taxonômica" active ><TaxonomyTreeSearch /></b-tab>
     </b-tabs>
     <AnimalRows />
     <BioOnlineTableRows  :rows="animalRows" :key="Date.now()"/>
@@ -17,6 +18,7 @@
 
 import BioOnlineSpeciesSearch from './BioOnlineSpeciesSearch.vue'
 import BioOnlineLocalitySearch from './BioOnlineLocalitySearch.vue'
+import TaxonomyTreeSearch from './TaxonomyTreeSearch.vue'
 import SearchSourcesDescription from '../SearchSourcesDescription.vue'
 import AnimalRows from './AnimalRows.vue'
 import BioOnlineTableRows from './BioOnlineTableRows.vue'
@@ -31,6 +33,7 @@ export default {
   components:{
       BioOnlineSpeciesSearch,
       BioOnlineLocalitySearch,
+      TaxonomyTreeSearch,
       SearchSourcesDescription,
       BioOnlineReturnedElementsSelection,
       AnimalRows,

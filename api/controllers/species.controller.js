@@ -32,5 +32,9 @@ module.exports = {
         let result = await Species.deleteOne({ "_id" : req.body.id });
         console.log(result);
         res.json(result);
-    }
+    },
+    getTaxonomyTree:  async function(req, res){
+        const taxonomyNode = await TaxonomyNode.findOne().exec();
+        res.json(taxonomyNode);
+    },
 }

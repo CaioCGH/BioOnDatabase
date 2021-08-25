@@ -25,6 +25,8 @@ module.exports = function(app) {
   app.post("/api/ebird-search", externalController.ebirdSearch);
   app.post("/api/inaturalist-search", externalController.inaturalistSearch);
 
+  app.get("/api/taxonomy-tree", speciesController.getTaxonomyTree);
+
 
 
   app.get("/api/all-species", speciesController.getAllSpecies);

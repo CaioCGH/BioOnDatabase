@@ -6,6 +6,7 @@ const util = require('util');
 
 const { Species, TaxonomyNode } = require('../models/species.model');
 const { Locality, Observation, Title, Affiliation, Observer } = require('../models/locality.model');
+const { children } = require('cheerio/lib/api/traversing');
 const csvFilePath = 'planilha_geral.csv'
 
 connect().then(() => {
@@ -18,15 +19,17 @@ connect().then(() => {
 const startImport = async () => {
   let parsedData = await readCSV(csvFilePath);
   seedTaxonomyTree(parsedData);
-  seedSpecies(parsedData);
+  // seedSpecies(parsedData);
 }
 
 function seedTaxonomyTree(parsedData){
+  drop('taxonomynodes');
   const TAXONOMY_LEVELS = ['Filo', 'Subfilo', 'Classe', 'Subclasse', 'Infraclasse', 'Ordem', 'Subordem', 'Família', 'Subfamília', 'Tribo/SubTribo', 'Gênero', 'Espécie', 'Subespécie'];
 
     var root = {
     name: 'Animalia',
     levelName: 'Reino',
+    numberOfLeaves: 0,
     children: [],
   }
 
@@ -48,9 +51,12 @@ function seedTaxonomyTree(parsedData){
     }
   }
 
+  populateNumberOfLeaves(root);
+
   const rootAsTaxonomyNode = new TaxonomyNode({
     name: 'Animalia',
     levelName: 'Reino',
+    numberOfLeaves: root.numberOfLeaves,
     children: root.children,
   })
   rootAsTaxonomyNode.save({checkKeys: false}, err => {
@@ -61,6 +67,17 @@ function seedTaxonomyTree(parsedData){
 
     console.log("TaxonomyTable cadastrada!: ");
     });
+}
+
+function populateNumberOfLeaves(node){
+  if(node.levelName == 'Espécie'){
+    node.numberOfLeaves = node.children.length;
+    return;
+  }
+  node.children.forEach(c => populateNumberOfLeaves(c));
+
+  node.numberOfLeaves =
+  node.children.map( c => c.numberOfLeaves).reduce((a, b) => a + b, 0)
 }
 
 async function  seedSpecies(parsedData){

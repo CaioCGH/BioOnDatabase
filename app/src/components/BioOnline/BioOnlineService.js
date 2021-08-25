@@ -144,6 +144,17 @@ export async function deleteSpecies(id) {
   });
   return await response.json();
 }
+
+export async function getTaxonomyTree() {
+  const url = `/api/taxonomy-tree`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  return await response.json();
+}
+
 //----------------------------------------------------------
 
 export async function getObservationsOfSpecies(payload) {
