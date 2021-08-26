@@ -5,11 +5,11 @@
     <ResultFormatSelector />
     <b-tabs   content-class="mt-4">
         <b-tab title="Busca espécie" ><BioOnlineSpeciesSearch/><SelectDataFormat /></b-tab>
-        <b-tab title="Busca local" ><BioOnlineLocalitySearch /></b-tab>
-        <b-tab title="Árvore Taxonômica" active ><TaxonomyTreeSearch /></b-tab>
+        <b-tab title="Busca local" active><BioOnlineLocalitySearch /></b-tab>
     </b-tabs>
     <AnimalRows />
     <BioOnlineTableRows  :rows="animalRows" :key="Date.now()"/>
+    <TaxonomyTreeSearch  :rows="animalRows" :key="Date.now() + 1"/>
   </div>
 </template>
 

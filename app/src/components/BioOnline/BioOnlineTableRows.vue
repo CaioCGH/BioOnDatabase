@@ -35,7 +35,6 @@ export default {
       var flatRows = [];
       for(let i = 0; i < rows.length; i++){
         const flatten = this.flattenObject(rows[i]);
-        console.log(flatten);
         flatRows.push(flatten);
       }
       return flatRows;

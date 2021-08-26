@@ -16,19 +16,7 @@ export default {
   data() {
     return {
         taxonomyTree: {},
-        tree: {
-        label: 'test株式会社',
-        children: [{
-          label: '総務部',
-          children: [{ label: '人事課' }, { label: '採用課' }]
-        }, {
-          label: '営業部',
-          children: [{ label: '第1課' }, { label: '第2課' }]
-        }, {
-          label: '経理部'
-        }]
       }
-    };
   },
   created() {
     this.feedTaxonomyTree();

@@ -12,7 +12,7 @@ export default new Vuex.Store({
       animalRows: [],
       mixedAnimalRows: [],
       displayType: 'display_cards',
-      localitiesWrapper: [{chosenLocality: 'Linear Parelheiros'}],
+      localitiesWrapper: [{chosenLocality: 'Tudo'}],
       conservationStatusDict:{
         "CR": "(Critically Endangered): Criticamente em Perigo",
         "EN": "(Endangered): Em Perigo",

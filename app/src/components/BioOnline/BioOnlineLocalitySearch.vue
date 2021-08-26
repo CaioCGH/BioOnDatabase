@@ -26,6 +26,13 @@
         variant="danger"
         class="mr-2"
       >
+      <b-spinner
+          v-show="loading"
+          small
+          variant="primary"
+          label="Spinning"
+        ></b-spinner>
+        <span v-show="loading">Aguarde, carregando</span>
         <span v-show="!loading">Remover local</span>
       </b-button>
     </div>
@@ -59,7 +66,7 @@
       >
         <span v-show="!loading">Baixar lista</span>
         <b-spinner
-          v-show="loadingDownload"
+          v-show="loading"
           small
           variant="primary"
           label="Spinning"
@@ -69,6 +76,13 @@
 
       <b-button @click="clearForms()" variant="outline-secondary" class="mr-2">
         <span v-show="!loading">Limpar campos</span>
+        <b-spinner
+          v-show="loading"
+          small
+          variant="primary"
+          label="Spinning"
+        ></b-spinner>
+        <span v-show="loading">Aguarde, carregando</span>
       </b-button>
     </div>
   </div>

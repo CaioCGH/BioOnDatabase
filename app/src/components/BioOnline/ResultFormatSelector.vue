@@ -19,6 +19,13 @@
               value="display_table"
               >Tabela</b-form-radio
             >
+
+            <b-form-radio
+              v-model="displayType"
+              :aria-describedby="ariaDescribedby"
+              value="display_tree"
+              >Árvore taxonômica</b-form-radio
+            >
           </b-form-group>
         </div>
       </div>

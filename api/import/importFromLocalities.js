@@ -25,6 +25,27 @@ function seedLocalities(parsedData){
         const locality = new Locality(parsedData[i]);
         save(locality);
     }
+    var specialLocality1 = new Locality({
+      'Nome Banco de Dados': 'Município de São Paulo',
+      'Nome Completo': 'Município de São Paulo',
+      'Observações Registradas': []
+      }
+    );
+    var specialLocality2 = new Locality({
+      'Nome Banco de Dados': 'Inventário da Fauna Silvestre',
+      'Nome Completo': 'Inventário da Fauna Silvestre',
+      'Observações Registradas': []
+      }
+    );
+    var specialLocality3 = new Locality({
+      'Nome Banco de Dados': 'Tudo',
+      'Nome Completo': 'Tudo',
+      'Observações Registradas': []
+      }
+    );
+    save(specialLocality1);
+    save(specialLocality2);
+    save(specialLocality3);
 }
 function seedDistricts(parsedData){
     var districts = {};
