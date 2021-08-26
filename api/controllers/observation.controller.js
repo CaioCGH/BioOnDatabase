@@ -13,24 +13,16 @@ module.exports = {
         res.json(locality['Observações Registradas']);
     },
     createObservation:  async function(req, res){
-        console.log(req.body.model);
         var observation = new Observation(req.body.model);
-        console.log(observation);
         //queremos que a aobservação tenha a mesma ID tanto na localidade quanto na espécie; ajuda no update
         observation['_id'] = generateId();
         var species = await Species.findOne({ 'Nome Científico': observation['Nome Científico']}).exec();
         var locality = await Locality.findOne({ 'Nome Completo': observation['Localidade']}).exec();
         
-        console.log(species['Nome Científico']);
-        console.log(locality['Nome Completo']);
-        console.log(species['Observações Registradas'].length);
-        console.log(locality['Observações Registradas'].length);
         
         species['Observações Registradas'].push(observation);
         locality['Observações Registradas'].push(observation);
         
-        console.log(species['Observações Registradas'].length);
-        console.log(locality['Observações Registradas'].length);
 
         var result = {};
         result['species'] = await Species.findOneAndUpdate({_id: species._id}, species,{

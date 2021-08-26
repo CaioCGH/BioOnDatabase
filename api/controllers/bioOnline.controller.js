@@ -90,7 +90,6 @@ module.exports = {
         return [];
     },
     downloadFromLocalities: async function(req, res){
-        console.log("req.body",req.body);
         var speciesList = await speciesFromLocalities(req.body.localities, req.body.filters);
         makeSheet(res, req.body.selectedArray, speciesList);
     }
@@ -112,7 +111,6 @@ async function speciesFromLocalities(localities, extraFilters){
             for(let k = 0; k < extraFilters.length; k++){
                 baseFilter[extraFilters[k].selectedKey] = extraFilters[k].selectedValue;
             }
-            console.log("baseFilter", baseFilter);
             const species = await Species.findOne(baseFilter).select('-__v -_id').exec();
             if(species){
                 speciesMap[species['Nome Científico']] = species;

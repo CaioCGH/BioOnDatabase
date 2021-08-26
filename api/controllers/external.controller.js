@@ -5,7 +5,6 @@ const inaturalist = require("../makers/inaturalist");
 module.exports = {
   wikiavesSearch: async function (req, res) {
     const searchCriteria = req.body.searchCriteria;
-    console.log(searchCriteria);
     scraper
       .scrapeWikiavesSearch(searchCriteria.wikiavesSearchTerm)
       .then((data) => {
@@ -20,14 +19,12 @@ module.exports = {
   },
   ebirdSearch: async function (req, res) {
     const searchCriteria = req.body.searchCriteria;
-    console.log(searchCriteria);
     ebird.ebirdSearch(searchCriteria.scientificName).then((data) => {
       res.json(data);
     });
   },
   inaturalistSearch: async function (req, res) {
     const searchCriteria = req.body.searchCriteria;
-    console.log(searchCriteria);
     inaturalist
       .inaturalistSearch(searchCriteria.scientificName)
       .then((data) => {
