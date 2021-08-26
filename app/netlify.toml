@@ -1,6 +1,19 @@
+#--------------------------login-------------------------
+[[redirects]]
+  from = "/api/auth/signin"
+  to = "https://bioondatabase.herokuapp.com/api/auth/signin"
+  status = 200
+  force = true
+#----------------------GENERAL DATA-----------------------------------
 [[redirects]]
   from = "/api/bio-online-columns"
   to = "https://bioondatabase.herokuapp.com/api/bio-online-columns"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/bio-online-filter-dict"
+  to = "https://bioondatabase.herokuapp.com/api/bio-online-filter-dict"
   status = 200
   force = true
 
