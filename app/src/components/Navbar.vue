@@ -6,6 +6,9 @@
         <b-navbar-nav>
           <!-- <b-nav-text><router-link to="/map">Mapa</router-link></b-nav-textS> -->
           <b-nav-item v-if="showSpecies"><router-link to="/species">Espécies</router-link></b-nav-item>
+          <b-nav-item v-if="showSpecies"><router-link to="/localities">Localidades</router-link></b-nav-item>
+          <b-nav-item v-if="showSpecies"><router-link to="/observers">Observadores</router-link></b-nav-item>
+
           <b-nav-item><router-link to="/about">Sobre</router-link></b-nav-item>
         </b-navbar-nav >
 

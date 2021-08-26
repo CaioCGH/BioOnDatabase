@@ -233,3 +233,116 @@ export async function findAllObservers() {
   });
   return await response.json();
 }
+
+//--------------------LOCALITIES------------------------
+
+export async function getAllLocalities() {
+  const url = `/api/all-localities`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  return await response.json();
+}
+
+export async function getLocalities(payload) {
+  let queryString = querystring.stringify(payload);
+  const url = `/api/localities-by-scientific-name?${queryString}`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  return await response.json();
+}
+
+export async function createLocality(model) {
+  const url = `/api/create-locality`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify( {model}),
+  });
+  return await response.json();
+}
+
+export async function updateLocality(payload) {
+  const url = `/api/update-locality`;
+  console.log(url);
+  console.log(payload);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return await response.json();
+}
+
+export async function deleteLocality(_id) {
+  const url = `/api/delete-locality`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify( {'_id': _id}),
+  });
+  return await response.json();
+}
+
+//--------------------OBSERVERS------------------------
+
+export async function getAllObservers() {
+  const url = `/api/all-observers`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  return await response.json();
+}
+
+export async function getObserver(payload) {
+  let queryString = querystring.stringify(payload);
+  const url = `/api/oberserver-by-name?${queryString}`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  return await response.json();
+}
+
+export async function createObserver(model) {
+  const url = `/api/create-observer`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify( {model}),
+  });
+  return await response.json();
+}
+
+export async function updateObserver(payload) {
+  const url = `/api/update-observer`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return await response.json();
+}
+
+export async function deleteObserver(_id) {
+  const url = `/api/delete-observer`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify( {'_id': _id}),
+  });
+  return await response.json();
+}

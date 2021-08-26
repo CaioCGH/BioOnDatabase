@@ -4,6 +4,7 @@ const externalController = require("../controllers/external.controller");
 const speciesController = require("../controllers/species.controller");
 const observationController = require("../controllers/observation.controller");
 const observerController = require("../controllers/observer.controller");
+const localityController = require("../controllers/locality.controller"); 
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -43,4 +44,17 @@ module.exports = function(app) {
   app.post("/api/delete-observation", observationController.deleteObservation);
 
   app.get("/api/find-all-observers", observerController.findAllObservers);
+
+
+  app.get("/api/all-localities", localityController.getAllLocalities);
+  app.get("/api/locality-by-name", localityController.getLocality);
+  app.post("/api/create-locality", localityController.createLocality);
+  app.post("/api/update-locality", localityController.updateLocality);
+  app.post("/api/delete-locality", localityController.deleteLocality);
+
+  app.get("/api/all-observers", observerController.getAllObservers);
+  app.get("/api/observer-by-name", observerController.getObserver);
+  app.post("/api/create-observer", observerController.createObserver);
+  app.post("/api/update-observer", observerController.updateObserver);
+  app.post("/api/delete-observer", observerController.deleteObserver);
 }

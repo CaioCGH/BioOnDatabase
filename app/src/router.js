@@ -19,6 +19,8 @@ export const router = new Router({
       { path: '/login', component: LogIn },
       { path: '/profile', component: () => import('./components/Login/Profile.vue') },
       { path: '/species', component: () => import('./pages/Species.vue') },
+      { path: '/localities', component: () => import('./pages/Localities.vue') },
+      { path: '/observers', component: () => import('./pages/Observers.vue') },
     ]
   });
 
