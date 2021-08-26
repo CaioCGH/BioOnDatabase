@@ -6,8 +6,9 @@ const app = express();
 const port = 3000;
 
 var corsOptions = {
-  origin: "http://localhost:8080"
+  origin: process.env.CORS_ORIGIN
 };
+// origin: "http://localhost:8080"
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
