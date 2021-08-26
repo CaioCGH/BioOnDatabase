@@ -82,7 +82,6 @@ export default {
   methods: {
     async refreshObservations () {
       this.loading = true;
-      console.log("REFRESHING!");
       if(this.$props.species_id){
           this.$props.observations = await getObservationsOfSpecies({_id :this.$props.species_id})
       }else if(this.$props.locality_id){
@@ -107,7 +106,6 @@ export default {
     async deleteObservation (model) {
       if (confirm('Tem certeza que deseja deletar esta observação?')) {
         var result = await deleteObservation(model);
-        console.log(result);
         if(!result.species){
             this.modalMessage = 'Problema ao deletar a observação na espécie'
         }else if(!result.locality){

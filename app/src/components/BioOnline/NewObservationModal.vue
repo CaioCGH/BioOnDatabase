@@ -109,13 +109,11 @@ export default {
     },
     async saveObservation() {
       var newModel = this.model;
-      console.log("nova obs", newModel);
       if (this.model._id) {
         newModel = await updateObservation(this.model._id, this.model);
       } else {
         newModel = await createObservation(this.model);
       }
-        console.log("nova obs", newModel);
 
       if (newModel == this.model) {
         this.saveMessage = "Nenhuma propriedade foi alterada";

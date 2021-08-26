@@ -11,7 +11,6 @@ exports.makeSheet =  async (response, selectedArray, speciesList) =>{
       columns.push(
         { header: selectedArray[i], key: selectedArray[i], width: (selectedArray[i].length + 5 )})
     }
-    console.log(columns);
     worksheet.columns = columns;
     var headerRow = worksheet.getRow(1);
     headerRow.fill = {
@@ -22,14 +21,11 @@ exports.makeSheet =  async (response, selectedArray, speciesList) =>{
     };
     for(var i = 0; i < speciesList.length; i++){
       var flatO = flattenSpecies(speciesList[i].toJSON());
-      console.log(speciesList[i].toJSON());
-      console.log(flatO);
     //   throw 'erm...'
       worksheet.addRow(flatO);
     }
     response.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-    // console.log(worksheet);
     await workbook.xlsx.write(response);
     response.end();
 }

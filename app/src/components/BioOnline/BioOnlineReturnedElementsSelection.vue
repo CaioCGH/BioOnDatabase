@@ -85,7 +85,6 @@ export default {
         selectionToTable.push(...this.$store.state.localitiesWrapper.map(w => w.chosenLocality));
       }
       this.$store.commit("updateSelectedArrayToTable", selectionToTable);
-      console.log("updating")
     }
   },
   created(){

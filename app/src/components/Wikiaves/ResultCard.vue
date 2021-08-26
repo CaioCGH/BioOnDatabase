@@ -40,7 +40,6 @@ export default {
             }
             wikiavesSearchByWid(payload).then(
                 (value) => {
-                    console.log(value);
                     this.animalData = value;
                     this.hasSearched = true;
                     this.loading = false;

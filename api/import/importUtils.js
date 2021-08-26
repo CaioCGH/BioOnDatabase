@@ -61,7 +61,6 @@ module.exports.save = (obj) => {
     if (err) {
       console.log("erro:", err);
     }
-    // console.log("Obj cadastrado: " + obj);
   });
 };
 module.exports.sortObject = (unordered) => {

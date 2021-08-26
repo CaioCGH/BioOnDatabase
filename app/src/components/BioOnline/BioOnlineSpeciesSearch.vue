@@ -73,7 +73,6 @@ export default {
         commonName: this.chosenCommonName.trim(),
       };
       searchAnimal(payload).then((value) => {
-        console.log(value);
         this.$store.state.animalRows = value;
         this.result = true;
         this.loading = false;

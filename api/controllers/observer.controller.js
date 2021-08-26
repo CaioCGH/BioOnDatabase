@@ -8,8 +8,6 @@ module.exports = {
         var observers = await Observer.find().exec();
         var observersMap = {};
         for(let i = 0; i < observers.length; i++){
-            console.log(observers[i]);
-            console.log(observers[i]['nome']);
             observersMap[observers[i]['nome']] = observers[i];
         }
         res.json(observersMap);

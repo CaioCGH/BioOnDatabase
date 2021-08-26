@@ -6,7 +6,7 @@ const app = express();
 const port = 3000;
 
 var corsOptions = {
-  origin: process.env.CORS_ORIGIN
+  origin: 'https://bioondatabase.netlify.app'
 };
 // origin: "http://localhost:8080"
 
@@ -20,7 +20,6 @@ const db = require("./models");
 const dbConfig = require("./config/db.config")
 const Role = db.role;
 var connectionString = "";
-console.log('NODE_ENV', process.env.NODE_ENV);
 if(process.env.NODE_ENV == 'development'){
   connectionString = `mongodb://${dbConfig.USERNAME}:${dbConfig.PASSWORD}@${dbConfig.HOST}:${dbConfig.PORT}`;
   // connectionString = `mongodb+srv://${dbConfig.CLOUD_USERNAME}:${dbConfig.CLOUD_PASSWORD}@${dbConfig.CLOUD_CLUSTERADDR}/${dbConfig.CLOUD_DB}?retryWrites=true&w=majority`;
@@ -28,8 +27,7 @@ if(process.env.NODE_ENV == 'development'){
   connectionString = `mongodb+srv://${dbConfig.CLOUD_USERNAME}:${dbConfig.CLOUD_PASSWORD}@${dbConfig.CLOUD_CLUSTERADDR}/${dbConfig.CLOUD_DB}?retryWrites=true&w=majority`;
 }
 
-console.log("connecting to:");
-console.log(connectionString);
+console.log("connecting to:", connectionString, "in", process.env.NODE_ENV, "mode" );
 
 
 db.mongoose

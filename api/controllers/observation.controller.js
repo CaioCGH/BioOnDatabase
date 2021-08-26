@@ -32,17 +32,14 @@ module.exports = {
             new: true,
             upsert: true}).exec();
         
-        console.log("result", result);
         res.json(result);
     },
     updateObservation: async function(req, res){
-        console.log(req.body.model['Localidade']);
         var observation = new Observation(req.body.model);
         var species = (await Species.findOne({ 'Nome Científico': req.body.model['Nome Científico']}).exec()).toJSON();
         var locality = (await Locality.findOne({ 'Nome Completo': req.body.model['Localidade']}).exec()).toJSON();
         
         for(let i = 0; i < species['Observações Registradas'].length; i++){
-            console.log(species['Observações Registradas'][i]._id, observation._id);
             if('' + species['Observações Registradas'][i]._id == observation._id){
                 species['Observações Registradas'][i] = observation;
                 break;
@@ -63,12 +60,10 @@ module.exports = {
         result['locality'] =  await Locality.findOneAndUpdate({_id: locality._id}, locality,{
             new: true,
             upsert: true}).exec();
-        console.log(result);
         res.json(result);
     },
     deleteObservation: async function(req, res){
         var observation = new Observation(req.body.model);
-        console.log(observation);
         var species = (await Species.findOne({ 'Nome Científico': req.body.model['Nome Científico']}).exec()).toJSON();
         var locality = (await Locality.findOne({ 'Nome Completo': req.body.model['Localidade']}).exec()).toJSON();
         
@@ -83,7 +78,6 @@ module.exports = {
             new: true}).exec();
         result['locality'] =  await Locality.findOneAndUpdate({_id: locality._id}, newLocality,{
             new: true}).exec();
-        console.log("result", result);
         res.json(result);
     }
 }

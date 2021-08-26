@@ -11,7 +11,6 @@ module.exports = {
         res.json(animal);
     },
     createSpecies:  async function(req, res){
-        console.log(req.body.model);
         var species = new Species(req.body.model);
         species['Observações Registradas'] = [];
         save(species);
@@ -28,9 +27,7 @@ module.exports = {
         res.json(result);
     },
     deleteSpecies: async function(req, res){
-        console.log('on delete!', req.body);
         let result = await Species.deleteOne({ "_id" : req.body.id });
-        console.log(result);
         res.json(result);
     },
     getTaxonomyTree:  async function(req, res){

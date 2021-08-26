@@ -118,7 +118,6 @@ export default {
     },
     update() {
       this.$store.commit("updateSelectedArrayOnLocalities", this.localities);
-      console.log("updating...123");
     },
   },
   computed: {
