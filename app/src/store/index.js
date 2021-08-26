@@ -11,7 +11,7 @@ export default new Vuex.Store({
       selectedArrayToTable: ['Nome Científico', 'Nome Comum'],
       animalRows: [],
       mixedAnimalRows: [],
-      displayType: 'display_cards',
+      displayType: 'display_tree',
       localitiesWrapper: [{chosenLocality: 'Tudo'}],
       conservationStatusDict:{
         "CR": "(Critically Endangered): Criticamente em Perigo",

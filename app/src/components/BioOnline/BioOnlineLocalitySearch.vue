@@ -1,5 +1,7 @@
 <template>
   <div>
+    <b-alert :show="loading" variant="info">Carregando...</b-alert>
+    <b-alert :show="afterAWhile" variant="info">Pode demorar um pouco se tiver aberto o site agora</b-alert>
     <form
       v-for="localityWrapper in localitiesWrapper"
       :key="localityWrapper.id"
@@ -104,6 +106,7 @@ export default {
       loading: false,
       loadingDownload: false,
       timesOpened: 0,
+      afterAWhile: false
     };
   },
   created() {
@@ -140,9 +143,16 @@ export default {
       });
     },
     feedBioOnlineLocalities() {
+      
       getBioOnlineLocalities().then((value) => {
         this.localities.push(...value);
+        this.afterAWhile = false;
       });
+      setTimeout(() => {
+        if(this.localities.length < 10 ){
+          this.afterAWhile = true;
+        }
+      }, 5000);
     },
     clearForms() {
       this.$store.state.localitiesWrapper = [{ chosenLocality: "" }];
