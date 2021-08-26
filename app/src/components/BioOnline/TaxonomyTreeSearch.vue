@@ -23,7 +23,6 @@ export default {
   methods: {
     createTree() {
       var data = this.$store.state.animalRows;
-      console.log("this.$store.animalRows", this.$store.state.animalRows);
       this.dataTree = createTree(data);
     }
   },

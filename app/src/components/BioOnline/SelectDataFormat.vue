@@ -57,9 +57,9 @@ export default {
       this.loading = true;
       const payload = {
         localities: this.$store.state.localitiesWrapper.map(e => e.chosenLocality),
-        selectedArray: this.$store.state.selectedArrayToTable};
-      console.log("payload", payload);
-      downloadFromLocalities(payload     ).then((value) => {
+        selectedArray: this.$store.state.selectedArrayToTable,
+        filters: this.$store.state.selectedFilters};
+      downloadFromLocalities(payload ).then((value) => {
         value;
       });
       this.loading = false;

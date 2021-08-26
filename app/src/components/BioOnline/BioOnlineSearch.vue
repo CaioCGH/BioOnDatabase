@@ -2,6 +2,7 @@
   <div class="container">
     <SearchSourcesDescription :description="description"/>
     <BioOnlineReturnedElementsSelection />
+    <BioOnlineFilter />
     <ResultFormatSelector />
     <b-tabs   content-class="mt-4">
         <b-tab title="Busca espécie" ><BioOnlineSpeciesSearch/><SelectDataFormat /></b-tab>
@@ -25,6 +26,7 @@ import BioOnlineTableRows from './BioOnlineTableRows.vue'
 import BioOnlineReturnedElementsSelection from './BioOnlineReturnedElementsSelection.vue'
 import ResultFormatSelector from './ResultFormatSelector.vue'
 import SelectDataFormat from "./SelectDataFormat.vue";
+import BioOnlineFilter from "./BioOnlineFilter.vue";
 
 
 
@@ -40,6 +42,7 @@ export default {
       BioOnlineTableRows,
       ResultFormatSelector,
           SelectDataFormat,
+          BioOnlineFilter
 
   },
   data(){

@@ -9,6 +9,8 @@ export default new Vuex.Store({
     state: {
       selectedArrayToCards: ['Nome Científico', 'Nome Comum', 'Observações Registradas'],
       selectedArrayToTable: ['Nome Científico', 'Nome Comum'],
+      filterDict: {},
+      selectedFilters: [],
       animalRows: [],
       mixedAnimalRows: [],
       displayType: 'display_tree',
@@ -33,6 +35,9 @@ export default new Vuex.Store({
       },
       updateSelectedArrayToTable(state, array){
         state.selectedArrayToTable = array;
+      },
+      updateFilterDict(state, dict){
+        state.filterDict = dict;
       },
       updateAnimalRows(state, array){
         state.animalRows = array;

@@ -21,7 +21,6 @@ export function createTree(data) {
     numberOfLeaves: 0,
     children: [],
   };
-  console.log("data",data);
   for (let i = 0; i < data.length; i++) {
     var parent = root;
     for (var j = 0; j < TAXONOMY_LEVELS.length; j++) {
@@ -90,6 +89,5 @@ function checkDuplicateAndPush(array, element) {
 }
 
 function t(string) {
-    console.log("t", string);
   return string.trim().replace(/\s+/g, " ");
 }

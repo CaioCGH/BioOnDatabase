@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-alert :show="loading" variant="info">Carregando...</b-alert>
-    <b-alert :show="afterAWhile" variant="info">Pode demorar um pouco se tiver aberto o site agora</b-alert>
+    <b-alert :show="loadingRefresh" variant="info">Carregando...</b-alert>
+    <b-alert :show="loadingRefresh && afterAWhile " variant="info">Pode demorar um pouco se tiver aberto o site agora</b-alert>
     <form
       v-for="localityWrapper in localitiesWrapper"
       :key="localityWrapper.id"
@@ -105,6 +105,7 @@ export default {
       result: false,
       loading: false,
       loadingDownload: false,
+      loadingRefresh: false,
       timesOpened: 0,
       afterAWhile: false
     };
@@ -121,6 +122,7 @@ export default {
       }
       const payload = {
         localities: chosenLocalities,
+        filters: this.$store.state.selectedFilters
       };
       bioOnlineSearchAnimalsInLocalities(payload).then((value) => {
         this.animalRows = value;
@@ -143,9 +145,11 @@ export default {
       });
     },
     feedBioOnlineLocalities() {
+      this.loadingRefresh = true;
       
       getBioOnlineLocalities().then((value) => {
         this.localities.push(...value);
+        this.loadingRefresh = false;
         this.afterAWhile = false;
       });
       setTimeout(() => {

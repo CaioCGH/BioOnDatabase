@@ -52,7 +52,7 @@ export default {
   },
   created(){
     if(this.$props.dataNode.name == ""){
-      this.showChildren = true;
+      this.changeButtonStyle();
     }
 
   },

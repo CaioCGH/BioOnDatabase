@@ -18,6 +18,39 @@ module.exports = {
           }
             res.json(returnedElementsObject);
     },
+    bioOnlineFilterDict:  async function(req, res){
+        const INTEREST_KEYS = ["Taxonomia",
+            "Biologia",
+            "Estado de Conservação"];
+        var filterDict = {"Taxonomia": {},
+                "Biologia": {},
+                "Estado de Conservação": {}};
+
+        const speciesList = await Species.find().exec();
+
+        for(let i = 0; i < speciesList.length; i++){
+            var species = speciesList[i].toJSON();
+            var outerKeys = Object.keys(species);
+            for(let j = 0; j < outerKeys.length; j++){
+                var outerKey = outerKeys[j];
+                var outerAttribute = species[outerKey];
+                if(INTEREST_KEYS.includes(outerKey)){
+                    var innerKeys = Object.keys(outerAttribute);
+                    for(let k = 0; k < innerKeys.length; k++){
+                        var innerKey = innerKeys[k];
+                        var innerAttribute = outerAttribute[innerKey];
+                        if(!filterDict[outerKey][innerKey]){
+                            filterDict[outerKey][innerKey] = {selected: [], domain: []}    
+                        }
+                        var currentDomainAsSet = new Set(filterDict[outerKey][innerKey].domain);
+                        currentDomainAsSet.add(innerAttribute);
+                        filterDict[outerKey][innerKey].domain = [...currentDomainAsSet].sort();
+                    }    
+                }
+            }
+        }
+        res.json(filterDict);
+    },
     generaSpeciesCommonNames:  async function(req, res){
         const root = await TaxonomyNode.findOne({'name':"Animalia"}).exec();
         const allGenera = findAllGeneraToMap(root);
@@ -33,12 +66,10 @@ module.exports = {
         res.json(localities.map(locality => locality['Nome Completo']).sort());
     },
     speciesInLocalities: async function(req, res){
-        console.log(req.query.localities);
-        var speciesList = await speciesFromLocalities(req.query.localities);
+        var speciesList = await speciesFromLocalities(req.body.localities, req.body.filters);
         res.json(speciesList);
     },
     searchAnimal: async function(req, res){
-        console.log("find", req.query)
         const genus = req.query.genus;
         const species = req.query.species;
         const commonName = req.query.commonName;
@@ -59,29 +90,33 @@ module.exports = {
         return [];
     },
     downloadFromLocalities: async function(req, res){
-        console.log("req.query", req.body);
-        var speciesList = await speciesFromLocalities(req.body.searchCriteria.localities);
-        makeSheet(res, req.body.searchCriteria.selectedArray, speciesList);
+        console.log("req.body",req.body);
+        var speciesList = await speciesFromLocalities(req.body.localities, req.body.filters);
+        makeSheet(res, req.body.selectedArray, speciesList);
     }
 }
 
-async function speciesFromLocalities(localities){
-    console.log(localities);
+async function speciesFromLocalities(localities, extraFilters){
     var localitiesNames = [];
     if(Array.isArray(localities)){
         localitiesNames = localities;
     }else{
         localitiesNames.push(localities);
     }
-    console.log("localitiesNames", localitiesNames);
     const speciesMap = {};
     for(let i = 0; i < localitiesNames.length; i++){
         const locality = (await Locality.find({'Nome Completo': localitiesNames[i]}).exec())[0];
         const observations = locality['Observações Registradas'];
-        console.log(observations);
         for(let j = 0; j < observations.length; j++){
-            const species = await Species.findOne({'Nome Científico': observations[j]['Nome Científico']}).select('-__v -_id').exec();
-            speciesMap[species['Nome Científico']] = species;
+            var baseFilter = {'Nome Científico': observations[j]['Nome Científico']};
+            for(let k = 0; k < extraFilters.length; k++){
+                baseFilter[extraFilters[k].selectedKey] = extraFilters[k].selectedValue;
+            }
+            console.log("baseFilter", baseFilter);
+            const species = await Species.findOne(baseFilter).select('-__v -_id').exec();
+            if(species){
+                speciesMap[species['Nome Científico']] = species;
+            }
         }
     }
     return Object.entries(speciesMap).map(entry => entry[1]);

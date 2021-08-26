@@ -30,8 +30,18 @@ export async function getGeneraSpeciesCommonName() {
 }
 
 export async function bioOnlineSearchAnimalsInLocalities(payload) {
-  let queryString = querystring.stringify(payload);
-  const url = `/api/bio-online-search-species-in-localities?${queryString}`;
+  const url = `/api/bio-online-search-species-in-localities`;
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify( payload ),
+  });
+  return await response.json();
+}
+
+export async function getBioOnlineColumns() {
+  const url = `/api/bio-online-columns`;
   console.log(url);
   const response = await fetch(url, {
     method: "GET",
@@ -40,8 +50,8 @@ export async function bioOnlineSearchAnimalsInLocalities(payload) {
   return await response.json();
 }
 
-export async function getBioOnlineColumns() {
-  const url = `/api/bio-online-columns`;
+export async function getBioOnlineFilterDict() {
+  const url = `/api/bio-online-filter-dict`;
   console.log(url);
   const response = await fetch(url, {
     method: "GET",
@@ -77,7 +87,7 @@ export async function downloadFromLocalities(payload) {
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({searchCriteria: payload}),
+    body: JSON.stringify( payload),
   });
   const downloadSheetBlob = await response.blob();
   const downloadSheetObjectURL = URL.createObjectURL(downloadSheetBlob);

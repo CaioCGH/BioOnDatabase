@@ -4,13 +4,14 @@
       <h2 v-if="animalRows.length === 1">{{ animalRows.length }} resultado</h2>
       <h2 v-else>{{ animalRows.length }} resultados</h2>
       <div v-for="animalRow in animalRows" :key="animalRow.id">
-        <BioOnlineAnimalCard
-          :animalInfo="animalRow"
-          :key="Date.now() /*key para forçar o componente a recarregar*/"
-        />
+
+          <BioOnlineAnimalCard
+            :animalInfo="animalRow"
+            :key="Date.now() /*key para forçar o componente a recarregar*/"
+          />
+        </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
