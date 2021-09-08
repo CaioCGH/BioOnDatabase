@@ -61,8 +61,8 @@ exports.signup = (req, res) => {
     }
   });
 };
-
-exports.signin = (req, res) => {
+module.exports = {
+signin: async function(req, res){
   User.findOne({
     username: req.body.username
   })
@@ -98,7 +98,15 @@ exports.signin = (req, res) => {
       for (let i = 0; i < user.roles.length; i++) {
         authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
       }
-      res.status(200).send({
+
+      console.log({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        roles: authorities,
+        accessToken: token}
+      )
+      res.json({
         id: user._id,
         username: user.username,
         email: user.email,
@@ -106,4 +114,5 @@ exports.signin = (req, res) => {
         accessToken: token
       });
     });
-};
+  }
+}

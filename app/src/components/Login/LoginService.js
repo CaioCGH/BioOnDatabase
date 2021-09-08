@@ -6,9 +6,7 @@ export async function signin(payload) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    const loginResponse = await response.json();
-    console.log(loginResponse);
-  
-    return loginResponse;
+    
+    return await response.json();
   }
   

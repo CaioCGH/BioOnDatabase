@@ -5,15 +5,15 @@ const cors = require("cors");
 const app = express();
 const port = 3000;
 
-var corsOptions = {
-  origin: 'https://bioondatabase.netlify.app'
-};
-// origin: "http://localhost:8080"
+// var corsOptions = {
+//   origin: 'https://bioondatabase.netlify.app'
+//   origin: "http://localhost:8080"
+// };
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 
 const db = require("./models");
@@ -87,7 +87,6 @@ app.get("/", function (req, res) {
 // routes
 require('./routes/auth.routes')(app); 
 require('./routes/user.routes')(app);
-
 require('./routes/bioOnline.routes')(app);
 
 app.listen(process.env.PORT || 3000, () => {

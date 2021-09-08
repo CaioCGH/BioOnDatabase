@@ -83,16 +83,17 @@ export default {
       if (this.user.username && this.user.password) {
         console.log("dispaching login");
         this.$store.dispatch("auth/login", this.user).then(
-          () => {
-            console.log("login done");
-            this.$router.push("/profile");
-          },
-          (error) => {
-            this.loading = false;
-            this.message =
-              (error.response && error.response.data) ||
-              error.message ||
-              error.toString();
+          (data) => {
+            if(data.accessToken){
+              console.log("login done", data);
+              this.$router.push("/profile");
+            }else{
+              this.loading = false;
+              this.message =
+                (data.response && data.response.data) ||
+                data.message ||
+              data.toString();
+            }
           }
         );
       }
