@@ -18,8 +18,8 @@
           </b-button>
         </template>
 
-        <template #cell(value)="data">
-          <span v-b-tooltip.hover :title="conservationStatusDict[data.value]">{{
+        <template  #cell(value)="data">
+          <span >{{
             data.value
           }}</span>
         </template>
@@ -38,6 +38,9 @@
               </template>
               <template #row-details="row">
                 <b-table thead-class="d-none" :items="row.item.innerObject"></b-table>
+              </template>
+              <template v-slot:cell()="data">
+                <span v-b-tooltip.hover :title="getTooltip(data.item.column1,data.value)">{{ data.value}}</span>
               </template>
 
             </b-table>
@@ -60,6 +63,27 @@ export default {
     this.transformAnimalDictIntoRows();
   },
   methods: {
+    getTooltip(column, cell){
+      if(this.$store.state.CONCERN_CATEGORIES.includes(column)){
+        let tooltipText = this.$store.state.tooltipDict["Categorias de Ameaça"][cell];
+        if(tooltipText){
+          return tooltipText;
+        }else{
+          return "";
+        }
+      }
+      var innerDict = this.$store.state.tooltipDict[column];
+      if(innerDict){
+        let tooltipText = this.$store.state.tooltipDict[column][cell];
+        if(tooltipText){
+          return tooltipText;
+        }else{
+          return "";
+        }
+      }else{
+        return "";
+      }
+    },
     newtransformAnimalDictIntoRows(){
 
     },

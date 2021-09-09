@@ -10,7 +10,7 @@
         <b-tab title="Busca espécie" ><BioOnlineSpeciesSearch/><SelectDataFormat /></b-tab>
         <b-tab title="Busca local" active><BioOnlineLocalitySearch /></b-tab>
     </b-tabs>
-    <AnimalRows />
+    <AnimalRows :rows="animalRows" :key="Date.now()+3"/>
     <BioOnlineTableRows  :rows="animalRows" :key="Date.now()"/>
     <TaxonomyTreeSearch  :rows="animalRows" :key="Date.now() + 1"/>
   </div>

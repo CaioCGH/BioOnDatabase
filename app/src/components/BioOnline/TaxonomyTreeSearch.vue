@@ -1,6 +1,11 @@
 <template>
-  <div v-if="displayType === 'display_tree' && animalRows.length > 0">
+  <div v-if="displayType === 'display_tree'">
+      <div class="container" v-if="animalRows.length > 0 || hasSearched">
+
+      <h3 v-if="animalRows.length == 1">{{ animalRows.length }} resultado</h3>
+      <h3 v-else>{{ animalRows.length }} resultados</h3>
     <Node :dataNode="dataTree" />
+  </div>
   </div>
 </template>
 
@@ -50,6 +55,11 @@ export default {
     localitiesWrapper: {
       get() {
         return this.$store.state.localitiesWrapper;
+      },
+    },
+    hasSearched: {
+      get() {
+        return this.$store.state.hasSearched;
       },
     },
   }

@@ -128,6 +128,7 @@ export default {
         this.animalRows = value;
         this.result = true;
         this.loading = false;
+        this.$store.state.hasSearched=true;
       });
     },
     downLoadList() {

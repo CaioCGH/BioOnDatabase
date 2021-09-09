@@ -1,6 +1,7 @@
 <template>
-  <div v-if="displayType === 'display_table' && animalRows.length > 0">
-    <div>
+  <div v-if="displayType === 'display_table'">
+        <div class="container" v-if="animalRows.length > 0 || hasSearched">
+
       <h3 v-if="animalRows.length == 1">{{ animalRows.length }} resultado</h3>
       <h3 v-else>{{ animalRows.length }} resultados</h3>
       <b-table
@@ -8,20 +9,51 @@
         hover
         :items="animalRowsInnerProperties(rows)"
         :fields="selectedArrayToTable"
-      ></b-table>
+      >
+      
+      <template v-slot:cell()="data">
+        <span v-b-tooltip.hover :title="getTooltip(data.field.key,data.value)">{{ data.value}}</span>
+      </template>
+      
+      
+      </b-table>
     </div>
   </div>
 </template>
 <script>
   import {flattenSpecies } from './FilterUtils';
 export default {
-
-
+  
+  
   props: ['rows'],
   data() {
-    return {};
+    return {
+    };
   },
   methods: {
+    getTooltip(column, cell){
+      
+
+      if(this.$store.state.CONCERN_CATEGORIES.includes(column)){
+        let tooltipText = this.$store.state.tooltipDict["Categorias de Ameaça"][cell];
+        if(tooltipText){
+          return tooltipText;
+        }else{
+          return "";
+        }
+      }
+      var innerDict = this.$store.state.tooltipDict[column];
+      if(innerDict){
+        let tooltipText = this.$store.state.tooltipDict[column][cell];
+        if(tooltipText){
+          return tooltipText;
+        }else{
+          return "";
+        }
+      }else{
+        return "";
+      }
+    },
     flattenObject(obj){
       const flattened = {}
 
@@ -67,6 +99,16 @@ export default {
     localitiesWrapper: {
       get() {
         return this.$store.state.localitiesWrapper;
+      },
+    },
+    hasSearched: {
+      get() {
+        return this.$store.state.hasSearched;
+      },
+    },
+    tooltipDict: {
+      get() {
+        return this.$store.state.tooltipDict;
       },
     },
   },
