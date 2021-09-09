@@ -32,8 +32,6 @@ export default {
   },
   methods: {
     getTooltip(column, cell){
-      
-
       if(this.$store.state.CONCERN_CATEGORIES.includes(column)){
         let tooltipText = this.$store.state.tooltipDict["Categorias de Ameaça"][cell];
         if(tooltipText){
