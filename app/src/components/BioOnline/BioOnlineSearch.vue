@@ -1,9 +1,11 @@
 <template>
   <div class="container">
     <SearchSourcesDescription :description="description"/>
+    <b-card-group deck>
     <BioOnlineReturnedElementsSelection />
     <BioOnlineFilter />
     <ResultFormatSelector />
+    </b-card-group>
     <b-tabs   content-class="mt-4">
         <b-tab title="Busca espécie" ><BioOnlineSpeciesSearch/><SelectDataFormat /></b-tab>
         <b-tab title="Busca local" active><BioOnlineLocalitySearch /></b-tab>

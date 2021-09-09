@@ -1,13 +1,14 @@
 <template>
   <div>
     <b-button
+    class="m-2"
       :class="visible ? null : 'collapsed'"
       :aria-expanded="visible ? 'true' : 'false'"
       aria-controls="collapse-4"
       @click="visible = !visible"
     >
-      <span v-if="visible">Esconder</span>
-      <span v-else>Mostrar</span>
+      <span v-if="visible">Esconder detalhes</span>
+      <span v-else>Mostrar detalhes</span>
     </b-button>
     <b-collapse id="collapse-4" v-model="visible" class="mt-2 mb-2">
       <b-card><span v-html="description"></span></b-card>
@@ -26,7 +27,7 @@ export default {
   },
   data(){
     return{
-      visible: true
+      visible: false
     }
   }
 }

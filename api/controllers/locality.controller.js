@@ -11,7 +11,9 @@ module.exports = {
         res.json(locality);
     },
     createLocality:  async function(req, res){
+        console.log(req.body.model);
         var locality = new Locality(req.body.model);
+        console.log(locality);
         locality['Observações Registradas'] = [];
         save(locality);
         res.json(locality);

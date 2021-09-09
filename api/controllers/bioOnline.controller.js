@@ -67,7 +67,11 @@ module.exports = {
     },
     speciesInLocalities: async function(req, res){
         var speciesList = await speciesFromLocalities(req.body.localities, req.body.filters);
-        res.json(speciesList);
+        if(speciesList){
+            res.json(speciesList);
+        }else{
+            res.status(404).send("Localidade não encontrada");
+        }
     },
     searchAnimal: async function(req, res){
         const genus = req.query.genus;
@@ -105,6 +109,9 @@ async function speciesFromLocalities(localities, extraFilters){
     const speciesMap = {};
     for(let i = 0; i < localitiesNames.length; i++){
         const locality = (await Locality.find({'Nome Completo': localitiesNames[i]}).exec())[0];
+        if(!locality){
+            return null;
+        }
         const observations = locality['Observações Registradas'];
         for(let j = 0; j < observations.length; j++){
             var baseFilter = {'Nome Científico': observations[j]['Nome Científico']};

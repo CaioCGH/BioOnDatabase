@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Main from './pages/Main.vue';
 import About from './pages/About.vue';
 import Map from './pages/Map.vue';
+import OtherSources from './pages/OtherSources.vue';
 // import Profile from './components/Login/Profile.vue';
 import LogIn from './pages/LogIn.vue';
 
@@ -15,6 +16,7 @@ export const router = new Router({
     routes: [
       { path: '/', component: Main },
       { path: '/about', component: About },
+      { path: '/other-sources', component: OtherSources },
       { path: '/map', component: Map },
       { path: '/login', component: LogIn },
       { path: '/profile', component: () => import('./components/Login/Profile.vue') },

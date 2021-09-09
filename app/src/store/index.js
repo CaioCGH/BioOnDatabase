@@ -14,7 +14,7 @@ export default new Vuex.Store({
       animalRows: [],
       mixedAnimalRows: [],
       displayType: 'display_tree',
-      localitiesWrapper: [{chosenLocality: 'Tudo'}],
+      localitiesWrapper: [{chosenLocality: 'Município de São Paulo'}],
       conservationStatusDict:{
         "CR": "(Critically Endangered): Criticamente em Perigo",
         "EN": "(Endangered): Em Perigo",

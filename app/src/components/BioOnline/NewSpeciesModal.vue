@@ -10,7 +10,7 @@
               <div v-else>
                 <div v-for="(innerValue, innerKey) in model[key]" :key="innerKey.id">
                   {{ innerKey }}
-                  <b-form-input  type="text" v-model="model[key][innerKey]"></b-form-input>
+                  <b-form-input type="text" v-model="model[key][innerKey]"></b-form-input>
                   </div>
               </div>
             </b-form-group>

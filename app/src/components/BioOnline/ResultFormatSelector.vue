@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <b-card
+  border-variant="info"
+      class="m-1"
+    >
+    <b-card-header>
+          <h4>Formato do resultado</h4>
+      </b-card-header>
     <form>
       <div class="row">
         <div class="form-group col-md-9">
@@ -30,7 +36,7 @@
         </div>
       </div>
     </form>
-  </div>
+  </b-card>
 </template>
 <script>
 export default {

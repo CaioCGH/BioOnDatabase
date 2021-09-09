@@ -13,7 +13,10 @@
   </div>
 </template>
 <script>
+  import {flattenSpecies } from './FilterUtils';
 export default {
+
+
   props: ['rows'],
   data() {
     return {};
@@ -34,7 +37,7 @@ export default {
     animalRowsInnerProperties(rows) {
       var flatRows = [];
       for(let i = 0; i < rows.length; i++){
-        const flatten = this.flattenObject(rows[i]);
+        const flatten = flattenSpecies(rows[i]);
         flatRows.push(flatten);
       }
       return flatRows;

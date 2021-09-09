@@ -263,7 +263,7 @@ export async function createLocality(model) {
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify( {model}),
+    body: JSON.stringify( model),
   });
   return await response.json();
 }

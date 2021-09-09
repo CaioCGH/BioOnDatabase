@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-modal id="modal-new-locality">
-      <b-card :title="(model['Nome Completo'] ? 'Editar Localidade ' + model['Nome Científico'] : 'Criar localidade')">
+      <b-card :title="(model['Nome Completo'] ? 'Editar Localidade ' + model['Nome Completo'] : 'Criar localidade')">
           <form @submit.prevent="saveLocality(model._id)" @submit="$parent.refreshLocalities()">
             <div v-for="(value, key) in model" :key="key.id">
             <b-form-group v-if="!['_id', '__v', 'Observações Registradas'].includes(key)">
@@ -48,7 +48,7 @@ export default {
       return typeof subject === 'object'
     },
     async saveLocality () {
-        console.log("HWWW")
+        console.log("this.model", this.model);
       var newModel = this.model;
       if (this.model._id) {
         newModel = await updateLocality({_id: this.model._id, model: this.model})
