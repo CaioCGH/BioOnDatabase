@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid mt-4">
     <h1 class="h1">Gerenciador de espécies</h1>
+    <!-- {{ speciesList.map(x => x['Nome Científico'])}} -->
     <b-button
       variant="success"
       class="m-2"
@@ -16,10 +17,10 @@
             <tr>
               <th>Nome Científico</th>
               <th>Nome Comum</th>
+              <th>Índice</th>
               <th>&nbsp;</th>
             </tr>
           </thead>
-          <!-- <tbody> -->
             <draggable
             tag="tbody"
               v-model="speciesList"
@@ -30,6 +31,7 @@
               <tr v-for="species in speciesList" :key="species.id">
                 <td>{{ species["Nome Científico"] }}</td>
                 <td>{{ species["Nome Comum"] }}</td>
+                <td>{{ species["Index"] }}</td>
                 <td class="text-right">
                   <b-button
                     class="m-2"
@@ -53,7 +55,6 @@
                 </td>
               </tr>
             </draggable>
-          <!-- </tbody> -->
         </table>
       </b-col>
     </b-row>
@@ -93,7 +94,11 @@ export default {
   methods: {
     async refreshSpecies() {
       this.loading = true;
-      this.speciesList = await getAllSpecies();
+      console.log('hello?');
+      let unordered = await getAllSpecies();
+      this.speciesList = unordered
+      .sort((a,b) => {
+        return a['Index'] - b['Index']});
       this.loading = false;
     },
     async populateSpeciesToEdit(species) {

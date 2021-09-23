@@ -15,7 +15,7 @@ export default new Vuex.Store({
       mixedAnimalRows: [],
       hasSearched: false,
       displayType: 'display_tree',
-      localitiesWrapper: [{chosenLocality: 'Município de São Paulo'}],
+      localitiesWrapper: [{chosenLocality: 'Localidade'}],
       CONCERN_CATEGORIES: ["Estado De SP (2014)",
       "Estado De SP (2018)",
       "Brasil (2014)",

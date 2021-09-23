@@ -12,6 +12,7 @@ const Species = mongoose.model(
     'Resumo das Observações': Object,
     'Observações Registradas': [observation],
     'Observações Extras': Object,
+    'Index': Number
   })
 );
 

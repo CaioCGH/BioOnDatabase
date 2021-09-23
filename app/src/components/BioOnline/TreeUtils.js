@@ -31,7 +31,7 @@ export function createTree(data) {
       };
 
       if(taxonomyNode.levelName === 'Subespécie'){
-        taxonomyNode.leavesScientificNames = [t(data[i]['Nome Científico'])];
+        taxonomyNode.leavesNames = [{ scientificName: t(data[i]['Nome Científico']), commonName: t(data[i]['Nome Comum'])}];
       }
 
       var previousExistingNode = checkDuplicateAndPush(
@@ -65,15 +65,16 @@ function populateNumberOfLeaves(node) {
 
 function findScientificNamesOnLeaves(node){
     if (node.levelName == "Subespécie") {
-        return node.leavesScientificNames;
+        return node.leavesNames;
     }
 
-    var scientifcNames = [];
+    var names = [];
     for(let i = 0; i < node.children.length; i++){
-      scientifcNames.push(...findScientificNamesOnLeaves(node.children[i]));
+      console.log()
+      names.push(...findScientificNamesOnLeaves(node.children[i]));
     }
-    node.leavesScientificNames = scientifcNames;
-    return node.leavesScientificNames;
+    node.leavesNames = names;
+    return node.leavesNames;
 }
 
 function checkDuplicateAndPush(array, element) {

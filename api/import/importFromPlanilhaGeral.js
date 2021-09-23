@@ -212,6 +212,7 @@ async function seedSpecies(parsedData) {
       "Observações Registradas": observations,
       "Resumo das Observações": observationSummary,
       "Observações Extras": extraObservations,
+      "Index": i
     });
     save(species);
     process.stdout.write(

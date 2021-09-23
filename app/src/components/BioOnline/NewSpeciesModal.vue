@@ -49,6 +49,8 @@ export default {
     },
     async saveSpecies () {
       var newModel = this.model;
+
+      newModel['Index'] = newModel['Index'].replace(',', '.');
       if (this.model._id) {
         newModel = await updateSpecies(this.model._id, this.model)
       } else {

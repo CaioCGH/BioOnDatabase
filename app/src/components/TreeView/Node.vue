@@ -21,8 +21,11 @@
         </b-col>
         <b-col>
           <div v-if="(dataNode.numberOfLeaves < 20 && !showChildren) || dataNode.levelName == 'Subespécie'">
-            <div v-for="name in dataNode.leavesScientificNames" :key="name.id">
-              <p class="text-primary"> {{ name }} </p>
+            <div v-for="names in dataNode.leavesNames" :key="names.id">
+              <b-row>
+                <!-- <b-column class="text-primary mr-4"> {{ names.commonName }} </b-column> -->
+                <b-column class="text-primary"> {{ names.scientificName }} </b-column>
+              </b-row>
             </div>
           </div>
         </b-col>
