@@ -1,13 +1,13 @@
-const fs = require("fs");
-const db = require("../models");
-const Papa = require("papaparse");
-const dbConfig = require("../config/db.config");
+import fs from "fs";
+import db from "../models/index.js";
+import Papa from "papaparse";
+import dbConfig from "../config/db.config.js";
 
-module.exports.generateId = () => {
+export const generateId = () => {
   return db.mongoose.Types.ObjectId();
 }
 
-module.exports.connect = () => {
+export const connect = () => {
   const connectionString = `mongodb+srv://${dbConfig.CLOUD_USERNAME}:${dbConfig.CLOUD_PASSWORD}@${dbConfig.CLOUD_CLUSTERADDR}/${dbConfig.CLOUD_DB}?retryWrites=true&w=majority`;
 
   // const connectionString = `mongodb://${dbConfig.USERNAME}:${dbConfig.PASSWORD}@${dbConfig.HOST}:${dbConfig.PORT}}`;
@@ -20,7 +20,7 @@ module.exports.connect = () => {
   });
 };
 
-module.exports.drop = (collectionName) => {
+export const drop = (collectionName) => {
   db.mongoose.connection.db.dropCollection(
     collectionName,
     function (err, result) {
@@ -37,11 +37,11 @@ module.exports.drop = (collectionName) => {
   );
 };
 
-module.exports.closeConnection = () => {
+export const closeConnection = () => {
   db.mongoose.connection.close();
 };
 
-module.exports.readCSV = async (filePath) => {
+export const readCSV = async (filePath) => {
   const csvFile = fs.readFileSync(filePath);
   const csvData = csvFile.toString();
   return new Promise((resolve) => {
@@ -55,7 +55,7 @@ module.exports.readCSV = async (filePath) => {
   });
 };
 
-module.exports.save = (obj) => {
+export const save = (obj) => {
   return obj.save({ checkKeys: false }, (err) => {
     //checkeysfalse para keys com ponto (.)
     if (err) {
@@ -63,7 +63,7 @@ module.exports.save = (obj) => {
     }
   });
 };
-module.exports.sortObject = (unordered) => {
+export const sortObject = (unordered) => {
   return Object.keys(unordered)
     .sort()
     .reduce((obj, key) => {
@@ -72,11 +72,11 @@ module.exports.sortObject = (unordered) => {
     }, {});
 };
 
-module.exports.t = (string) => {
+export const t = (string) => {
   return string.trim().replace(/\s+/g, " ");
 };
 
-module.exports.checkDuplicateAndPush = (array, element) => {
+export const checkDuplicateAndPush = (array, element) => {
   let filtered = array.filter((value) => {
     return value.name + value.levelName == element.name + element.levelName;
   });

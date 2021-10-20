@@ -1,4 +1,4 @@
-exports.sortObjectByKeys = (unordered) => {
+export const sortObjectByKeys = (unordered) => {
   return Object.keys(unordered)
     .sort()
     .reduce((obj, key) => {
@@ -7,7 +7,7 @@ exports.sortObjectByKeys = (unordered) => {
     }, {});
 };
 
-exports.sortAndRemoveDuplicates = (unorderedAndDuplicated) => {
+export const sortAndRemoveDuplicates = (unorderedAndDuplicated) => {
     const sorted = unorderedAndDuplicated.sort();
     return sorted.filter((item, pos, array) => !pos || item != array[pos - 1]);
   };

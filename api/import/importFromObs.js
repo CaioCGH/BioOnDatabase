@@ -1,9 +1,9 @@
-const {connect, drop, closeConnection, readCSV, save, sortObject, t} = require('./importUtils');
-const Papa = require('papaparse');
-const db = require("../models");
-const csvFilePath = 'observadores.csv'
+import {connect, drop, closeConnection, readCSV, save, sortObject, t} from './importUtils.js';
+import Papa from 'papaparse';
+import db from "../models/index.js";
+import csvFilePath from 'observadores.csv';
 
-const { Title, Affiliation, Observer } = require('../models/locality.model');
+import { Title, Affiliation, Observer } from '../models/locality.model.js';
 
 connect().then(() => {
   console.log("Successfully connect to MongoDB.");

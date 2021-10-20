@@ -125,7 +125,10 @@ export default {
         filters: this.$store.state.selectedFilters
       };
       bioOnlineSearchAnimalsInLocalities(payload).then((value) => {
-        this.animalRows = value;
+        this.animalRows = value
+        .sort((a,b) => {
+        return a['Index'] - b['Index']});
+        console.log(this.animalRows)
         this.result = true;
         this.loading = false;
         this.$store.state.hasSearched=true;

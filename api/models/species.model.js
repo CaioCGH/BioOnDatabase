@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const { observation } = require('../models/locality.model');
+import mongoose from "mongoose";
+import { observation } from "../models/locality.model.js";
 
 const Species = mongoose.model(
   "Species",
@@ -27,4 +27,4 @@ taxonomyNode.add({
 
 const TaxonomyNode = mongoose.model("TaxonomyNode", taxonomyNode);
 
-module.exports = { Species, TaxonomyNode };
+export { Species, TaxonomyNode };

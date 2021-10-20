@@ -1,4 +1,5 @@
 *.csv
+api/.git
 api/config/db.config.js
 db.config.js
 # Logs

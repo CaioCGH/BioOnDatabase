@@ -1,9 +1,8 @@
-const {Species, TaxonomyNode}  = require("../models/species.model");
-const { Locality, Observation, Observer, Title, District, Affiliation }  = require("../models/locality.model");
-const {save, generateId}  = require("../import/importUtils");
-const speciesController = require("./species.controller");
+import {Species}  from "../models/species.model.js";
+import { Locality, Observation }  from "../models/locality.model.js";
+import {generateId}  from "../import/importUtils.js";
 
-module.exports = {
+const controller = {
     getObservationsBySpeciesId:  async function(req, res){
         var species = await Species.findById(req.query._id).exec();
         res.json(species['Observações Registradas']);
@@ -81,3 +80,5 @@ module.exports = {
         res.json(result);
     }
 }
+
+export default controller;

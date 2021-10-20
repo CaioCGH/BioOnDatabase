@@ -1,6 +1,6 @@
 
 
-const util = require('util');
+import util from 'util.js';
 
 var root = {
     name: 'monday',

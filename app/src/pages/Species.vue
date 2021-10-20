@@ -1,7 +1,6 @@
 <template>
   <div class="container-fluid mt-4">
     <h1 class="h1">Gerenciador de espécies</h1>
-    <!-- {{ speciesList.map(x => x['Nome Científico'])}} -->
     <b-button
       variant="success"
       class="m-2"

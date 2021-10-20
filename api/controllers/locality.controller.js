@@ -1,7 +1,7 @@
-const {Locality, Observation, Observer, Title, District, Affiliation}  = require("../models/locality.model");
-const {save}  = require("../import/importUtils");
+import {Locality, Observation, Observer, Title, District, Affiliation}  from "../models/locality.model.js";
+import {save}  from "../import/importUtils.js";
 
-module.exports = {
+const controller = {
     getAllLocalities:  async function(req, res){
         const allLocalities = await Locality.find().exec();
         res.json(allLocalities);
@@ -34,3 +34,5 @@ module.exports = {
         res.json(result);
     }
 }
+
+export default controller;

@@ -1,7 +1,7 @@
-const BioOnlineService = require('../BioOnline/BioOnlineService');
-const WikiavesService = require('../Wikiaves/WikiavesService');
-const EbirdService = require('../Ebird/EbirdService');
-const InaturalistService = require('../Inaturalist/InaturalistService');
+import BioOnlineService from '../BioOnline/BioOnlineService';
+import WikiavesService from '../Wikiaves/WikiavesService';
+import EbirdService from '../Ebird/EbirdService';
+import InaturalistService from '../Inaturalist/InaturalistService';
 
 export async function mixedSearch(data) {
     var mixedResults = [];

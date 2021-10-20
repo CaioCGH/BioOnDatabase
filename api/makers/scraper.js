@@ -1,7 +1,8 @@
-var cheerio = require('cheerio');
-var request = require('request');
+import cheerio from'cheerio';
+import request from 'request';
+import fetch from 'node-fetch';
 
-exports.scrapewikiavesSearchByWid = (wikiavesCode) =>{
+ const scrapewikiavesSearchByWid = (wikiavesCode) =>{
     const url = "https://www.wikiaves.com.br/wiki/" + wikiavesCode;
     console.log(url);
     return new Promise((resolve, reject)=>{
@@ -36,7 +37,7 @@ exports.scrapewikiavesSearchByWid = (wikiavesCode) =>{
     })
 }
 
-exports.scrapeWikiavesSearch = (searchText) =>{
+ const scrapeWikiavesSearch = (searchText) =>{
     const url = "https://www.wikiaves.com.br/getTaxonsJSON.php?term=" + searchText;
     console.log(url);
     return new Promise((resolve, reject)=>{
@@ -49,3 +50,41 @@ exports.scrapeWikiavesSearch = (searchText) =>{
         })
     })
 }
+
+const scrapeWikiavesSpeciesByCity = (cityName) =>{
+    const cityId = findCityId(cityName);
+    const htmlData = getCityDataInHTML(cityId);
+    console.log(htmlData);
+
+}
+
+async function  findCityId(cityName){
+    const citySearchBaseUrl = "https://www.wikiaves.com.br/getCidadesJSON.php?";
+    const cityParams = new URLSearchParams({term: cityName});
+    const citySearchFullUrl = citySearchBaseUrl + cityParams.toString();
+    console.log(citySearchFullUrl);
+
+    const response = await fetch(citySearchFullUrl, {method: 'GET'});
+    const data = await response.json();
+
+    console.log(data);
+    const cityId = data.find(e => e.label === cityName).id;
+    console.log(cityId);
+    return cityId;
+}
+
+async function getCityDataInHTML(cityId){
+    const citySearchBaseUrl = "https://www.wikiaves.com.br/especies.php?";
+    const cityParams = new URLSearchParams({t: "c"}, {c: cityId});
+    const citySearchFullUrl = citySearchBaseUrl + cityParams.toString();
+    console.log(citySearchFullUrl);
+
+    const response = await fetch(citySearchFullUrl, {method: 'GET'});
+    const data = await response.json();
+
+    return data;
+
+}
+
+const scraper = {scrapewikiavesSearchByWid, scrapeWikiavesSearch, scrapeWikiavesSpeciesByCity, findCityId}
+export default scraper;

@@ -1,9 +1,9 @@
-const fs = require('fs');
-const {connect, drop, closeConnection, readCSV, save, sortObject, t} = require('./importUtils');
+import fs from 'fs';
+import {connect, drop, closeConnection, readCSV, save, sortObject, t} from './importUtils.js';
 
-const { Locality, District } = require('../models/locality.model');
+import { Locality, District } from '../models/locality.model.js';
 
-const csvFilePath = 'localities.csv'
+import csvFilePath from 'localities.csv';
 
 connect().then(() => {
   console.log("Successfully connect to MongoDB.");

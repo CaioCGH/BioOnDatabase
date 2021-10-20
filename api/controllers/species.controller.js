@@ -1,7 +1,7 @@
-const {Species, TaxonomyNode}  = require("../models/species.model");
-const {save}  = require("../import/importUtils");
+import {Species, TaxonomyNode}  from "../models/species.model.js";
+import {save}  from "../import/importUtils.js";
 
-module.exports = {
+const controller  = {
     getAllSpecies:  async function(req, res){
         const allSpecies = await Species.find().exec();
         res.json(allSpecies);
@@ -35,3 +35,5 @@ module.exports = {
         res.json(taxonomyNode);
     },
 }
+
+export default controller;

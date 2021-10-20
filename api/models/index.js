@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 mongoose.Promise = global.Promise;
 
 const db = {};
@@ -6,12 +6,17 @@ const db = {};
 db.mongoose = mongoose;
 db.mongoose.set('useFindAndModify', false);
 
-db.user = require("./user.model");
-db.role = require("./role.model");
-db.locality = require("./locality.model");
-db.district = require("./locality.model");
-db.species = require("./species.model");
+import User from "./user.model.js";
+import Role from "./role.model.js";
+import {Locality, District} from "./locality.model.js";
+import {Species } from "./species.model.js";
+
+db.user = User;
+db.role = Role;
+db.locality = Locality;
+db.district = District;
+db.species = Species;
 
 db.ROLES = ["user", "admin", "moderator"];
 
-module.exports = db;
+export default db;

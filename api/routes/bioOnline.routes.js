@@ -1,12 +1,11 @@
-const { authJwt } = require("../middlewares");
-const bioOnlineController = require("../controllers/bioOnline.controller");
-const externalController = require("../controllers/external.controller");
-const speciesController = require("../controllers/species.controller");
-const observationController = require("../controllers/observation.controller");
-const observerController = require("../controllers/observer.controller");
-const localityController = require("../controllers/locality.controller"); 
+import bioOnlineController from "../controllers/bioOnline.controller.js";
+import externalController from "../controllers/external.controller.js";
+import speciesController from "../controllers/species.controller.js";
+import observationController from "../controllers/observation.controller.js";
+import observerController from "../controllers/observer.controller.js";
+import localityController from "../controllers/locality.controller.js"; 
 
-module.exports = function(app) {
+export default function(app) {
   app.use(function(req, res, next) {
     res.header(
       "Access-Control-Allow-Headers",

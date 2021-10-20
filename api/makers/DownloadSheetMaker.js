@@ -1,7 +1,7 @@
-const ExcelJS = require('exceljs');
-const { flattenObject, flattenSpecies} = require('./utils');
+import ExcelJS from 'exceljs';
+import { flattenSpecies} from './utils.js';
 
-exports.makeSheet =  async (response, selectedArray, speciesList) =>{
+export const makeSheet =  async (response, selectedArray, speciesList) =>{
     let workbook = new ExcelJS.Workbook();
     let worksheet = workbook.addWorksheet("inventário");
     var fileName = 'relatorio.xls';

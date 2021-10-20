@@ -1,8 +1,8 @@
-const scraper = require("../makers/scraper");
-const ebird = require("../makers/ebird");
-const inaturalist = require("../makers/inaturalist");
+import scraper from "../makers/scraper.js";
+import ebird from "../makers/ebird.js";
+import inaturalist from "../makers/inaturalist.js";
 
-module.exports = {
+const controller = {
   wikiavesSearch: async function (req, res) {
     const searchCriteria = req.body.searchCriteria;
     scraper
@@ -32,3 +32,5 @@ module.exports = {
       });
   },
 };
+
+export default controller;

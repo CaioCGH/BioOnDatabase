@@ -1,6 +1,6 @@
-var request = require('request');
+import request from 'request';
 
-exports.inaturalistSearch = (searchText) =>{
+const inaturalistSearch = (searchText) =>{
 
     const taxonName = searchText;
     const placeType = "city"
@@ -36,3 +36,5 @@ exports.inaturalistSearch = (searchText) =>{
         });
     })
 }
+
+export default inaturalistSearch;

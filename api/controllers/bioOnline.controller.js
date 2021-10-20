@@ -1,10 +1,10 @@
-const db = require("../models");
-const {Species, TaxonomyNode}  = require("../models/species.model");
-const { Locality }  = require("../models/locality.model");
-const { sortObjectByKeys, sortAndRemoveDuplicates} = require("../utils");
-const { makeSheet } = require("../makers/DownloadSheetMaker");
+import db from "../models/index.js";
+import {Species, TaxonomyNode}  from "../models/species.model.js";
+import { Locality }  from "../models/locality.model.js";
+import { sortObjectByKeys, sortAndRemoveDuplicates} from "../utils.js";
+import { makeSheet } from "../makers/DownloadSheetMaker.js";
 
-module.exports = {
+const controller = {
     bioOnlineColumns:  async function(req, res){
         const anySpecies = (await Species.findOne().exec()).toJSON();
         const returnedElementsObject = {
@@ -164,3 +164,5 @@ function findAllGenera(node){
     }
     return genera;
 }
+
+export default controller;

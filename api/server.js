@@ -1,6 +1,6 @@
-const express = require('express');
-const bodyParser = require("body-parser");
-const cors = require("cors");
+import express from 'express';
+import bodyParser from"body-parser";
+import cors from "cors";
 
 const app = express();
 const port = 3000;
@@ -16,8 +16,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 
-const db = require("./models");
-const dbConfig = require("./config/db.config")
+import db from "./models/index.js";
+import dbConfig from "./config/db.config.js";
+
 const Role = db.role;
 var connectionString = "";
 if(process.env.NODE_ENV == 'development'){
@@ -85,9 +86,13 @@ app.get("/", function (req, res) {
 })
 
 // routes
-require('./routes/auth.routes')(app); 
-require('./routes/user.routes')(app);
-require('./routes/bioOnline.routes')(app);
+import auth from './routes/auth.routes.js'; 
+// import user from './routes/user.routes.js';
+import bioOnline from './routes/bioOnline.routes.js';
+
+auth(app);
+// user(app);
+bioOnline(app);
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`Server listening on the port::${process.env.PORT} or 3000`);

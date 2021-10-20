@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const title = new mongoose.Schema({
   name: String,
@@ -74,4 +74,4 @@ const Locality = mongoose.model(
   })
 );
 
-module.exports = { Locality, Observation, Observer, Title, District, Affiliation, observation };
+export { Locality, Observation, Observer, Title, District, Affiliation, observation };

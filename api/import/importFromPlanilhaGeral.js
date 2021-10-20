@@ -1,5 +1,5 @@
 const LOCALITIES_COLUMN_START = 44;
-const {
+import {
   generateId,
   connect,
   drop,
@@ -9,19 +9,19 @@ const {
   sortObject,
   t,
   checkDuplicateAndPush,
-} = require("./importUtils");
-const fs = require("fs");
-const util = require("util");
+} from "./importUtils.js";
+import fs from "fs";
+import util from "util";
 
-const { Species, TaxonomyNode } = require("../models/species.model");
-const {
+import { Species, TaxonomyNode } from "../models/species.model.js";
+import {
   Locality,
   Observation,
   Title,
   Affiliation,
   Observer,
-} = require("../models/locality.model");
-const { children } = require("cheerio/lib/api/traversing");
+} from "../models/locality.model.js";
+import { children } from "cheerio/lib/api/traversing";
 const csvFilePath = "planilha_geral.csv";
 
 connect().then(() => {

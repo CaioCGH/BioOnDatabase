@@ -1,7 +1,13 @@
-var request = require('request');
-const fs = require("fs");
-const parse = require('csv-parse/lib/sync');
+import request from 'request';
+import fs from "fs";
+import parse from 'csv-parse';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 var ebirdTaxonomy = [];
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 fs.readFile(__dirname + "/../resources/ebirdtaxonomy.csv", (error, data) => {
     if(error) {
         throw error;
@@ -14,7 +20,7 @@ fs.readFile(__dirname + "/../resources/ebirdtaxonomy.csv", (error, data) => {
 
 
 
-exports.ebirdSearch = (searchText) =>{
+const ebirdSearch = (searchText) =>{
 
     const speciesCode = findEbirdCodeByScientificName(searchText);
     console.log("searchText", searchText);
@@ -25,7 +31,7 @@ exports.ebirdSearch = (searchText) =>{
     const url = `https://api.ebird.org/v2/data/obs/${regionCode}/recent/${speciesCode}?sppLocale=pt-br`;
 
     console.log(url);
-    var request = require('request');
+    
     var options = {
         'method': 'GET',
         'url': url,
@@ -54,3 +60,5 @@ var findEbirdCodeByScientificName = function (scientificName) {
     }
     return null;
 }
+
+export default ebirdSearch;

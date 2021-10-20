@@ -1,4 +1,4 @@
-exports.flattenObject = (obj) => {
+export const flattenObject = (obj) => {
   const flattened = {};
   var keys = Object.keys(obj);
   for (var i = 0; i < keys.length; i++) {
@@ -12,7 +12,7 @@ exports.flattenObject = (obj) => {
   return flattened;
 };
 
-exports.flattenSpecies = (obj) => {
+export const flattenSpecies = (obj) => {
   const flattened = {};
   var keys = Object.keys(obj);
   for (var i = 0; i < keys.length; i++) {
