@@ -22,8 +22,8 @@ import dbConfig from "./config/db.config.js";
 const Role = db.role;
 var connectionString = "";
 if(process.env.NODE_ENV == 'development'){
-  // connectionString = `mongodb://${dbConfig.USERNAME}:${dbConfig.PASSWORD}@${dbConfig.HOST}:${dbConfig.PORT}`;
-  connectionString = `mongodb+srv://${dbConfig.CLOUD_USERNAME}:${dbConfig.CLOUD_PASSWORD}@${dbConfig.CLOUD_CLUSTERADDR}/${dbConfig.CLOUD_DB}?retryWrites=true&w=majority`;
+  connectionString = `mongodb://${dbConfig.USERNAME}:${dbConfig.PASSWORD}@${dbConfig.HOST}:${dbConfig.PORT}`;
+  // connectionString = `mongodb+srv://${dbConfig.CLOUD_USERNAME}:${dbConfig.CLOUD_PASSWORD}@${dbConfig.CLOUD_CLUSTERADDR}/${dbConfig.CLOUD_DB}?retryWrites=true&w=majority`;
 }else{
   connectionString = `mongodb+srv://${dbConfig.CLOUD_USERNAME}:${dbConfig.CLOUD_PASSWORD}@${dbConfig.CLOUD_CLUSTERADDR}/${dbConfig.CLOUD_DB}?retryWrites=true&w=majority`;
 }
@@ -87,11 +87,11 @@ app.get("/", function (req, res) {
 
 // routes
 import auth from './routes/auth.routes.js'; 
-// import user from './routes/user.routes.js';
+import comparator from './routes/comparator.routes.js';
 import bioOnline from './routes/bioOnline.routes.js';
 
 auth(app);
-// user(app);
+comparator(app);
 bioOnline(app);
 
 app.listen(process.env.PORT || 3000, () => {

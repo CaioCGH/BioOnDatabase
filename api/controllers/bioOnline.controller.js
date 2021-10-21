@@ -66,7 +66,8 @@ const controller = {
         res.json(localities.map(locality => locality['Nome Completo']).sort());
     },
     speciesInLocalities: async function(req, res){
-        var speciesList = await speciesFromLocalities(req.body.localities, req.body.filters);
+        console.log(req.body);
+        var speciesList = await controller.findSpeciesFromLocalities(req.body.localities, req.body.filters);
         if(speciesList){
             res.json(speciesList);
         }else{
@@ -96,36 +97,39 @@ const controller = {
     downloadFromLocalities: async function(req, res){
         var speciesList = await speciesFromLocalities(req.body.localities, req.body.filters);
         makeSheet(res, req.body.selectedArray, speciesList);
+    },
+
+
+    findSpeciesFromLocalities: async function (localities, extraFilters){
+        var localitiesNames = [];
+        if(Array.isArray(localities)){
+            localitiesNames = localities;
+        }else{
+            localitiesNames.push(localities);
+        }
+        const speciesMap = {}; 
+        for(let i = 0; i < localitiesNames.length; i++){
+            const locality = (await Locality.find({'Nome Completo': localitiesNames[i]}).exec())[0];
+            if(!locality){
+                return null;
+            }
+            const observations = locality['Observações Registradas'];
+            for(let j = 0; j < observations.length; j++){
+                var baseFilter = {'Nome Científico': observations[j]['Nome Científico']};
+                for(let k = 0; k < extraFilters.length; k++){
+                    baseFilter[extraFilters[k].selectedKey] = extraFilters[k].selectedValue;
+                }
+                const species = await Species.findOne(baseFilter).select('-__v -_id').exec();
+                if(species){
+                    speciesMap[species['Nome Científico']] = species;
+                }
+            }
+        }
+        return Object.entries(speciesMap).map(entry => entry[1]);
     }
 }
 
-async function speciesFromLocalities(localities, extraFilters){
-    var localitiesNames = [];
-    if(Array.isArray(localities)){
-        localitiesNames = localities;
-    }else{
-        localitiesNames.push(localities);
-    }
-    const speciesMap = {};
-    for(let i = 0; i < localitiesNames.length; i++){
-        const locality = (await Locality.find({'Nome Completo': localitiesNames[i]}).exec())[0];
-        if(!locality){
-            return null;
-        }
-        const observations = locality['Observações Registradas'];
-        for(let j = 0; j < observations.length; j++){
-            var baseFilter = {'Nome Científico': observations[j]['Nome Científico']};
-            for(let k = 0; k < extraFilters.length; k++){
-                baseFilter[extraFilters[k].selectedKey] = extraFilters[k].selectedValue;
-            }
-            const species = await Species.findOne(baseFilter).select('-__v -_id').exec();
-            if(species){
-                speciesMap[species['Nome Científico']] = species;
-            }
-        }
-    }
-    return Object.entries(speciesMap).map(entry => entry[1]);
-}
+ 
 
 function addLocalitiesToAnimals(animals){
     const localizedAnimals = [];

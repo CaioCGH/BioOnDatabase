@@ -8,6 +8,7 @@
           <b-nav-item v-if="showSpecies"><router-link to="/species">Espécies</router-link></b-nav-item>
           <b-nav-item v-if="showSpecies"><router-link to="/localities">Localidades</router-link></b-nav-item>
           <b-nav-item v-if="showSpecies"><router-link to="/observers">Observadores</router-link></b-nav-item>
+          <b-nav-item v-if="showSpecies"><router-link to="/differences">Diferenças</router-link></b-nav-item>
          
           <b-nav-item><router-link to="/other-sources">Outras fontes</router-link></b-nav-item>
           <b-nav-item><router-link to="/about">Sobre</router-link></b-nav-item>

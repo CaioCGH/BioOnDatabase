@@ -13,6 +13,7 @@ export default function(app) {
     );
     next();
   });
+  console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 
   app.get("/api/bio-online-columns", bioOnlineController.bioOnlineColumns);
   app.get("/api/bio-online-filter-dict", bioOnlineController.bioOnlineFilterDict);

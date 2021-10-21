@@ -23,6 +23,7 @@ export const router = new Router({
       { path: '/species', component: () => import('./pages/Species.vue') },
       { path: '/localities', component: () => import('./pages/Localities.vue') },
       { path: '/observers', component: () => import('./pages/Observers.vue') },
+      { path: '/differences', component: () => import('./pages/Differences.vue') },
     ]
   });
 
