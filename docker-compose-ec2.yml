@@ -20,7 +20,7 @@ services:
       NODE_ENV: development
     build:
       context: ./api
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile-prod
     ports:
       - "3000:3000"
     container_name: bio-api
@@ -28,15 +28,20 @@ services:
        - ./api:/usr/src/api
     links:
       - db_mongo
-    command: "npm run dev"
+    command: "npm start"
+    # command: "yes"
 
   bio-ui:
     build:
       context: ./app
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile-prod
+    environment:
+      NODE_ENV: production
     ports:
       - "8080:8080"
+      - "80:80"
     container_name: bio-ui
     volumes:
        - ./app:/usr/src/app
     command: "npm run serve"
+    # command: "yes"

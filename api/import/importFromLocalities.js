@@ -1,9 +1,6 @@
-import fs from 'fs';
-import {connect, drop, closeConnection, readCSV, save, sortObject, t} from './importUtils.js';
+import {connect, drop, readCSV, save, sortObject, t} from './importUtils.js';
 
 import { Locality, District } from '../models/locality.model.js';
-
-import csvFilePath from 'localities.csv';
 
 connect().then(() => {
   console.log("Successfully connect to MongoDB.");
@@ -13,7 +10,7 @@ connect().then(() => {
 });
 
 const startImport = async () => {
-  let parsedData = await readCSV(csvFilePath);
+  let parsedData = await readCSV("localities.csv");
   // seedDistricts(parsedData);
   seedLocalities(parsedData);
 }

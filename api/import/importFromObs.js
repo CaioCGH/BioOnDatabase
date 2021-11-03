@@ -1,7 +1,4 @@
 import {connect, drop, closeConnection, readCSV, save, sortObject, t} from './importUtils.js';
-import Papa from 'papaparse';
-import db from "../models/index.js";
-import csvFilePath from 'observadores.csv';
 
 import { Title, Affiliation, Observer } from '../models/locality.model.js';
 
@@ -14,10 +11,8 @@ connect().then(() => {
 // closeConnection();
 
 const startImport = async () => {
-  let parsedData = await readCSV(csvFilePath);
-  // seedTaxonomyTree(parsedData);
-  // seedTiles(parsedData);
-  // console.log(parsedData);
+  let parsedData = await readCSV("observadores.csv");
+  seedTiles(parsedData);
   seedAffiliation(parsedData);
   seedObserver(parsedData);
 }
@@ -64,8 +59,8 @@ function seedTiles(parsedData){
     var titles = {};
     for(let i = 0; i < parsedData.length; i++){
         const title = new Title({
-            name: t(parsedData[i][' titulação']),
-            abbreviation: parsedData[i][' titulação']
+            name: t(parsedData[i]['titulação']),
+            abbreviation: parsedData[i]['titulação']
         });
         if(titles[title.name] == undefined){
           titles[title.name] = title;

@@ -3,26 +3,18 @@ import {
   generateId,
   connect,
   drop,
-  closeConnection,
   readCSV,
   save,
-  sortObject,
   t,
   checkDuplicateAndPush,
 } from "./importUtils.js";
-import fs from "fs";
-import util from "util";
 
 import { Species, TaxonomyNode } from "../models/species.model.js";
 import {
   Locality,
   Observation,
-  Title,
-  Affiliation,
   Observer,
 } from "../models/locality.model.js";
-import { children } from "cheerio/lib/api/traversing";
-const csvFilePath = "planilha_geral.csv";
 
 connect().then(() => {
   console.log("Successfully connect to MongoDB.");
@@ -32,7 +24,7 @@ connect().then(() => {
 });
 
 const startImport = async () => {
-  let parsedData = await readCSV(csvFilePath);
+  let parsedData = await readCSV("planilha_geral.csv");
   // seedTaxonomyTree(parsedData);
   seedSpecies(parsedData);
 };
