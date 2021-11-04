@@ -195,3 +195,18 @@
   force = true
 
     #---------------DIFFERENCES-------------------------------------------------
+[[redirects]]
+  from = "/api/wikiaves-compare"
+  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/wikiaves-compare"
+  status = 200
+  force = true
+[[redirects]]
+  from = "/api/ebird-compare"
+  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/ebird-compare"
+  status = 200
+  force = true
+[[redirects]]
+  from = "/api/inaturalist-compare"
+  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/inaturalist-compare"
+  status = 200
+  force = true

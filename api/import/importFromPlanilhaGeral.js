@@ -25,8 +25,8 @@ connect().then(() => {
 
 const startImport = async () => {
   let parsedData = await readCSV("planilha_geral.csv");
-  // seedTaxonomyTree(parsedData);
   seedSpecies(parsedData);
+  seedTaxonomyTree(parsedData);
 };
 
 function seedTaxonomyTree(parsedData) {

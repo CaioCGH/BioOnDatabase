@@ -13,7 +13,10 @@
     </b-form-checkbox>
     <b-button variant="success"
     @click="getDifference(ignoreSubspecies)">
-    Procurar por diferenças
+    
+    <span v-show="!loading">Procurar por diferenças</span>
+                <b-spinner v-show="loading" small variant="primary" label="Spinning"></b-spinner>
+                <span v-show="loading">Aguarde, procurando</span>
     </b-button>
     <Table :lists="{intersection, onlyOnExternalDatabase, onlyOnBioOnline}"
     :externalDatabaseName="'Somente no Wikiaves'"/>
@@ -49,6 +52,7 @@ export default {
         this.intersection = value.intersection;
         this.onlyOnExternalDatabase = value.onlyOnWikiaves;
         this.onlyOnBioOnline = value.onlyOnBioOnline;
+        this.loading = false;
       });
     }
   },

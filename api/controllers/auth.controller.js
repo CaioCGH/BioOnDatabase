@@ -7,14 +7,15 @@ const Role = db.role;
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-const signup = (req, res) => {
-  const user = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
-  });
+const controller = {
+  signup: function (req, res) {
+    const user = new User({
+      username: req.body.username,
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password, 8),
+    });
 
-  user.save((err, user) => {
+    user.save((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
@@ -60,10 +61,9 @@ const signup = (req, res) => {
         });
       });
     }
-  });
-};
-export default {
-  signin: async function (req, res) {
+    });
+  },
+  signin: async function(req, res) {
     User.findOne({
       username: req.body.username,
     })
@@ -115,6 +115,6 @@ export default {
           accessToken: token,
         });
       });
-  },
-};
-
+  }
+}
+export default controller;

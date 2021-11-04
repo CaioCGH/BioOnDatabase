@@ -118,14 +118,17 @@ async function getCityDataInHTML(cityId){
 async function getStateDataInHTML(){
     const stateSearchBaseUrl = "https://ebird.org/region/BR-SP?yr=all";
     // const response = await fetch(stateSearchBaseUrl, {method: 'GET', redirect: 'manual'});
-
+    console.log("Fetching from", stateSearchBaseUrl);
     const response=  await nodeFetch();
+    console.log(response);
     const data = await response.text();
+    console.log(data);
     return data;
 }
 
 function nodeFetch(){
-    return fetch("https://ebird.org/region/BR-SP?yr=all", {
+    return fetch(
+        "https://ebird.org/region/BR-SP?yr=all", {
         "headers": {
           "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
           "accept-language": "en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7,ja-JP;q=0.6,ja;q=0.5",

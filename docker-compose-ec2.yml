@@ -29,19 +29,3 @@ services:
     links:
       - db_mongo
     command: "npm start"
-    # command: "yes"
-
-  bio-ui:
-    build:
-      context: ./app
-      dockerfile: Dockerfile-prod
-    environment:
-      NODE_ENV: production
-    ports:
-      - "8080:8080"
-      - "80:80"
-    container_name: bio-ui
-    volumes:
-       - ./app:/usr/src/app
-    command: "npm run serve"
-    # command: "yes"

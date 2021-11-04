@@ -29,6 +29,7 @@ services:
     links:
       - db_mongo
     command: "npm run dev"
+    # command: "yes"
 
   bio-ui:
     build:
@@ -36,6 +37,7 @@ services:
       dockerfile: Dockerfile-dev
     ports:
       - "8080:8080"
+      - "80:80"
     container_name: bio-ui
     volumes:
        - ./app:/usr/src/app
