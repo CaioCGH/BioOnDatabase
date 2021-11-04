@@ -12,6 +12,7 @@ services:
       - ./data/mongo:/usr/data/mongo
     ports:
       - 27017:27017
+    restart: always
 
   bio-api:
     env_file:
@@ -29,3 +30,4 @@ services:
     links:
       - db_mongo
     command: "npm start"
+    restart: always
