@@ -127,28 +127,25 @@ async function getStateDataInHTML(){
 }
 
 function nodeFetch(){
-    return fetch(
-        "https://ebird.org/region/BR-SP?yr=all", {
-        "headers": {
-          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-          "accept-language": "en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7,ja-JP;q=0.6,ja;q=0.5",
-          "cache-control": "no-cache",
-          "pragma": "no-cache",
-          "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
-          "sec-ch-ua-mobile": "?0",
-          "sec-fetch-dest": "document",
-          "sec-fetch-mode": "navigate",
-          "sec-fetch-site": "same-origin",
-          "sec-fetch-user": "?1",
-          "upgrade-insecure-requests": "1",
-          "cookie": "hubspotutk=73b37a40ece102d62186aa626ba9695f; _ga=GA1.2.1224360691.1624750906; _ga_QR4NVXZ8BM=GS1.1.1625112776.1.1.1625113686.60; I18N_LANGUAGE=pt_BR; EBIRD_SESSIONID=F3605198FCAC927495EE1A608005A9DA; _gid=GA1.2.1417505710.1634788543; __hstc=60209138.73b37a40ece102d62186aa626ba9695f.1624750905855.1632204254841.1634788542881.8; __hssrc=1; _gat_gtag_UA_171937_2=1; __hssc=60209138.14.1634788542881"
-        },
-        "referrer": "https://ebird.org/region/BR-SP?yr=all&m=",
-        "referrerPolicy": "strict-origin-when-cross-origin",
-        "body": null,
-        "method": "GET",
-        "mode": "cors"
-      });
+    return fetch("https://ebird.org/region/BR-SP?yr=all", {
+            "headers": {
+              "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+              "accept-language": "en-US,en;q=0.9",
+              "cache-control": "max-age=0",
+              "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+              "sec-ch-ua-mobile": "?0",
+              "sec-fetch-dest": "document",
+              "sec-fetch-mode": "navigate",
+              "sec-fetch-site": "none",
+              "sec-fetch-user": "?1",
+              "upgrade-insecure-requests": "1",
+              "cookie": "EBIRD_SESSIONID=72E44A9468ADB682E43E75331D4937D5; _ga=GA1.2.501121683.1636027915; _gid=GA1.2.1138368485.1636027915; _gat_gtag_UA_171937_2=1; __hstc=60209138.b55722931de53bfc2db34fd1a42cda55.1636027914901.1636027914901.1636027914901.1; hubspotutk=b55722931de53bfc2db34fd1a42cda55; __hssrc=1; __hssc=60209138.1.1636027914901; _fbp=fb.1.1636027917070.1248195891"
+            },
+            "referrerPolicy": "strict-origin-when-cross-origin",
+            "body": null,
+            "method": "GET",
+            "mode": "cors"
+          });  
 }
 const scraper = {scrapewikiavesSearchByWid, scrapeEbirdSpeciesByState,
     scrapeWikiavesSearch, scrapeWikiavesSpeciesByCity, findCityId}
