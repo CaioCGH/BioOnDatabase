@@ -81,7 +81,7 @@ export default {
         this.$store.state.selectedArrayToCards.filter(
           (n) => !this.returnedElementsObject[category].innerOptions.includes(n)
         );
-      if (!checked) {
+      if (checked) {
         for (
           var i = 0;
           i < this.returnedElementsObject[category].innerOptions.length;

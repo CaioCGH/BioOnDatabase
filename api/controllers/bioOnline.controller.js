@@ -95,7 +95,7 @@ const controller = {
         return [];
     },
     downloadFromLocalities: async function(req, res){
-        var speciesList = await findSpeciesFromLocalities(req.body.localities, req.body.filters);
+        var speciesList = await controller.findSpeciesFromLocalities(req.body.localities, req.body.filters);
         makeSheet(res, req.body.selectedArray, speciesList);
     },
 
