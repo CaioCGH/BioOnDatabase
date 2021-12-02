@@ -8,13 +8,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
       selectedArrayToCards: ['Nome Científico', 'Nome Comum', 'CITES (2021)', 'Observações Registradas'],
-      selectedArrayToTable: ['Nome Científico', 'Nome Comum', 'CITES (2021)'],
+      selectedArrayToTable: ['Nome Científico', 'Nome Comum', 'CITES (2021)', { key: "Número de Localidades com Registro", sortable: true}],
       filterDict: {},
       selectedFilters: [],
       animalRows: [],
       mixedAnimalRows: [],
       hasSearched: false,
       displayType: 'display_table',
+      filterCompositionType: 'AND',
       localitiesWrapper: [{chosenLocality: 'Localidade'}],
       CONCERN_CATEGORIES: ["Estado De SP (2014)",
       "Estado De SP (2018)",
@@ -118,6 +119,9 @@ export default new Vuex.Store({
       },
       updateDisplayType(state, type){
         state.displayType = type;
+      },
+      updatefilterCompositionType(state, type){
+        state.filterCompositionType = type;
       },
       updateLocalitiesWrapper(state, array){
         state.localitiesWrapper = array;

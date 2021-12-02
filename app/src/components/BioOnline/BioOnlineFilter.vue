@@ -7,7 +7,27 @@
       <div v-if="!showFilters">Expandir filtros</div>
       <div v-else>Esconder filtros</div>
     </b-button>
+
+    
     <div v-show="showFilters">
+
+      <b-form-group
+            label="Tipo de combinação de filtros:"
+            v-slot="{ ariaDescribedby }"
+          >
+            <b-form-radio
+              v-model="filterCompositionType"
+              :aria-describedby="ariaDescribedby"
+              value="AND"
+              >E</b-form-radio
+            >
+            <b-form-radio
+              v-model="filterCompositionType"
+              :aria-describedby="ariaDescribedby"
+              value="OR"
+              >OU</b-form-radio
+            >
+          </b-form-group>
       <b-card v-for="category in Object.keys(filterDict)" :key="category.id">
         <h4>{{ category }}</h4>
         <BioOnlineInnerFilter
@@ -16,6 +36,10 @@
           :category="category"
         />
       </b-card>
+      <b-alert :show="errorOnANDFilter()" variant="danger">Há mais de um 
+            campo especificado para um filtro do tipo E, o que não faz sentido.
+            Por favor, utilize apenas um campo por vez ou faça uma combinação de
+            filtros do tipo OU</b-alert>
     </div>
   </b-card>
 </template>
@@ -31,7 +55,7 @@ export default {
   data() {
     return {
       showFilters: false,
-      loadingColumns: true,
+      loadingColumns: true
     };
   },
   methods: {
@@ -40,6 +64,13 @@ export default {
         this.$store.state.filterDict = value;
       });
     },
+    errorOnANDFilter(){
+      var keySet = new Set();
+      for(var i = 0; i < this.$store.state.selectedFilters.length; i++){
+        keySet.add(this.$store.state.selectedFilters['selectedKey']);
+      }
+      return keySet.size < this.$store.state.selectedFilters.length && this.$store.state.filterCompositionType == 'AND';
+    }
   },
   created() {
     this.feedCompleteOptions();
@@ -54,6 +85,14 @@ export default {
     conservationStatusDict: {
       get() {
         return this.$store.state.conservationStatusDict;
+      },
+    },
+    filterCompositionType: {
+      get() {
+        return this.$store.state.filterCompositionType;
+      },
+      set(value) {
+        this.$store.commit("updatefilterCompositionType", value);
       },
     },
   },

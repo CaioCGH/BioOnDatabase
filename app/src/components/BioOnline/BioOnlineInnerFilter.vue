@@ -63,6 +63,7 @@ export default {
       var newSelector = { selectedKey: this.$props.category + '.' + selector.selectedKey, selectedValue: selector.selectedValue};
       this.$store.state.selectedFilters.push(newSelector);
     },
+    
   },
   computed: {
     filterDict: {

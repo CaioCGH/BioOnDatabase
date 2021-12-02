@@ -122,13 +122,16 @@ export default {
       }
       const payload = {
         localities: chosenLocalities,
-        filters: this.$store.state.selectedFilters
+        filters: this.$store.state.selectedFilters,
+        filterCompositionType: this.$store.state.filterCompositionType
       };
       bioOnlineSearchAnimalsInLocalities(payload).then((value) => {
+        console.log(value[0]);
+        value.forEach(a => a["Número de Localidades com Registro"] = a["Observações Registradas"].length)
+
         this.animalRows = value
         .sort((a,b) => {
         return a['Index'] - b['Index']});
-        console.log(this.animalRows)
         this.result = true;
         this.loading = false;
         this.$store.state.hasSearched=true;

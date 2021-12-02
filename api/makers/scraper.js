@@ -2,6 +2,8 @@ import * as cheerio from 'cheerio';
 import request from 'request';
 import fetch from 'node-fetch';
 import ebird from "../makers/ebird.js";
+import  fs from 'fs';
+
 
 
  const scrapewikiavesSearchByWid = (wikiavesCode) =>{
@@ -88,6 +90,28 @@ const scrapeEbirdSpeciesByState = async (ignoreSubspecies) =>{
     return speciesList;
 }
 
+const scrapeEbirdSpeciesByPolygon = async (ignoreSubspecies) =>{
+
+    getListOfHotspotsInMunicipality();
+
+    // const htmlData = await getStateDataInHTML();
+
+    // var speciesList = [];
+    // var code;
+    
+    // var searchPattern = new RegExp('<a href="/species/(.*?)/BR-SP" data-species-code="', 'gs');
+    
+    // while ((code = searchPattern.exec(htmlData)) !== null) {
+    //     var speciesName = ebird.findScientificNameByEbirdCode(code[1]);
+    //     if(ignoreSubspecies && speciesName){
+    //         let splited = speciesName.split(" ");
+    //         speciesName = splited[0] + " " + splited[1];
+    //     }
+    //     speciesList.push(speciesName);
+    // }
+    // return speciesList;
+}
+
 async function  findCityId(cityName){
     const citySearchBaseUrl = "https://www.wikiaves.com.br/getCidadesJSON.php?";
     const cityParams = new URLSearchParams({term: cityName});
@@ -126,6 +150,41 @@ async function getStateDataInHTML(){
     return data;
 }
 
+async function getListOfHotspotsInMunicipality(){
+    const response = await nodeHotSpotsFetch();
+    const html = await response.text();
+    console.log(data);
+    return data;
+}
+
+async function nodeHotSpotsFetch(){
+
+    const stats = fs.statSync("makers/saopaulo.kml");
+    const fileSizeInBytes = stats.size;
+
+    let readStream = fs.createReadStream('makers/saopaulo.kml');
+    return fetch("https://ebird-tools.thruhere.net/cgi-bin/eBirdPolygon.d", {
+        "headers": {
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+          "accept-language": "en-US,en;q=0.9",
+          "cache-control": "max-age=0",
+          "content-type": "multipart/form-data; boundary=----WebKitFormBoundary79QKAjHc1Au3svEX",
+          "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-fetch-dest": "document",
+          "sec-fetch-mode": "navigate",
+          "sec-fetch-site": "same-origin",
+          "sec-fetch-user": "?1",
+          "upgrade-insecure-requests": "1"
+        },
+        "referrer": "https://ebird-tools.thruhere.net/polygon.html",
+        "referrerPolicy": "strict-origin-when-cross-origin",
+        "body": readStream,
+        "method": "POST",
+        "mode": "cors"
+      });
+}
+
 function nodeFetch(){
     return fetch("https://ebird.org/region/BR-SP?yr=all", {
             "headers": {
@@ -147,6 +206,6 @@ function nodeFetch(){
             "mode": "cors"
           });  
 }
-const scraper = {scrapewikiavesSearchByWid, scrapeEbirdSpeciesByState,
+const scraper = {scrapewikiavesSearchByWid, scrapeEbirdSpeciesByPolygon, scrapeEbirdSpeciesByState,
     scrapeWikiavesSearch, scrapeWikiavesSpeciesByCity, findCityId}
 export default scraper;

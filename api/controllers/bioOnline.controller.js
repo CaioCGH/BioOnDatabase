@@ -67,7 +67,7 @@ const controller = {
     },
     speciesInLocalities: async function(req, res){
         console.log(req.body);
-        var speciesList = await controller.findSpeciesFromLocalities(req.body.localities, req.body.filters);
+        var speciesList = await controller.findSpeciesFromLocalities(req.body.localities, req.body.filters, req.body.filterCompositionType);
         if(speciesList){
             res.json(speciesList);
         }else{
@@ -95,12 +95,12 @@ const controller = {
         return [];
     },
     downloadFromLocalities: async function(req, res){
-        var speciesList = await controller.findSpeciesFromLocalities(req.body.localities, req.body.filters);
+        var speciesList = await controller.findSpeciesFromLocalities(req.body.localities, req.body.filters, req.body.filterCompositionType);
         makeSheet(res, req.body.selectedArray, speciesList);
     },
 
 
-    findSpeciesFromLocalities: async function (localities, extraFilters){
+    findSpeciesFromLocalities: async function (localities, extraFilters, filterCompositionType){
         var localitiesNames = [];
         if(Array.isArray(localities)){
             localitiesNames = localities;
@@ -116,10 +116,30 @@ const controller = {
             const observations = locality['Observações Registradas'];
             for(let j = 0; j < observations.length; j++){
                 var baseFilter = {'Nome Científico': observations[j]['Nome Científico']};
-                for(let k = 0; k < extraFilters.length; k++){
-                    baseFilter[extraFilters[k].selectedKey] = extraFilters[k].selectedValue;
+                var species;
+
+                if(filterCompositionType == "AND"){
+                    for(let k = 0; k < extraFilters.length; k++){
+                        if(baseFilter[extraFilters[k].selectedKey]){
+                            console.log("campo de filtro usado duas vezes no modo AND");
+                            return [];
+                        }
+                        baseFilter[extraFilters[k].selectedKey] = extraFilters[k].selectedValue;
+                    }
+                    species = await Species.findOne(baseFilter).select('-__v -_id').exec();
+                }else if(filterCompositionType == "OR"){
+                    baseFilter["$or"] = [];
+                    for(let k = 0; k < extraFilters.length; k++){
+                        baseFilter["$or"].push(
+                            {
+                                [extraFilters[k].selectedKey]: extraFilters[k].selectedValue
+                            });
+                    }
+                    console.log("baseFilter");
+                    console.log(baseFilter);
+
+                    species = await Species.findOne(baseFilter).select('-__v -_id').exec();
                 }
-                const species = await Species.findOne(baseFilter).select('-__v -_id').exec();
                 if(species){
                     speciesMap[species['Nome Científico']] = species;
                 }

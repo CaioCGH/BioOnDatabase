@@ -60,13 +60,13 @@ export default {
     return {
       selectedTab: null,
       loadingColumns: true,
-      // returnedElementsObject: {}
       returnedElementsObject: {
         Básico: { selected: false },
         Taxonomia: { selected: false },
         Biologia: { selected: false },
         "Estado de Conservação": { selected: false },
         "Observações Registradas": { selected: false },
+        "Número De Localidades Com Registro": {selected: true}
       },
     };
   },
@@ -74,6 +74,7 @@ export default {
     feedCompleteOptions() {
       getBioOnlineColumns().then((value) => {
         this.returnedElementsObject = value;
+        this.returnedElementsObject["Número De Localidades Com Registro"] = {selected: true};
       });
     },
     toggleAll(checked, category) {

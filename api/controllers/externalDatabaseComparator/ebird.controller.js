@@ -6,8 +6,9 @@ const controller = {
 
   compare: async function (req, res) {
     const stateName = req.body.cityName;
-    const externalSpecies = await scraper.scrapeEbirdSpeciesByState(req.body.ignoreSubspecies);
+    const externalSpecies = await scraper.scrapeEbirdSpeciesByPolygon(req.body.ignoreSubspecies);
 
+    return [];
     var bioOnlineSpeciesNames = await bioOnlineBirds(req.body.ignoreSubspecies);
 
 
