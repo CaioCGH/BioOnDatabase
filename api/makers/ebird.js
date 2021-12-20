@@ -10,6 +10,7 @@ var scienticNameByCode = {};
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+console.log("erm...?")
 
 fs.createReadStream(path.resolve(__dirname, './../resources/ebirdtaxonomy.csv'))
     .pipe(csv.parse({ headers: true }))

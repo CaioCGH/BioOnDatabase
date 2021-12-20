@@ -81,7 +81,7 @@ async function speciesInCity(ignoreSubspecies){
 
 async function bioOnlineSpecies(ignoreSubspecies){
     const localities  = ["Município de São Paulo"];
-    const bioOnlineSpecies = await bioOnlineController.findSpeciesFromLocalities(localities, []);
+    const bioOnlineSpecies = await bioOnlineController.findSpeciesFromLocalities(localities, [], "AND");
     var bioOnlineSpeciesNames;
     if(ignoreSubspecies){
         bioOnlineSpeciesNames = bioOnlineSpecies.map((x) => (

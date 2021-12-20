@@ -99,7 +99,6 @@ const controller = {
         makeSheet(res, req.body.selectedArray, speciesList);
     },
 
-
     findSpeciesFromLocalities: async function (localities, extraFilters, filterCompositionType){
         var localitiesNames = [];
         if(Array.isArray(localities)){

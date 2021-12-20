@@ -10,7 +10,7 @@ const controller = {
 
     const localities  = ["Município de São Paulo"];
     const filters = [{ selectedKey: 'Taxonomia.Classe', selectedValue: 'Aves' }];
-    const bioOnlineSpecies = await bioOnlineController.findSpeciesFromLocalities(localities, filters);
+    const bioOnlineSpecies = await bioOnlineController.findSpeciesFromLocalities(localities, filters, "AND");
     var bioOnlineSpeciesNames = []
 
     if(req.body.ignoreSubspecies){

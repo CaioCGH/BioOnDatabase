@@ -1,27 +1,56 @@
 <template>
-<div>
-  <div v-if="showLists()" class="container">
-    <b-card-group deck>
-      <b-card border-variant="info" class="m-1" title="Total">
-        {{ total }}
-      </b-card>
-    </b-card-group>
+  <div>
+    <div v-if="showLists()" class="container">
+      <b-card-group deck>
+        <b-card border-variant="info" class="m-1" title="Total">
+          {{ total }}
+        </b-card>
+      </b-card-group>
 
-    <b-card-group deck>
-      <b-card border-variant="info" class="m-1" :title="externalDatabaseName">
-        <div>registros: {{ lists.onlyOnExternalDatabase.length }}</div>
-        <b-table striped hover :items="lists.onlyOnExternalDatabase"> </b-table>
-      </b-card>
-      <b-card border-variant="info" class="m-1" title="Intersecção">
-        <div>registros: {{ lists.intersection.length }}</div>
-        <b-table striped hover :items="lists.intersection"> </b-table>
-      </b-card>
-      <b-card border-variant="info" class="m-1" title="Somente no BioOnline">
-        <div>registros: {{ lists.onlyOnBioOnline.length }}</div>
-        <b-table striped hover :items="lists.onlyOnBioOnline"> </b-table>
-      </b-card>
-    </b-card-group>
-  </div>
+      <b-card-group deck>
+        <b-card border-variant="info" class="m-1" :title="externalDatabaseName">
+          <div>registros: {{ lists.onlyOnExternalDatabase.length }}</div>
+          <b-table
+            striped
+            hover
+            :items="lists.onlyOnExternalDatabase"
+            :fields="['Nome Científico', 'actions']"
+            thead-class="d-none"
+          >
+            <template #cell(actions)="row">
+              <b-button size="sm" @click="row.toggleDetails">
+                {{ row.detailsShowing ? "Esconder" : "Mostrar" }} links
+              </b-button>
+            </template>
+            <template id="table-wrapper" #row-details="row">
+              <b-table :items="row.item['Fontes']" thead-class="d-none">
+              </b-table>
+            </template>
+          </b-table>
+        </b-card>
+        <b-card border-variant="info" class="m-1" title="Intersecção">
+          <div>registros: {{ lists.intersection.length }}</div>
+          <b-table striped hover :items="lists.intersection"
+          :fields="['Nome Científico', 'actions']"
+            thead-class="d-none"
+          >
+            <template #cell(actions)="row">
+              <b-button size="sm" @click="row.toggleDetails">
+                {{ row.detailsShowing ? "Esconder" : "Mostrar" }} links
+              </b-button>
+            </template>
+            <template id="table-wrapper" #row-details="row">
+              <b-table :items="row.item['Fontes']" thead-class="d-none">
+              </b-table>
+            </template>
+          </b-table>
+        </b-card>
+        <b-card border-variant="info" class="m-1" title="Somente no BioOnline">
+          <div>registros: {{ lists.onlyOnBioOnline.length }}</div>
+          <b-table striped hover :items="lists.onlyOnBioOnline"> </b-table>
+        </b-card>
+      </b-card-group>
+    </div>
   </div>
 </template>
 
