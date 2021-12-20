@@ -96,7 +96,7 @@ export default {
       }
       const payload = {
         localities: chosenLocalities,
-        filters: this.$store.state.selectedFilters,
+        filters: this.$store.state.selectedFilters, 
         filterCompositionType: this.$store.state.filterCompositionType,
       };
       bioOnlineSearchAnimalsInLocalities(payload).then((value) => {
