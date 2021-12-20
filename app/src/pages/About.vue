@@ -1,35 +1,41 @@
 <template>
   <div class="d-flex flex-column min-vh-100">
-    <b-card class="mt-1 ml-1 mr-1 mb-1 border-primary" >
-    <p>O projeto Fauna do Município de São Paulo tem como objetivo facilitar a a busca por dados sobre as diversas espécies de animais silvestres que habitam a cidade de São Paulo. Reunindo diversas fontes num único lugar, e com diversas opções de busca, o interessado, seja pesquisador ou leigo, deve se sentir a vontade para obter informações e até relatórios mais complexos.</p>
-  </b-card>
+      <p class="m-5 about">
+        O projeto Fauna Sampa foi desenvolvido em parceria com a Divisão da
+        Fauna Silvestre da Secretaria do Verde e Meio Ambiente e a Universidade
+        de São Paulo, no âmbito do Trabalho de Conclusão de Curso do aluno Caio
+        Calisto Gaede Hirakawa sob orientação do Prof. Dr. Alfredo Goldman do
+        Instituto de Matemática e Estatística da Universidade de São Paulo.
+      </p>
+<b-container>
+    <b-row class="vh-60" align-v="center">
+      <b-col>
+      <img style="width: 100%" src ="../assets/about/imeLogo.jpg">
+      </b-col>
+      <b-col>
+      <img style="width: 100%" src ="../assets/about/uspLogo.png">
+      </b-col>
+      <b-col>
+      <img style="width: 100%" src ="../assets/about/depaveLogo.jpeg">
+      </b-col>
+      <b-col>
+      <img style="width: 100%" src ="../assets/about/saoPauloLogo.jpeg">
+      </b-col>
+    </b-row>
+</b-container>
   </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        bars: [
-          { variant: 'success', value: 75 },
-          { variant: 'info', value: 75 },
-          { variant: 'warning', value: 75 },
-          { variant: 'danger', value: 75 },
-          { variant: 'primary', value: 75 },
-          { variant: 'secondary', value: 75 },
-          { variant: 'dark', value: 75 }
-        ],
-        timer: null
-      }
-    },
-    mounted() {
-      this.timer = setInterval(() => {
-        this.bars.forEach(bar => (bar.value = 25 + Math.random() * 75))
-      }, 100)
-    },
-    beforeDestroy() {
-      clearInterval(this.timer)
-      this.timer = null
-    }
-  }
+export default {
+  data() {
+    return {};
+  },
+};
 </script>
+
+<style >
+
+/* p .about{s */
+
+</style>

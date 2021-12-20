@@ -140,13 +140,11 @@ async function findCityId(cityName) {
   const citySearchBaseUrl = "https://www.wikiaves.com.br/getCidadesJSON.php?";
   const cityParams = new URLSearchParams({ term: cityName });
   const citySearchFullUrl = citySearchBaseUrl + cityParams.toString();
-  console.log(citySearchFullUrl);
 
   const response = await fetch(citySearchFullUrl, { method: "GET" });
   const data = await response.json();
 
   const cityId = data.find((e) => e.label === cityName).id;
-  console.log("cityId", cityId);
   return cityId;
 }
 
@@ -154,7 +152,6 @@ async function getCityDataInHTML(cityId) {
   const citySearchBaseUrl = "https://www.wikiaves.com.br/especies.php?";
   const cityParams = new URLSearchParams({ t: "c", c: cityId });
   const citySearchFullUrl = citySearchBaseUrl + cityParams.toString();
-  console.log(citySearchFullUrl);
 
   const response = await fetch(citySearchFullUrl, { method: "GET" });
   const data = await response.text();
@@ -164,19 +161,13 @@ async function getCityDataInHTML(cityId) {
 
 async function getStateDataInHTML() {
   const stateSearchBaseUrl = "https://ebird.org/region/BR-SP?yr=all";
-  // const response = await fetch(stateSearchBaseUrl, {method: 'GET', redirect: 'manual'});
-  console.log("Fetching from", stateSearchBaseUrl);
   const response = await nodeFetch();
-  console.log(response);
   const data = await response.text();
-  console.log(data);
   return data;
 }
 
 async function getListOfHotSpotSpeciesLinks(link) {
-  console.log("link", link);
   const cookiesResponse = await obtainHotSpotCookiesWithAxios(link);
-  console.log(cookiesResponse.headers['set-cookie'][0]);
   const response = await obtainSpeciesOfHotSpotAxios(link, cookiesResponse.headers['set-cookie'][0]);
   if(!response){
     console.log("não pode obter " + link);
@@ -247,21 +238,6 @@ async function obtainSpeciesOfHotSpotAxios(link, cookies) {
   };
   
   return await axios(options);
-}
-async function nodeHotSpotFetch(link) {
-  console.log("fetching");
-  return await fetch(link, {
-          method: 'GET',
-          credentials: 'same-origin',
-          // headers: {
-          //   'Cookie': 'Cookie: hubspotutk=73b37a40ece102d62186aa626ba9695f; _ga=GA1.2.1224360691.1624750906; _ga_QR4NVXZ8BM=GS1.1.1625112776.1.1.1625113686.60; I18N_LANGUAGE=pt_BR; __hssrc=1; EBIRD_SESSIONID=DA8DD70AE37A0FE58AD025C67B811F02; _gid=GA1.2.2109621666.1639933161; _gat_gtag_UA_171937_2=1; __hstc=60209138.73b37a40ece102d62186aa626ba9695f.1624750905855.1639836996029.1639933161953.14; __hssc=60209138.2.1639933161953'
-          // }
-      })
-      .then((r) =>{
-        console.log("gotcha!", r.text());
-      }).catch((e) =>{
-        console.log("caught" + e);}
-      );
 }
 async function nodeHotSpotsFetch() {
   const form = new FormData();

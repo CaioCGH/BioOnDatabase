@@ -7,6 +7,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+      globalTree: {},
       selectedArrayToCards: ['Nome Científico', 'Nome Comum', 'CITES (2021)', 'Observações Registradas'],
       selectedArrayToTable: ['Nome Científico', 'Nome Comum', 'CITES (2021)', { key: "Número de Localidades com Registro", sortable: true}],
       filterDict: {},
@@ -102,6 +103,9 @@ export default new Vuex.Store({
     }
     },
     mutations: {
+      updateGlobalTree(state, globalTree){
+        state.globalTree = globalTree;
+      },
       updateSelectedArrayToCards(state, array){
         state.selectedArrayToCards = array;
       },

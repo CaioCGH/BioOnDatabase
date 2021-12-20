@@ -66,7 +66,7 @@ const controller = {
         res.json(localities.map(locality => locality['Nome Completo']).sort());
     },
     speciesInLocalities: async function(req, res){
-        console.log(req.body);
+        // console.log(req.body);
         var speciesList = await controller.findSpeciesFromLocalities(req.body.localities, req.body.filters, req.body.filterCompositionType);
         if(speciesList){
             res.json(speciesList);
@@ -116,7 +116,9 @@ const controller = {
             for(let j = 0; j < observations.length; j++){
                 var baseFilter = {'Nome Científico': observations[j]['Nome Científico']};
                 var species;
-
+                if(!filterCompositionType){
+                    filterCompositionType = "AND";
+                }
                 if(filterCompositionType == "AND"){
                     for(let k = 0; k < extraFilters.length; k++){
                         if(baseFilter[extraFilters[k].selectedKey]){
@@ -134,8 +136,6 @@ const controller = {
                                 [extraFilters[k].selectedKey]: extraFilters[k].selectedValue
                             });
                     }
-                    console.log("baseFilter");
-                    console.log(baseFilter);
 
                     species = await Species.findOne(baseFilter).select('-__v -_id').exec();
                 }

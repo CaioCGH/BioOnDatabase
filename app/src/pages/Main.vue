@@ -1,18 +1,22 @@
 <template>
   <div>
-    <MainSearch />
+    <AboutMain />
+    <BioDiversityMain />
+    <LocalitiesMain />
   </div>
 </template>
 
 <script>
 
-import MainSearch from '../components/MainSearch.vue'
+import AboutMain from '../components/Main/AboutMain.vue'
+import BioDiversityMain from '../components/Main/BioDiversityMain.vue'
+import LocalitiesMain from '../components/Main/LocalitiesMain.vue'
 
 
 
 export default {
   components: {
-      MainSearch
+      AboutMain, BioDiversityMain, LocalitiesMain
   }
 }
 </script>

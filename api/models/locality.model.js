@@ -46,6 +46,7 @@ const Locality = mongoose.model(
   new mongoose.Schema({
     'Nome Banco de Dados': String,
     'Nome Completo': String,
+    'Tipo': String,
     'Tipologia': String,
     'Situação': String,
     'Endereço': String,
