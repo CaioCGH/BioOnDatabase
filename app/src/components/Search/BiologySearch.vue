@@ -1,23 +1,46 @@
 <template>
   <div>
-    <h3>Busca por Informações Biológicas 
-e Estado de Conservação
-</h3>
-    <b-form-group
-      id="input-group-1"
-      label-for="input-1"
-      v-for="taxonomyLevel in taxonomyLevels"
-      :key="taxonomyLevel.id"
-    >
-      <b-form-select
-        id="input-1"
-        :placeholder="taxonomyLevel.name"
-        :options="taxonomyLevel.options"
-        v-model="taxonomyLevel.chosenName"
-        @change="update(taxonomyLevel.chosenName, taxonomyLevel.name)"
-      ></b-form-select>
-    </b-form-group>
+    <h3>Busca por Informações Biológicas e Estado de Conservação</h3>
+    <div v-for="selector in selectors" :key="selector.id">
+      <b-row>
+        <b-col>
+          <!-- {{localBioFilterKeys}} -->
+          <b-form-select
+            v-model="selector.selectedKey"
+            :options="Object.keys(localBioFilterKeys)"
+          ></b-form-select>
+        </b-col>
+        <b-col>
+          <b-form-select
+            v-if="selector.selectedKey"
+            v-model="selector.selectedValue"
+            @change="updateFilterDictOnAdd(selector)"
+            :options="localBioFilterKeys[selector.selectedKey]['domain']"
+          ></b-form-select>
+        </b-col>
+      </b-row>
+    </div>
     <div class="mb-4 mt-2">
+      <b-row>
+      <b-button
+        @click="selectors.push({ selectedKey: 'Tipologia' })"
+        class="clear mr-2 mb-2"
+        :disabled="loading"
+      >
+        <span>Adicionar filtro</span>
+      </b-button>
+      <b-button
+        @click="
+          var removed = selectors.pop();
+          updateFilterDictOnRemoval(removed);
+        "
+        class="clear mr-2 mb-2"
+        :disabled="loading"
+      >
+        <span v-show="!loading">Remover filtro</span>
+      </b-button>
+      </b-row>
+
       <b-button class="clear mr-2" @click="clearForms()">
         <span v-show="!loading">Limpar campos</span>
         <b-spinner
@@ -28,14 +51,7 @@ e Estado de Conservação
         ></b-spinner>
         <span v-show="loading">Aguarde, carregando</span>
       </b-button>
-      <b-button
-        @click="bioOnlineSearchAnimalsInLocalities()"
-        class="search mr-2"
-        :disabled="
-          localitiesWrapper.length < 1 ||
-          localitiesWrapper[0].chosenLocality == ''
-        "
-      >
+      <b-button @click="search()" class="search mr-2" :disabled="loading">
         <span v-show="!loading">Pesquisar</span>
         <b-spinner
           v-show="loading"
@@ -51,51 +67,91 @@ e Estado de Conservação
 
 <script>
 import { bioOnlineSearchAnimalsInLocalities } from "../BioOnline/BioOnlineService";
-import { getTaxonomyTree } from "../BioOnline/BioOnlineService";
+import { getBioOnlineFilterDict } from "../BioOnline/BioOnlineService";
 
 import Tree from "../BioOnline/TreeUtils";
 
 export default {
+  components: {},
   data() {
     return {
-      taxonomyLevels: [
-        {
-          name: "",
-    options: ["Tipologia"],
-        chosenName: "Tipologia"
-        },
-        {
-        name: "Classe",
-        options: ["Categorias"],
-        chosenName: "Categorias"
-        }
-      ],
-      loadingGlobalTree: true,
-      tree: {},
+      localBioFilterKeys: {
+        Tipologia: { selected: [], domain: ["Categoria"] },
+      },
+      selectors: [{ selectedKey: "Tipologia", selectedValue: "Categoria" }],
       loading: false,
     };
   },
   methods: {
-    bioOnlineSearchAnimalsInLocalities() {
-      this.loading = true;
-      var chosenLocalities = [];
-      for (let i = 0; i < this.localitiesWrapper.length; i++) {
-        chosenLocalities.push(this.localitiesWrapper[i].chosenLocality);
+    clearForms() {
+      this.feed();
+      this.filterList = JSON.parse(JSON.stringify(this.pristinefilterList));
+    },
+    update(chosenName, name) {
+      this.$store.state.globalTree = Tree.findNode(
+        chosenName,
+        this.$store.state.globalTree
+      );
+      for (let i = 0; i < this.filterList.length; i++) {
+        if (this.filterList[i].name == name) {
+          for (let j = i + 1; j < this.filterList.length; j++) {
+            this.filterList[j].options = [
+              {
+                value: this.filterList[j].name,
+                text: this.filterList[j].name,
+                disabled: true,
+              },
+            ];
+
+            var nodes = Tree.findNodesOfLevel(
+              this.filterList[j].name,
+              this.$store.state.globalTree
+            );
+
+            var options = nodes.map((x) => ({
+              value: x.name,
+              text: x.name,
+              disabled: false,
+            }));
+            this.filterList[j].options.push(...options);
+          }
+        }
       }
+      this.namesOnLeaves = Tree.findScientificNamesOnLeaves(
+        this.$store.state.globalTree
+      );
+    },
+    search() {
+      this.loading = true;
+      var chosenLocalities = ["Tudo"];
+      // for (let i = 0; i < this.localitiesWrapper.length; i++) {
+      //   chosenLocalities.push(this.localitiesWrapper[i].chosenLocality);
+      // }
+      // var thisSearchFilters = [];
+      // for (let i = 0; i < this.pristinefilterList.length; i++) {
+      //   if (this.filterList[i].name !== this.filterList[i].chosenName) {
+      //     // const filterFieldName = "Taxonomia." + this.filterList[i].name;
+      //     const filter = {
+      //       selectedKey: "Taxonomia." + this.filterList[i].name,
+      //       selectedValue: this.filterList[i].chosenName,
+      //     };
+      //     // filter[selectedValue] = this.filterList[i].chosenName;
+      //   }
+      //     thisSearchFilters.push(filter);
+      // }
       const payload = {
         localities: chosenLocalities,
         filters: this.$store.state.selectedFilters,
-        filterCompositionType: this.$store.state.filterCompositionType,
+        filterCompositionType: "AND",
       };
       bioOnlineSearchAnimalsInLocalities(payload).then((value) => {
-        console.log(value[0]);
         value.forEach(
           (a) =>
             (a["Número de Localidades com Registro"] =
               a["Observações Registradas"].length)
         );
 
-        this.animalRows = value.sort((a, b) => {
+        this.$store.state.animalRows = value.sort((a, b) => {
           return a["Index"] - b["Index"];
         });
         this.result = true;
@@ -103,41 +159,46 @@ export default {
         this.$store.state.hasSearched = true;
       });
     },
-    update(chosenName, name) {
-      for (let i = 0; i < this.taxonomyLevels.length; i++) {
-        if (this.taxonomyLevels[i].name == name) {
-          for (let j = i; j < this.taxonomyLevels.length; j++) {
-            var newRoot;
-            // newRoot = Tree.findNodesOfLevelAndName(
-            //   this.taxonomyLevels[j].name,
-            //   chosenName,
-            //   this.tree
-            // )[0];
-            console.log("newRoot", newRoot);
-            // if(newRoot)throw "stop"
-            this.taxonomyLevels[j].options = Tree.findNodesOfLevel(
-              this.taxonomyLevels[j].name,
-              newRoot ? newRoot : this.tree
-            ).map((x) => x.name);
-          }
+    feedCompleteOptions() {
+      getBioOnlineFilterDict().then((value) => {
+        const bioKeys = Object.keys(value["Biologia"]);
+        for (let i = 0; i < bioKeys.length; i++) {
+          this.localBioFilterKeys[bioKeys[i]] = value["Biologia"][bioKeys[i]];
+           this.localBioFilterKeys[bioKeys[i]]['category'] = "Biologia";
         }
-      }
-    },
-    feed() {
-      getTaxonomyTree().then((value) => {
-        this.tree = value;
-        for (let i = 0; i < this.taxonomyLevels.length; i++) {
-          this.taxonomyLevels[i].options = Tree.findNodesOfLevel(
-            this.taxonomyLevels[i].name,
-            this.tree
-          ).map((x) => x.name);
-          //   console.log(this.taxonomyLevels[i].options);
+        const consKeys = Object.keys(value["Estado de Conservação"]);
+        for (let i = 0; i < consKeys.length; i++) {
+          this.localBioFilterKeys[consKeys[i]] =
+            value["Estado de Conservação"][consKeys[i]];
+            this.localBioFilterKeys[consKeys[i]]['category'] = "Estado de Conservação";
+
         }
+
+        console.log(this.localBioFilterKeys);
+        const stuff = JSON.parse( JSON.stringify(this.localBioFilterKeys));
+        this.localBioFilterKeys = stuff;
+        this.$store.state.bioFilterKeys = this.localBioFilterKeys;
+        // const stuff = Object.keys(this.$store.state.bioFilterKeys)
+        //  for (let i = 0; i < stuff.length; i++) {
+        //    console.log(this.$store.state.bioFilterKey[stuff[i]], this.$store.state.bioFilterKey[stuff[i]]['domain']);
+        //  }
       });
+    },
+    updateFilterDictOnRemoval(removedSelector) {
+      removedSelector;
+      this.$store.state.selectedFilters.pop();
+    },
+    updateFilterDictOnAdd(selector) {
+      var newSelector = { selectedKey: this.localBioFilterKeys[selector.selectedKey]['category'] + '.' + selector.selectedKey, selectedValue: selector.selectedValue};
+      this.$store.state.selectedFilters.push(newSelector);
     },
   },
   created() {
-    this.feed();
+    this.feedCompleteOptions();
+    this.loadingColumns = false;
+    // this.filterList = JSON.parse(
+    //   JSON.stringify(this.pristinefilterList)
+    // );
   },
   computed: {
     localitiesWrapper: {
@@ -146,6 +207,29 @@ export default {
       },
       set(value) {
         this.$store.commit("updateLocalitiesWrapper", value);
+      },
+    },
+    bioFilterKeys: {
+      get() {
+        return this.$store.state.bioFilterKeys;
+      },
+    },
+    conservationStatusDict: {
+      get() {
+        return this.$store.state.conservationStatusDict;
+      },
+    },
+    filterCompositionType: {
+      get() {
+        return this.$store.state.filterCompositionType;
+      },
+      set(value) {
+        this.$store.commit("updatefilterCompositionType", value);
+      },
+    },
+    selectedFilters: {
+      get() {
+        return this.$store.state.selectedFilters;
       },
     },
   },
@@ -180,12 +264,11 @@ h3 {
 .search {
   background-color: peru !important;
   color: dimgray;
-      border-color: peru;
-
+  border-color: peru;
 }
 .clear {
-    background-color: blanchedalmond !important;
-    color: dimgray;
-    border-color: peru;
+  background-color: blanchedalmond !important;
+  color: dimgray;
+  border-color: peru;
 }
 </style>

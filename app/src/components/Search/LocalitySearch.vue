@@ -1,22 +1,62 @@
 <template>
   <div>
-    <h3>Busca por Busca por Área Verde</h3>
-    <b-form-group
-      id="input-group-1"
-      label-for="input-1"
-      v-for="taxonomyLevel in taxonomyLevels"
-      :key="taxonomyLevel.id"
+    <h3>Busca por Informações Biológicas e Estado de Conservação</h3>
+    <form
+      v-for="localityWrapper in localitiesWrapper"
+      :key="localityWrapper.id"
     >
       <b-form-select
-        id="input-1"
-        :placeholder="taxonomyLevel.name"
-        :options="taxonomyLevel.options"
-        v-model="taxonomyLevel.chosenName"
-        @change="update(taxonomyLevel.chosenName, taxonomyLevel.name)"
+        v-model="localityWrapper.chosenLocality"
+        :options="localities"
+        @change="update"
       ></b-form-select>
-    </b-form-group>
+    </form>
     <div class="mb-4 mt-2">
-      <b-button class="clear mr-2" @click="clearForms()">
+      <b-button
+        @click="localitiesWrapper.push({ chosenLocality: '' })"
+        class="clear mr-2 mb-2"
+      >
+        <span>Adicionar local</span>
+      </b-button>
+      <b-button
+        @click="
+          localitiesWrapper.pop();
+          update();
+        "
+        class="clear mr-2 mb-2"
+      >
+      <b-spinner
+          v-show="loading"
+          small
+          variant="primary"
+          label="Spinning"
+        ></b-spinner>
+        <span v-show="loading">Aguarde, carregando</span>
+        <span v-show="!loading">Remover local</span>
+      </b-button>
+    </div>
+    <div class="mb-4 mt-2">
+      
+
+      <!-- <b-button
+        v-b-modal="'modalId'"
+        class="clear mr-2 mb-2"
+        :disabled="
+          localitiesWrapper.length < 1 ||
+          localitiesWrapper[0].chosenLocality == ''
+        "
+      >
+        <span v-show="!loading">Baixar lista</span>
+        <b-spinner
+          v-show="loading"
+          small
+          variant="primary"
+          label="Spinning"
+        ></b-spinner>
+        <span v-show="loading">Aguarde, carregando</span>
+      </b-button> -->
+
+      <b-button @click="clearForms()" class="clear mr-2 mb-2">
         <span v-show="!loading">Limpar campos</span>
         <b-spinner
           v-show="loading"
@@ -28,7 +68,7 @@
       </b-button>
       <b-button
         @click="bioOnlineSearchAnimalsInLocalities()"
-        class="search mr-2"
+        class="search mr-2 mb-2"
         :disabled="
           localitiesWrapper.length < 1 ||
           localitiesWrapper[0].chosenLocality == ''
@@ -48,30 +88,27 @@
 </template>
 
 <script>
-import { bioOnlineSearchAnimalsInLocalities } from "../BioOnline/BioOnlineService";
-import { getTaxonomyTree } from "../BioOnline/BioOnlineService";
-
-import Tree from "../BioOnline/TreeUtils";
+import {
+  bioOnlineSearchAnimalsInLocalities,
+  getBioOnlineLocalities,
+  downLoadList,
+} from "../BioOnline/BioOnlineService";
 
 export default {
+  components: {},
   data() {
     return {
-      taxonomyLevels: [
-        {
-          name: "Filo",
-          options: [],
-          chosenName: "Tipologia"
-        },
-        {
-          name: "Classe",
-          options: [],
-          chosenName: "Nome da Área Verde"
-        }
-      ],
-      loadingGlobalTree: true,
-      tree: {},
+      localities: [{ value: "", text: "Localidade" }],
+      result: false,
       loading: false,
+      loadingDownload: false,
+      loadingRefresh: false,
+      timesOpened: 0,
+      afterAWhile: false
     };
+  },
+  created() {
+    this.feedBioOnlineLocalities();
   },
   methods: {
     bioOnlineSearchAnimalsInLocalities() {
@@ -83,61 +120,73 @@ export default {
       const payload = {
         localities: chosenLocalities,
         filters: this.$store.state.selectedFilters,
-        filterCompositionType: this.$store.state.filterCompositionType,
+        filterCompositionType: this.$store.state.filterCompositionType
       };
       bioOnlineSearchAnimalsInLocalities(payload).then((value) => {
         console.log(value[0]);
-        value.forEach(
-          (a) =>
-            (a["Número de Localidades com Registro"] =
-              a["Observações Registradas"].length)
-        );
+        value.forEach(a => a["Número de Localidades com Registro"] = a["Observações Registradas"].length)
 
-        this.animalRows = value.sort((a, b) => {
-          return a["Index"] - b["Index"];
-        });
+        this.animalRows = value
+        .sort((a,b) => {
+        return a['Index'] - b['Index']});
         this.result = true;
         this.loading = false;
-        this.$store.state.hasSearched = true;
+        this.$store.state.hasSearched=true;
       });
     },
-    update(chosenName, name) {
-      for (let i = 0; i < this.taxonomyLevels.length; i++) {
-        if (this.taxonomyLevels[i].name == name) {
-          for (let j = i; j < this.taxonomyLevels.length; j++) {
-            var newRoot;
-            // newRoot = Tree.findNodesOfLevelAndName(
-            //   this.taxonomyLevels[j].name,
-            //   chosenName,
-            //   this.tree
-            // )[0];
-            console.log("newRoot", newRoot);
-            // if(newRoot)throw "stop"
-            this.taxonomyLevels[j].options = Tree.findNodesOfLevel(
-              this.taxonomyLevels[j].name,
-              newRoot ? newRoot : this.tree
-            ).map((x) => x.name);
-          }
-        }
-      }
-    },
-    feed() {
-      getTaxonomyTree().then((value) => {
-        this.tree = value;
-        for (let i = 0; i < this.taxonomyLevels.length; i++) {
-          this.taxonomyLevels[i].options = Tree.findNodesOfLevel(
-            this.taxonomyLevels[i].name,
-            this.tree
-          ).map((x) => x.name);
-          //   console.log(this.taxonomyLevels[i].options);
-        }
+    downLoadList() {
+      this.loadingDownload = true;
+
+      const payload = {
+        genus: this.chosenGenus.trim(),
+        species: this.chosenSpecies.trim(),
+        commonName: this.chosenCommonName.trim(),
+      };
+      downLoadList(payload).then((value) => {
+        value;
+        this.result = true;
+        this.loading = false;
       });
     },
-  },
-  created() {
-    this.feed();
+    feedBioOnlineLocalities() {
+      this.loadingRefresh = true;
+      
+      getBioOnlineLocalities().then((value) => {
+        this.localities.push(...value);
+        this.loadingRefresh = false;
+        this.afterAWhile = false;
+      });
+      setTimeout(() => {
+        if(this.localities.length < 10 ){
+          this.afterAWhile = true;
+        }
+      }, 5000);
+    },
+    clearForms() {
+      this.$store.state.localitiesWrapper = [{ chosenLocality: "" }];
+      this.$store.commit("updateAnimalRows", []);
+    },
+    update() {
+      this.$store.commit("updateSelectedArrayOnLocalities", this.localities);
+    },
   },
   computed: {
+    displayType: {
+      get() {
+        return this.$store.state.displayType;
+      },
+      set(value) {
+        this.$store.commit("updateDisplayType", value);
+      },
+    },
+    animalRows: {
+      get() {
+        return this.$store.state.animalRows;
+      },
+      set(value) {
+        this.$store.commit("updateAnimalRows", value);
+      },
+    },
     localitiesWrapper: {
       get() {
         return this.$store.state.localitiesWrapper;
@@ -178,12 +227,11 @@ h3 {
 .search {
   background-color: peru !important;
   color: dimgray;
-      border-color: peru;
-
+  border-color: peru;
 }
 .clear {
-    background-color: blanchedalmond !important;
-    color: dimgray;
-    border-color: peru;
+  background-color: blanchedalmond !important;
+  color: dimgray;
+  border-color: peru;
 }
 </style>

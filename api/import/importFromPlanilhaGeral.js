@@ -25,7 +25,7 @@ connect().then(() => {
 
 const startImport = async () => {
   let parsedData = await readCSV("planilha_geral.csv");
-  seedSpecies(parsedData);
+  // seedSpecies(parsedData);
   seedTaxonomyTree(parsedData);
 };
 
@@ -62,6 +62,17 @@ function seedTaxonomyTree(parsedData) {
         levelName: TAXONOMY_LEVELS[j],
         children: [],
       };
+      // console.log(parsedData[i]);
+
+      if (taxonomyNode.levelName === "Subespécie") {
+        taxonomyNode.leavesNames = [
+          {
+            scientificName: t(t(parsedData[i]["Gênero"]) + " " + t(parsedData[i]["Espécie"]) + " " + t(parsedData[i]["Subespécie"])),
+            commonName: t(parsedData[i]["Nome Comum"]),
+          },
+        ];
+      }
+
       var previousExistingNode = checkDuplicateAndPush(
         parent.children,
         taxonomyNode
@@ -75,12 +86,14 @@ function seedTaxonomyTree(parsedData) {
   }
 
   populateNumberOfLeaves(root);
+  findScientificNamesOnLeaves(root);
 
   const rootAsTaxonomyNode = new TaxonomyNode({
     name: "Animalia",
     levelName: "Reino",
     numberOfLeaves: root.numberOfLeaves,
     children: root.children,
+    leavesNames: root.leavesNames
   });
   rootAsTaxonomyNode.save({ checkKeys: false }, (err) => {
     if (err) {
@@ -102,6 +115,20 @@ function populateNumberOfLeaves(node) {
   node.numberOfLeaves = node.children
     .map((c) => c.numberOfLeaves)
     .reduce((a, b) => a + b, 0);
+}
+
+function findScientificNamesOnLeaves(node) {
+  if (node.levelName == "Subespécie") {
+    return node.leavesNames;
+  }
+  var names = [];
+  console.log(node.name, node.children.map(x => x.name))
+  for (let i = 0; i < node.children.length; i++) {
+    console.log(node.children[i].name)
+    names.push(...findScientificNamesOnLeaves(node.children[i]));
+  }
+  node.leavesNames = names;
+  return node.leavesNames;
 }
 
 async function seedSpecies(parsedData) {

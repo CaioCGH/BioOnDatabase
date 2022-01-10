@@ -19,7 +19,8 @@ const Species = mongoose.model(
 const taxonomyNode = new mongoose.Schema({
   name: String,
   levelName: String,
-  numberOfLeaves: Number
+  numberOfLeaves: Number,
+  leavesNames: Array
 });
 taxonomyNode.add({
   children: [taxonomyNode],

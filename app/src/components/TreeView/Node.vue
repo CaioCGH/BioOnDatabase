@@ -1,8 +1,8 @@
 <template>
-  <div no-body>
-    <b-card no-body  :class="cardClass">
+  <!-- <div no-body> -->
+    <b-card   :class="cardClass">
       <b-row>
-        <b-col lg="4" class="pb-2">
+        <b-col cols="8">
           <tr>
             <td class="text-muted"> {{ dataNode.levelName }}: </td>
             <td class="text-primary"> {{ dataNode.name }} </td>
@@ -12,7 +12,7 @@
             <td class="text-primary"> {{ dataNode.numberOfLeaves }} </td>
           </tr>
         </b-col>
-        <b-col lg="4" class="pb-2">
+        <b-col class="pb-2">
           <button v-if="dataNode.levelName != 'Subespécie'"
           :class="buttonClass"
           @click="changeButtonStyle()">
@@ -24,7 +24,7 @@
             <div v-for="names in dataNode.leavesNames" :key="names.id">
               <b-row>
                 <!-- <b-column class="text-primary mr-4"> {{ names.commonName }} </b-column> -->
-                <b-column class="text-primary"> {{ names.scientificName }} </b-column>
+                <b-col class="text-primary"> {{ names.scientificName }} </b-col>
               </b-row>
             </div>
           </div>
@@ -36,8 +36,10 @@
         </div>
       </div>
     </b-card>
-  </div>
+  <!-- </div> -->
 </template>
+
+
 <script>
 import TreeNode from "./Node.vue";
 export default {

@@ -58,8 +58,6 @@ module.exports = class Tree {
 
     Tree.populateNumberOfLeaves(root);
     Tree.findScientificNamesOnLeaves(root);
-    // const newTree = new Tree(root);
-    console.log(root);
     return root;
   }
 
@@ -108,7 +106,6 @@ module.exports = class Tree {
   // }
 
   findParentLevel(levelName){
-    console.log(this.root);
     return Tree.findParentLevel2(levelName, this.root);
   }
   
@@ -116,9 +113,6 @@ module.exports = class Tree {
     if(node.levelName == "Subespécie"){
       return [];
     }
-    console.log("levelName",levelName);
-    console.log("node",node);
-    console.log(node.children[0].name, levelName, node.children[0].levelName == levelName);
     if(node.children[0].levelName == levelName){
       return node.children;
     }
@@ -131,17 +125,10 @@ module.exports = class Tree {
   }
 
   static findNodesOfLevelAndName(levelName, name, node){
-    console.log("finding Node");
     if(node.levelName == "Subespécie"){
       return [];
     }
-    // console.log(levelName);
-    // console.log(node);
-    console.log(node.levelName, levelName, node.levelName == levelName);
-    console.log(node.name, name, node.name == name);
     if(node.levelName == levelName && node.name == name){
-      console.log("found node", node);
-      // throw "stop"
       return [node];
     }
     const yes = [];
@@ -150,4 +137,32 @@ module.exports = class Tree {
     }
     return yes;
   }
+
+  static findNode(name, currentNode) {
+    var i,
+        currentChild,
+        result;
+
+    if (name == currentNode.name) {
+        return currentNode;
+    } else {
+
+        // Use a for loop instead of forEach to avoid nested functions
+        // Otherwise "return" will not work properly
+        for (i = 0; i < currentNode.children.length; i += 1) {
+            currentChild = currentNode.children[i];
+
+            // Search in the current child
+            result = this.findNode(name, currentChild);
+
+            // Return the result if the node has been found
+            if (result !== false) {
+                return result;
+            }
+        }
+
+        // The node has not been found and we have no more options
+        return false;
+    }
+}
 };

@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 import ebird from "../makers/ebird.js";
 import fs from "fs";
 import FormData from "form-data";
-import { isAsyncFunction } from "util/types";
+// import { isAsyncFunction } from "util/types";
 import { Console } from "console";
 import * as csv from 'fast-csv';
 import axios from 'axios';

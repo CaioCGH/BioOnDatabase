@@ -11,6 +11,7 @@ export default new Vuex.Store({
       selectedArrayToCards: ['Nome Científico', 'Nome Comum', 'CITES (2021)', 'Observações Registradas'],
       selectedArrayToTable: ['Nome Científico', 'Nome Comum', 'CITES (2021)', { key: "Número de Localidades com Registro", sortable: true}],
       filterDict: {},
+      bioFilterKeys: { 'Tipologia': {selected: [], domain: ["Categoria"]}},
       selectedFilters: [],
       animalRows: [],
       mixedAnimalRows: [],

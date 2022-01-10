@@ -29,7 +29,7 @@ services:
     links:
       - db_mongo
     command: "npm run dev"
-    # command: "yes"
+    # command: "sleep 1h"
 
   bio-ui:
     build:
@@ -42,3 +42,4 @@ services:
     volumes:
        - ./app:/usr/src/app
     command: "npm run serve"
+    # command: "sleep 1h"

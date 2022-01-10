@@ -1,29 +1,36 @@
 <template>
   <div>
     <b-container>
-      <b-row class="vh-60" align-v="center">
-        <b-col class="m-4">
+      <b-row>
+      <b-col class="m-4">
+        <div >
           <TaxonomySearch />
-        </b-col>
-        <b-col class="m-4">
-          <LocalitySearch />
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col class="m-4">
+        </div>
+        <div>
           <BiologySearch />
-        </b-col>
-        <b-col class="m-4">
+        </div>
+      </b-col>
+      <b-col class="m-4">
+        <div>
+          <LocalitySearch />
+        </div>
+        <div>
           <img
-          class="m-4"
-          style="width: 100%"
-          src="../assets/ibirapuera.jpg"
-          alt=""
-        />
-        </b-col>
+            class="m-4"
+            style="width: 100%"
+            src="../assets/ibirapuera.jpg"
+            alt=""
+          />
+        </div>
+      </b-col>
+      </b-row>
+    </b-container>
+    <b-container>
+      <b-row>
+        <Node :dataNode="this.$store.state.globalTree" />
       </b-row>
       <b-row>
-          <BioOnlinetableRows />
+        <BioOnlinetableRows :rows="this.$store.state.animalRows" />
       </b-row>
     </b-container>
   </div>
@@ -34,13 +41,15 @@ import BioOnlinetableRows from "../components/BioOnline/BioOnlineTableRows.vue";
 import TaxonomySearch from "../components/Search/TaxonomySearch.vue";
 import LocalitySearch from "../components/Search/LocalitySearch.vue";
 import BiologySearch from "../components/Search/BiologySearch.vue";
+import  Node from "../components/TreeView/Node.vue";
 
 export default {
   components: {
-      BioOnlinetableRows,
+    BioOnlinetableRows,
     TaxonomySearch,
     LocalitySearch,
     BiologySearch,
+    Node
   },
 };
 </script>

@@ -26,14 +26,7 @@
         ></b-spinner>
         <span v-show="loading">Aguarde, carregando</span>
       </b-button>
-      <b-button
-        @click="bioOnlineSearchAnimalsInLocalities()"
-        class="search mr-2"
-        :disabled="
-          localitiesWrapper.length < 1 ||
-          localitiesWrapper[0].chosenLocality == ''
-        "
-      >
+      <b-button @click="search()" class="search mr-2" :disabled="loading">
         <span v-show="!loading">Pesquisar</span>
         <b-spinner
           v-show="loading"
@@ -54,60 +47,142 @@ import { getTaxonomyTree } from "../BioOnline/BioOnlineService";
 import Tree from "../BioOnline/TreeUtils";
 
 export default {
+  components: {},
   data() {
     return {
-      taxonomyLevels: [
+      namesOnLeaves: [],
+      pristineTaxonomyLevels: [
         {
           name: "Filo",
-          options: [],
+          options: [{ value: "Filo", text: "Filo", disabled: true }],
+          chosenName: "Filo",
         },
         {
           name: "Classe",
-          options: [],
+          options: [{ value: "Classe", text: "Classe", disabled: true }],
+          chosenName: "Classe",
         },
         {
           name: "Ordem",
-          options: [],
+          options: [{ value: "Ordem", text: "Ordem", disabled: true }],
+          chosenName: "Ordem",
         },
         {
           name: "Família",
-          options: [],
+          options: [{ value: "Família", text: "Família", disabled: true }],
+          chosenName: "Família",
         },
         {
           name: "Gênero",
-          options: [],
+          options: [{ value: "Gênero", text: "Gênero", disabled: true }],
+          chosenName: "Gênero",
         },
         {
           name: "Espécie",
-          options: [],
+          options: [{ value: "Espécie", text: "Espécie", disabled: true }],
+          chosenName: "Espécie",
         },
       ],
+      taxonomyLevels: [],
       loadingGlobalTree: true,
-      tree: {},
       loading: false,
     };
   },
   methods: {
-    bioOnlineSearchAnimalsInLocalities() {
-      this.loading = true;
-      var chosenLocalities = [];
-      for (let i = 0; i < this.localitiesWrapper.length; i++) {
-        chosenLocalities.push(this.localitiesWrapper[i].chosenLocality);
+    clearForms() {
+      this.feed();
+      this.taxonomyLevels = JSON.parse(
+        JSON.stringify(this.pristineTaxonomyLevels)
+      );
+    },
+    update(chosenName, name) {
+      this.$store.state.globalTree = Tree.findNode(
+        chosenName,
+        this.$store.state.globalTree
+      );
+      for (let i = 0; i < this.taxonomyLevels.length; i++) {
+        if (this.taxonomyLevels[i].name == name) {
+          for (let j = i + 1; j < this.taxonomyLevels.length; j++) {
+            this.taxonomyLevels[j].options = [
+              {
+                value: this.taxonomyLevels[j].name,
+                text: this.taxonomyLevels[j].name,
+                disabled: true,
+              },
+            ];
+
+            var nodes = Tree.findNodesOfLevel(
+              this.taxonomyLevels[j].name,
+              this.$store.state.globalTree
+            );
+
+            var options = nodes.map((x) => ({
+              value: x.name,
+              text: x.name,
+              disabled: false,
+            }));
+            this.taxonomyLevels[j].options.push(...options);
+          }
+        }
       }
+      this.namesOnLeaves = Tree.findScientificNamesOnLeaves(
+        this.$store.state.globalTree
+      );
+    },
+    feed() {
+      getTaxonomyTree().then((value) => {
+        this.$store.state.globalTree = value;
+        for (let i = 0; i < this.taxonomyLevels.length; i++) {
+          var options = Tree.findNodesOfLevel(
+            this.taxonomyLevels[i].name,
+            value
+          ).map((x) => ({
+            value: x.name,
+            text: x.name,
+            disabled: false,
+          }));
+          this.taxonomyLevels[i].options.push(...options);
+        }
+      });
+    },
+    search() {
+      this.loading = true;
+      var chosenLocalities = ["Tudo"];
+      // for (let i = 0; i < this.localitiesWrapper.length; i++) {
+      //   chosenLocalities.push(this.localitiesWrapper[i].chosenLocality);
+      // }
+      var thisSearchFilters = [];
+      for (let i = 0; i < this.pristineTaxonomyLevels.length; i++) {
+        console.log("ha", this.taxonomyLevels[i]);
+        console.log(
+          "ha",
+          this.taxonomyLevels[i].name,
+          this.taxonomyLevels[i].chosenName
+        );
+        if (this.taxonomyLevels[i].name !== this.taxonomyLevels[i].chosenName) {
+          // const filterFieldName = "Taxonomia." + this.taxonomyLevels[i].name;
+          const filter = {
+            selectedKey: "Taxonomia." + this.taxonomyLevels[i].name,
+            selectedValue: this.taxonomyLevels[i].chosenName,
+          };
+          // filter[selectedValue] = this.taxonomyLevels[i].chosenName;
+          thisSearchFilters.push(filter);
+        }
+      }
+      console.log(thisSearchFilters);
       const payload = {
         localities: chosenLocalities,
-        filters: this.$store.state.selectedFilters, 
-        filterCompositionType: this.$store.state.filterCompositionType,
+        filters: thisSearchFilters,
+        filterCompositionType: "AND",
       };
       bioOnlineSearchAnimalsInLocalities(payload).then((value) => {
-        console.log(value[0]);
         value.forEach(
           (a) =>
             (a["Número de Localidades com Registro"] =
               a["Observações Registradas"].length)
         );
 
-        this.animalRows = value.sort((a, b) => {
+        this.$store.state.animalRows = value.sort((a, b) => {
           return a["Index"] - b["Index"];
         });
         this.result = true;
@@ -115,40 +190,11 @@ export default {
         this.$store.state.hasSearched = true;
       });
     },
-    update(chosenName, name) {
-      for (let i = 0; i < this.taxonomyLevels.length; i++) {
-        if (this.taxonomyLevels[i].name == name) {
-          for (let j = i; j < this.taxonomyLevels.length; j++) {
-            var newRoot;
-            // newRoot = Tree.findNodesOfLevelAndName(
-            //   this.taxonomyLevels[j].name,
-            //   chosenName,
-            //   this.tree
-            // )[0];
-            console.log("newRoot", newRoot);
-            // if(newRoot)throw "stop"
-            this.taxonomyLevels[j].options = Tree.findNodesOfLevel(
-              this.taxonomyLevels[j].name,
-              newRoot ? newRoot : this.tree
-            ).map((x) => x.name);
-          }
-        }
-      }
-    },
-    feed() {
-      getTaxonomyTree().then((value) => {
-        this.tree = value;
-        for (let i = 0; i < this.taxonomyLevels.length; i++) {
-          this.taxonomyLevels[i].options = Tree.findNodesOfLevel(
-            this.taxonomyLevels[i].name,
-            this.tree
-          ).map((x) => x.name);
-          //   console.log(this.taxonomyLevels[i].options);
-        }
-      });
-    },
   },
   created() {
+    this.taxonomyLevels = JSON.parse(
+      JSON.stringify(this.pristineTaxonomyLevels)
+    );
     this.feed();
   },
   computed: {
@@ -192,12 +238,11 @@ h3 {
 .search {
   background-color: peru !important;
   color: dimgray;
-      border-color: peru;
-
+  border-color: peru;
 }
 .clear {
-    background-color: blanchedalmond !important;
-    color: dimgray;
-    border-color: peru;
+  background-color: blanchedalmond !important;
+  color: dimgray;
+  border-color: peru;
 }
 </style>
