@@ -1,49 +1,49 @@
 #--------------------------login-------------------------
 [[redirects]]
   from = "/api/auth/signin"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/auth/signin"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/auth/signin"
   status = 200
   force = true
 #----------------------GENERAL DATA-----------------------------------
 [[redirects]]
   from = "/api/bio-online-columns"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/bio-online-columns"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/bio-online-columns"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/bio-online-filter-dict"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/bio-online-filter-dict"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/bio-online-filter-dict"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/search-animal"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/search-animal"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/search-animal"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/get-bio-online-localities"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/get-bio-online-localities"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/get-bio-online-localities"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/get-genera-species-commonnames"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/get-genera-species-commonnames"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/get-genera-species-commonnames"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/bio-online-search-species-in-localities"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/bio-online-search-species-in-localities"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/bio-online-search-species-in-localities"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/download-from-localities"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/download-from-localities"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/download-from-localities"
   status = 200
   force = true
 
@@ -52,32 +52,32 @@
 
 [[redirects]]
   from = "/api/wikiaves-search"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/wikiaves-search"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/wikiaves-search"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/wikiaves-search-wid"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/wikiaves-search-wid"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/wikiaves-search-wid"
   status = 200
   force = true
 
 
 [[redirects]]
   from = "/api/ebird-search"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/ebird-search"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/ebird-search"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/inaturalist-search"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/inaturalist-search"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/inaturalist-search"
   status = 200
   force = true
 
 [[redirects]]
   from = "/api/taxonomy-tree"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/taxonomy-tree"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/taxonomy-tree"
   status = 200
   force = true
 
@@ -86,27 +86,27 @@
 #---------------SPECIES-------------------------------------------------
 [[redirects]]
   from = "/api/all-species"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/all-species"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/all-species"
   status = 200
   force = true
 [[redirects]]
   from = "/api/species-by-scientific-name"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/species-by-scientific-name"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/species-by-scientific-name"
   status = 200
   force = true
 [[redirects]]
   from = "/api//api/create-species"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/create-species"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/create-species"
   status = 200
   force = true
 [[redirects]]
   from = "/api/update-species"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/update-species"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/update-species"
   status = 200
   force = true
 [[redirects]]
   from = "/api/delete-species"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/delete-species"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/delete-species"
   status = 200
   force = true
 
@@ -114,99 +114,99 @@
 #---------------OBSERVATIONS-------------------------------------------------
 [[redirects]]
   from = "/api/observations-by-species-id"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/observations-by-species-id"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/observations-by-species-id"
   status = 200
   force = true
 [[redirects]]
   from = "/api/create-observation"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/create-observation"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/create-observation"
   status = 200
   force = true
 [[redirects]]
   from = "/api/update-observation"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/update-observation"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/update-observation"
   status = 200
   force = true
 [[redirects]]
   from = "/api/delete-observation"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/delete-observation"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/delete-observation"
   status = 200
   force = true
 
 #------------------------OBSERVERS
 [[redirects]]
   from = "/api/find-all-observers"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/find-all-observers"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/find-all-observers"
   status = 200
   force = true
 
 #---------------LOCALITIES-------------------------------------------------
 [[redirects]]
   from = "/api/all-localities"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/all-localities"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/all-localities"
   status = 200
   force = true
 [[redirects]]
   from = "/api/species-by-scientific-name"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/species-by-scientific-name"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/species-by-scientific-name"
   status = 200
   force = true
 [[redirects]]
   from = "/api//api/create-locality"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/create-locality"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/create-locality"
   status = 200
   force = true
 [[redirects]]
   from = "/api/update-locality"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/update-locality"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/update-locality"
   status = 200
   force = true
 [[redirects]]
   from = "/api/delete-locality"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/delete-locality"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/delete-locality"
   status = 200
   force = true
 
   #---------------OBSERVERS-------------------------------------------------
 [[redirects]]
   from = "/api/all-observers"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/all-observers"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/all-observers"
   status = 200
   force = true
 [[redirects]]
   from = "/api/observers-by-scientific-name"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/observers-by-scientific-name"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/observers-by-scientific-name"
   status = 200
   force = true
 [[redirects]]
   from = "/api//api/create-observer"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/create-observer"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/create-observer"
   status = 200
   force = true
 [[redirects]]
   from = "/api/update-observer"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/update-observer"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/update-observer"
   status = 200
   force = true
 [[redirects]]
   from = "/api/delete-observer"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/delete-observer"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/delete-observer"
   status = 200
   force = true
 
     #---------------DIFFERENCES-------------------------------------------------
 [[redirects]]
   from = "/api/wikiaves-compare"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/wikiaves-compare"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/wikiaves-compare"
   status = 200
   force = true
 [[redirects]]
   from = "/api/ebird-compare"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/ebird-compare"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/ebird-compare"
   status = 200
   force = true
 [[redirects]]
   from = "/api/inaturalist-compare"
-  to = "http://ec2-34-230-36-235.compute-1.amazonaws.com:3000/api/inaturalist-compare"
+  to = "http://ec2-54-84-70-121.compute-1.amazonaws.com:3000/api/inaturalist-compare"
   status = 200
   force = true
